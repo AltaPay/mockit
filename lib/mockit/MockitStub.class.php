@@ -2,28 +2,30 @@
 
 class MockitStub
 {
-	private $value;
-	private $exception;
+	private $actions = array();
+	private $values = array();
+	private $exceptions = array();
 	
 	public function thenReturn($value)
 	{
-		$this->value = $value;
+		$this->actions[] = new MockitStubReturnEvent($value);
+		return $this;
 	}
 	
 	public function thenThrow($exception)
 	{
-		$this->exception = $exception;
+		$this->actions[] = new MockitStubThrowEvent($exception);
+		return $this;
 	}
 	
 	public function _executeStub()
 	{
-		if(!is_null($this->exception))
+		$action = array_shift($this->actions); /* @var $action IMockitStubEvent */
+		if(count($this->actions) == 0)
 		{
-			throw $this->exception;
+			$this->actions[] = $action;
 		}
-		else
-		{
-			return $this->value;
-		}
+		
+		return $action->execute();
 	}
 }

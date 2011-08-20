@@ -242,6 +242,48 @@ class MockTest
 		$this->assertEquals('din mors hat', $instance->doIt('kasket'));
 	}
 	
+	public function testStubbingMultipleStubActions()
+	{
+		$mock = $this->getMock('MyDummy');
+		$instance = $mock->instance();
+	
+	
+		$mock->when()->doIt($this->any())
+			->thenReturn('din mors hat')
+			->thenReturn('din mors anden hat')
+			->thenThrow(new Exception('din mors exception'));
+	
+		$this->assertEquals('din mors hat', $instance->doIt('hat'));
+		$this->assertEquals('din mors anden hat', $instance->doIt('kasket'));
+		$exceptionThrown = false;
+		try
+		{
+			$instance->doIt('wah');
+		}
+		catch(Exception $ex)
+		{
+			$exceptionThrown = true;
+			$this->assertEquals('din mors exception', $ex->getMessage());
+		}
+		$this->assertTrue($exceptionThrown);
+	}
+	
+	public function testLastStubbingActionContinues()
+	{
+		$mock = $this->getMock('MyDummy');
+		$instance = $mock->instance();
+	
+		$mock->when()->doIt($this->any())
+			->thenReturn('1')
+			->thenReturn('2')
+			->thenReturn('3');
+	
+		$this->assertEquals('1', $instance->doIt('hat'));
+		$this->assertEquals('2', $instance->doIt('kasket'));
+		$this->assertEquals('3', $instance->doIt('kasket'));
+		$this->assertEquals('3', $instance->doIt('kasket'));
+	}
+	
 	/**
 	 * @expectedException Exception
 	 */
