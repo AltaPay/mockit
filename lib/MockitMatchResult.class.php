@@ -3,6 +3,7 @@
 class MockitMatchResult
 {
 	private $matches = true;
+	private $methodMatches = true;
 	private $expectedName;
 	private $actualName;
 	private $parameterMatches = array();
@@ -22,7 +23,7 @@ class MockitMatchResult
 	
 	private function matchName($expected, $actual)
 	{
-		$this->matches = $expected == $actual;
+		$this->methodMatches = $this->matches = $expected == $actual;
 		$this->expectedName = $expected;
 		$this->actualName = $actual;
 	}
@@ -40,5 +41,20 @@ class MockitMatchResult
 	public function matches()
 	{
 		return $this->matches;
+	}
+	
+	public function methodMatches()
+	{
+		return $this->methodMatches;
+	}
+	
+	public function argumentMatchDescription()
+	{
+		$result = array();
+		foreach($this->parameterMatches as $argumentMatch) /* @var $argumentMatch MockitParameterMatchResult */
+		{
+			$result[] = $argumentMatch->matchDescription();
+		}
+		return '('.implode("\n, ",$result).')';
 	}
 }

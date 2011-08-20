@@ -14,4 +14,9 @@ class MockitEqualsMatcher
 	{
 		return $this->value == $other;
 	}
+	
+	function matchDescription($other)
+	{
+		return $this->value .' != '.$other;
+	}
 }

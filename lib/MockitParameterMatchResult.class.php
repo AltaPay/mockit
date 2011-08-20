@@ -25,4 +25,9 @@ class MockitParameterMatchResult
 	{
 		return $this->matches;
 	}
+	
+	public function matchDescription()
+	{
+		return $this->matcher->matchDescription($this->actual);
+	}
 }

@@ -14,4 +14,9 @@ class MockitRegexMatcher
 	{
 		return preg_match($this->regex, $other);
 	}
+	
+	function matchDescription($other)
+	{
+		return $this->regex .' did not match "'.$other.'"';
+	}
 }

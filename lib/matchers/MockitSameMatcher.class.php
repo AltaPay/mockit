@@ -14,4 +14,9 @@ class MockitSameMatcher
 	{
 		return $this->obj === $other;
 	}
+	
+	function matchDescription($other)
+	{
+		return $this->obj .' !== '.$other;
+	}
 }
