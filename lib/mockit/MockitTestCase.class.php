@@ -7,6 +7,11 @@ class MockitTestCase extends PHPUnit_Framework_TestCase
 		return new Mockit($classname);
 	}
 	
+	public function getInOrder($strict=false)
+	{
+		return new MockitInOrder($strict);
+	}
+	
 	public function any()
 	{
 		return new MockitAnyMatcher();

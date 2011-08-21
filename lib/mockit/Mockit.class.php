@@ -12,12 +12,30 @@ class Mockit
 	private $events = array();
 	private $matchers = array();
 	
+	/**
+	 * @var MockitInOrder
+	 */
+	private $inOrder;
+	
 	private static $mockitors = array();
 	
 	public function __construct($classname)
 	{
 		$this->class = new ReflectionClass($classname);
 		$this->mockitor = $this->getMockitor($this->class);
+	}
+	
+	public function setInOrder(MockitInOrder $inOrder)
+	{
+		$this->inOrder = $inOrder;
+	}
+	
+	/**
+	 * @return MockitInOrder
+	 */
+	public function getInOrder()
+	{
+		return $this->inOrder;
 	}
 	
 	public function when()
@@ -54,12 +72,23 @@ class Mockit
 	
 	public function getEvents()
 	{
-		return $this->events;
+		if(!is_null($this->inOrder))
+		{
+			return $this->inOrder->getEvents();
+		}
+		else
+		{
+			return $this->events;
+		}
 	}
 	
 	public function process(MockitEvent $event)
 	{
 		$this->events[] = $event;
+		if(!is_null($this->inOrder))
+		{
+			$this->inOrder->addEvent($event);
+		}
 		foreach($this->matchers as $matcher) /* @var $matcher MockitMatcher */
 		{
 			if($matcher->_getEvent()->matches($event)->matches())
@@ -105,7 +134,7 @@ class Mockit
 				$tmpl .= implode(',',$args);
 				$tmpl .= ')'."\n";
 				$tmpl .= '{'."\n";
-				$tmpl .= "\t".'return $this->mock->process(new MockitEvent("'.$method->getName().'", array('.implode(',',$classlessArgs).')));'."\n";
+				$tmpl .= "\t".'return $this->mock->process(new MockitEvent($this->mock, "'.$method->getName().'", array('.implode(',',$classlessArgs).')));'."\n";
 				$tmpl .= '}'."\n";
 			}
 			$tmpl .= '}';
@@ -114,5 +143,19 @@ class Mockit
 			self::$mockitors[$mockitorClassname] = true;
 		}
 		return new $mockitorClassname($this);
+	}
+	
+	public static function uniqueid($object)
+	{
+		if (!is_object($object))
+		{
+			throw new Exception("Same matcher only works for objects");
+		}
+	
+		if (!isset($object->__oid__))
+		{
+			$object->__oid__ = uniqid(get_class($object).'_');
+		}
+		return $object->__oid__;
 	}
 }

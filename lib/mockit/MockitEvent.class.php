@@ -4,11 +4,18 @@ class MockitEvent
 {
 	private $name;
 	private $arguments;
+	private $mock;
 	
-	public function __construct($name, $arguments)
+	public function __construct(Mockit $mock, $name, $arguments)
 	{
 		$this->name = $name;
 		$this->arguments = $arguments;
+		$this->mock = $mock;
+	}
+	
+	public function getMock()
+	{
+		return $this->mock;
 	}
 	
 	public function getName()
@@ -21,38 +28,11 @@ class MockitEvent
 		return $this->arguments;
 	}
 	
+	/**
+	 * @return MockitMatchResult
+	 */
 	public function matches(MockitEvent $event)
 	{
 		return new MockitMatchResult($this, $event);
-		if($this->getName() != $event->getName())
-		{
-			return false;
-		}
-		
-		if(is_array($this->getArguments()))
-		{
-			$matchingArguments = array();
-			foreach($this->getArguments() as $i => $argument)
-			{
-				if(!($argument instanceof IMockitMatcher))
-				{
-					$matchingArguments[] = new MockitEqualsMatcher($argument);
-				}
-				else
-				{
-					$matchingArguments[] = $argument;
-				}
-			}
-			$otherArguments = $event->getArguments();
-			foreach($matchingArguments as $i => $argument) /* @var $argument IMockitMatcher */
-			{
-				if(!$argument->matches($otherArguments[$i]))
-				{
-					return false;
-				}
-			}
-		}
-		
-		return true;
 	}
 }

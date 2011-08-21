@@ -13,12 +13,34 @@ class MockitVerifier
 	
 	public function __call($name, $arguments)
 	{
-		$this->event = new MockitEvent($name, $arguments);
+		$this->event = new MockitEvent($this->mock,$name, $arguments);
+		
+		if(!is_null($this->mock->getInOrder()))
+		{
+			$this->inOrder();
+			
+		}
+		
+		$this->outOfOrder();
+	}
+	
+	private function inOrder()
+	{
+		$this->mock->getInOrder()->addVerification($this->event);
+	}
+	
+	private function outOfOrder()
+	{
 		$foundCount = 0;
 		$methodFoundCount = 0;
 		$methodMatchResults = array();
 		foreach($this->mock->getEvents() as $event) /* @var $event MockitEvent */
 		{
+			if($this->mock !== $event->getMock())
+			{
+				continue;
+			}
+				
 			$matchResult = $this->event->matches($event);
 			if($matchResult->matches())
 			{
@@ -32,11 +54,11 @@ class MockitVerifier
 			{
 				$methodMatchResults[$methodFoundCount] = $matchResult;
 			}
-			
+				
 		}
 		if(is_null($this->expectedCount) && $methodFoundCount == $foundCount)
 		{
-			
+				
 		}
 		else if($foundCount !== $this->expectedCount)
 		{

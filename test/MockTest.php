@@ -218,6 +218,24 @@ class MockTest
 	
 		$this->assertEquals('2', $instance->doIt('hat'));
 	}
+	
+	public function testInOrderVerifications()
+	{
+		$inOrder = $this->getInOrder();
+		$mock = $this->getMock('MyDummy');
+		$mock->setInOrder($inOrder);
+		$instance = $mock->instance();
+		$mock2 = $this->getMock('MyDummy');
+		$instance2 = $mock2->instance();
+		$mock2->setInOrder($inOrder);
+	
+		$instance->doIt('1');
+		$instance2->doIt('2');
+	
+		$mock->once()->doIt('1');
+		$mock2->once()->doIt('2');
+		$inOrder->verify();
+	}
 }
 
 

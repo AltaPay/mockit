@@ -4,7 +4,7 @@ require dirname(__FILE__).'/../autoload.php';
 class MockFailingTests
 	extends MockitTestCase
 {
-
+/*
 	public function testAnyNumberOfCorrectInvocationsButOneIncorrect()
 	{
 		$mock = $this->getMock('MyDummy');
@@ -83,7 +83,7 @@ class MockFailingTests
 	public function testObjectEqualsMatchingFailingForMethodWithMultipleParameters()
 	{
 		$mock = $this->getMock('MyDummy');
-		$instance = $mock->instance(); /* @var $instance MyDummy */
+		$instance = $mock->instance(); /* @var $instance MyDummy * /
 	
 		$obj1 = new ValueObject();
 		$obj1->setProperty('prop1');
@@ -94,6 +94,65 @@ class MockFailingTests
 		$instance->multipleArguments($obj1, $obj2);
 	
 		$mock->once()->multipleArguments($obj2, $obj2);
+	}
+	
+	*/
+	public function testInOrderVerificationsSimpleFailing()
+	{
+		$inOrder = $this->getInOrder();
+		$mock = $this->getMock('MyDummy');
+		$mock->setInOrder($inOrder);
+		$instance = $mock->instance();
+		$mock2 = $this->getMock('MyDummy');
+		$instance2 = $mock2->instance();
+		$mock2->setInOrder($inOrder);
+		
+		$instance->doIt('1');
+		$instance2->doIt('2');
+		
+		$mock2->once()->doIt('2');
+		$mock->once()->doIt('1');
+		$inOrder->verify();
+	}
+	
+	public function testInOrderVerificationsMultipleIrrelevantCalls()
+	{
+		$inOrder = $this->getInOrder();
+		$mock = $this->getMock('MyDummy');
+		$mock->setInOrder($inOrder);
+		$instance = $mock->instance();
+		$mock2 = $this->getMock('MyDummy');
+		$instance2 = $mock2->instance();
+		$mock2->setInOrder($inOrder);
+	
+		$instance2->doIt('noget tredje');
+		$instance->doIt('1');
+		$instance->doIt('noget andet');
+		$instance2->doIt('2');
+		$instance->doIt('helt i hegnet');
+	
+		$mock2->once()->doIt('2');
+		$mock->once()->doIt('1');
+		$inOrder->verify();
+	}
+	
+	public function testInOrderStrictVerifications()
+	{
+		$inOrder = $this->getInOrder(true);
+		$mock = $this->getMock('MyDummy');
+		$mock->setInOrder($inOrder);
+		$instance = $mock->instance();
+		$mock2 = $this->getMock('MyDummy');
+		$instance2 = $mock2->instance();
+		$mock2->setInOrder($inOrder);
+	
+		$instance2->doIt('noget tredje');
+		$instance2->doIt('2');
+		$instance->doIt('1');
+	
+		$mock2->once()->doIt('2');
+		$mock->once()->doIt('1');
+		$inOrder->verify();
 	}
 }
 
