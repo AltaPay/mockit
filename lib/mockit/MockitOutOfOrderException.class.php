@@ -11,6 +11,7 @@ class MockitOutOfOrderException
 	private function prettyPrintOrder($actualOrder)
 	{
 		$result = array();
+		print count($actualOrder);
 		foreach($actualOrder as $match) /* @var $match MockitInOrderMatch */
 		{
 			$result[] = $match->getDescription();

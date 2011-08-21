@@ -30,8 +30,12 @@ class MockitInOrder
 	{
 		$actualOrder = array();
 		$actualMatches = array();
+		$usedVerifications = array();
+		
 		foreach($this->events as $index => $event) /* @var $event MockitEvent */
 		{
+			$bestMatch = null;
+			$bestMatchIndex = null;
 			foreach($this->verificationEvents as $expectedIndex => $verificationEvent) /* @var $verificationEvent MockitEvent */
 			{
 				if($verificationEvent->getMock() !== $event->getMock())
@@ -43,17 +47,26 @@ class MockitInOrder
 				{
 					if($this->strict)
 					{
-						$actualMatches[] = new MockitInOrderMatch(count($actualOrder),$index,  $verificationEvent, $matchResult);
-						$actualOrder[] = $index;
+						$bestMatch = new MockitInOrderMatch(count($actualOrder),$index,  $verificationEvent, $matchResult);
+						$bestMatchIndex = $index;
 					}
 					else
 					{
-						$actualMatches[] = new MockitInOrderMatch($expectedIndex,count($actualOrder), $verificationEvent, $matchResult);
-						$actualOrder[] = $expectedIndex;
+						$bestMatch = new MockitInOrderMatch($expectedIndex,count($actualOrder), $verificationEvent, $matchResult);
+						$bestMatchIndex = $expectedIndex;
 					}
 					
-					continue 2;
+					if(!isset($usedVerifications[$expectedIndex]))
+					{
+						$usedVerifications[$expectedIndex] = true;
+						break;
+					}
 				}
+			}
+			if(!is_null($bestMatch))
+			{
+				$actualMatches[] = $bestMatch;
+				$actualOrder[] = $bestMatchIndex;
 			}
 		}
 		foreach($actualOrder as $key => $value)

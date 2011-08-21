@@ -236,6 +236,41 @@ class MockTest
 		$mock2->once()->doIt('2');
 		$inOrder->verify();
 	}
+
+	public function testInOrderVerificationOfSameMethod()
+	{
+		$inOrder = $this->getInOrder();
+		$mock = $this->getMock('MyDummy');
+		$mock->setInOrder($inOrder);
+		$instance = $mock->instance();
+	
+		$instance->doIt('1');
+		$instance->doIt('2');
+	
+		$mock->once()->doIt('1');
+		$mock->once()->doIt('2');
+		$inOrder->verify();
+	}
+	
+	public function testInOrderVerificationOfSameMethodSandwhichingOtherMethod()
+	{
+		$inOrder = $this->getInOrder();
+		$mock = $this->getMock('MyDummy');
+		$mock->setInOrder($inOrder);
+		$instance = $mock->instance();
+		$mock2 = $this->getMock('MyDummy');
+		$instance2 = $mock2->instance();
+		$mock2->setInOrder($inOrder);
+	
+		$instance->doIt('1');
+		$instance2->doIt('2');
+		$instance->doIt('1');
+	
+		$mock->any()->doIt('1');
+		$mock2->any()->doIt('2');
+		$mock->any()->doIt('1');
+		$inOrder->verify();
+	}
 }
 
 
