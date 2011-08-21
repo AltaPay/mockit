@@ -23,7 +23,7 @@ class Mockit
 	public function when()
 	{
 		$matcher = new MockitMatcher($this, $this->class);
-		$this->matchers[] = $matcher;
+		array_unshift($this->matchers, $matcher);
 		return $matcher;
 	}
 	
