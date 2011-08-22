@@ -15,7 +15,7 @@ class MockTest
 		$instance2 = $mock2->instance();
 		
 		$instance->addDummy($instance2);
-		
+
 		$mock->once()->addDummy($instance2);
 	}
 	

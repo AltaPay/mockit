@@ -2,6 +2,9 @@
 
 class MockitTestCase extends PHPUnit_Framework_TestCase
 {
+	/**
+	 * @return Mockit
+	 */
 	public function getMock($classname)
 	{
 		return new Mockit($classname);

@@ -4,7 +4,6 @@ require dirname(__FILE__).'/../autoload.php';
 class MockFailingTests
 	extends MockitTestCase
 {
-/*
 	public function testAnyNumberOfCorrectInvocationsButOneIncorrect()
 	{
 		$mock = $this->getMock('MyDummy');
@@ -83,7 +82,7 @@ class MockFailingTests
 	public function testObjectEqualsMatchingFailingForMethodWithMultipleParameters()
 	{
 		$mock = $this->getMock('MyDummy');
-		$instance = $mock->instance(); /* @var $instance MyDummy * /
+		$instance = $mock->instance(); /* @var $instance MyDummy */
 	
 		$obj1 = new ValueObject();
 		$obj1->setProperty('prop1');
@@ -96,7 +95,6 @@ class MockFailingTests
 		$mock->once()->multipleArguments($obj2, $obj2);
 	}
 	
-	*/
 	public function testInOrderVerificationsSimpleFailing()
 	{
 		$inOrder = $this->getInOrder();
