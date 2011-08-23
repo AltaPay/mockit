@@ -124,7 +124,7 @@ class MockTest
 		
 		$instance->addValueObject($obj1);
 		
-		$mock->once()->addValueObject($obj2);
+		$mock->once()->addValueObject($this->equals($obj2));
 	}
 	
 	public function testStubbingWithDifferentParameters()
@@ -274,6 +274,85 @@ class MockTest
 		$mock2->once()->doIt('2');
 	}
 	
+	public function testRecursiveMockWithStubbingAndVerification()
+	{
+		$mock = $this->getMockit('MyDummy')->recursive();
+		$instance = $mock->instance();
+		
+		$mock->with()->getDummy()->when()->doIt('1')->thenReturn('lol');
+		
+		$this->assertEquals('lol',$instance->getDummy()->doIt('1'));
+		
+		$mock->with()->getDummy()->once()->doIt('1');
+	}
+	
+	public function testRecursiveMockWithStubbing()
+	{
+		$mock = $this->getMockit('MyDummy')->recursive();
+		$instance = $mock->instance();
+		
+		$mock->with()->getDummy()->when()->doIt('1')->thenReturn('lol');
+		
+		$this->assertEquals('lol',$instance->getDummy()->doIt('1'));
+	}
+	
+	public function testRecursiveMockWithVerification()
+	{
+		$mock = $this->getMockit('MyDummy')->recursive();
+		$instance = $mock->instance();
+		
+		$instance->getDummy()->doIt('1');
+		
+		$mock->with()->getDummy()->once()->doIt('1');
+	}
+	
+	public function testOverrideRecursiveMock()
+	{
+		$mock = $this->getMockit('MyDummy')->recursive();
+		$instance = $mock->instance();
+		
+		$mock->when()->getDummy()->thenReturn(new MyDummy());
+		
+		$this->assertEquals("1's momma", $instance->getDummy()->doIt('1'));
+	}
+
+	public function testRecursiveMockOfArrayReturnsEmptyArray()
+	{
+		$mock = $this->getMockit('MyDummy')->recursive();
+		$instance = $mock->instance();
+		
+		$this->assertEquals(array(),$instance->getDummies());
+	}
+	
+	public function testRecursiveMockOfUnmockableClassReturnsNull()
+	{
+		$mock = $this->getMockit('MyDummy')->recursive();
+		$instance = $mock->instance();
+		
+		$this->assertNull($instance->doIt('1'));
+	}
+	
+	public function testRecursiveMockWithSpecificOverriding()
+	{
+		$mock = $this->getMockit('MyDummy')->recursive();
+		$instance = $mock->instance();
+		
+		$mock->with()->addDummy($this->any())->when()->doIt($this->any())->thenReturn('buh');
+		$mock->with()->addDummy($instance)->when()->doIt($this->any())->thenReturn('wah');
+
+		$this->assertEquals("wah",$instance->addDummy($instance)->doIt('1'));
+	}
+
+	public function testOnRecursiveMocksUseMatchingChildMock()
+	{
+		$mock = $this->getMockit('MyDummy')->recursive();
+		$instance = $mock->instance();
+		
+		$mock->with()->addDummy($this->any())->when()->doIt($this->any())->thenReturn('buh');
+		$mock->with()->addDummy($instance)->when()->doIt($this->any())->thenReturn('wah');
+
+		$this->assertEquals("buh",$instance->addDummy(new MyDummy())->doIt('1'));
+	}
 }
 
 

@@ -38,6 +38,16 @@ class MockitEvent
 		return $this->arguments;
 	}
 	
+	public function getArgumentsAsString()
+	{
+		$ar = array();
+		foreach($this->arguments as $argument)
+		{
+			$ar[] = Mockit::describeArgument($argument);
+		}
+		return implode(',',$ar);
+	}
+	
 	/**
 	 * @return MockitMatchResult
 	 */

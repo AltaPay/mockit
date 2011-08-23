@@ -3,11 +3,6 @@
 class MockitMatcher
 {
 	/**
-	 * @var ReflectionClass
-	 */
-	private $class;
-	
-	/**
 	 * @var Mockit
 	 */
 	protected $mock;
@@ -15,10 +10,9 @@ class MockitMatcher
 	protected $event;
 	private $stub;
 	
-	public function __construct(Mockit $mock,ReflectionClass $class)
+	public function __construct(Mockit $mock)
 	{
 		$this->mock = $mock;
-		$this->class = $class;
 		$this->stub = new MockitStub();
 	}
 	

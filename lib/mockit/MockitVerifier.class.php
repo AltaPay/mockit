@@ -5,9 +5,9 @@ class MockitVerifier
 {
 	private $expectedCount;
 	
-	public function __construct(Mockit $mock,ReflectionClass $class,$expectedCount)
+	public function __construct(Mockit $mock,$expectedCount)
 	{
-		parent::__construct($mock, $class);
+		parent::__construct($mock);
 		$this->expectedCount = $expectedCount;
 	}
 	
@@ -90,23 +90,23 @@ class MockitVerifier
 	{
 		if(is_null($this->expectedCount))
 		{
-			throw new MockitVerificationException($this->event->getName().' expected to be called any number of times, but with the correct arguments. Argument matches were: '."\n".$this->getArgumentDescriptions($methodMatchResults));
+			throw new MockitVerificationException('Method expected to be called any number of times, but with the correct arguments. Argument matches were: '."\n".$this->getArgumentDescriptions($methodMatchResults));
 		}
 		if($methodFoundCount == 0)
 		{
-			throw new MockitVerificationException($this->event->getName().' was expected to be called '.$this->expectedCount.' times, but was called '.$methodFoundCount.' times');
+			throw new MockitVerificationException('Method was expected to be called '.$this->expectedCount.' times, but was called '.$methodFoundCount.' times');
 		}
 		else if($methodFoundCount == $this->expectedCount && $foundCount != $this->expectedCount)
 		{
-			throw new MockitVerificationException($this->event->getName().' was called the correct number of times, but with incorrect parameters: '."\n".$this->getArgumentDescriptions($methodMatchResults));
+			throw new MockitVerificationException('Method was called the correct number of times, but with incorrect parameters: '."\n".$this->getArgumentDescriptions($methodMatchResults));
 		}
 		else if($foundCount == $methodFoundCount)
 		{
-			throw new MockitVerificationException($this->event->getName().' was expected to be called with the correct arguments '.$this->expectedCount.' times, but was called '.$foundCount.' times with the correct arguments');
+			throw new MockitVerificationException('Method was expected to be called with the correct arguments '.$this->expectedCount.' times, but was called '.$foundCount.' times with the correct arguments');
 		}
 		else
 		{
-			throw new MockitVerificationException($this->event->getName().' was expected to be called with the correct arguments '.$this->expectedCount.' times, but was called '.$methodFoundCount.' times but only '.$foundCount.' with the correct arguments. Incorrect matches were: '."\n".$this->getArgumentDescriptions($methodMatchResults));
+			throw new MockitVerificationException('Method was expected to be called with the correct arguments '.$this->expectedCount.' times, but was called '.$methodFoundCount.' times but only '.$foundCount.' with the correct arguments. Incorrect matches were: '."\n".$this->getArgumentDescriptions($methodMatchResults));
 		}
 	}
 	
@@ -115,7 +115,7 @@ class MockitVerifier
 		$result = array();
 		foreach($methodMatchResults as $invocationCount => $methodMatch) /* @var $methodMatch MockitMatchResult */
 		{
-			$result[] = 'At invocation count '.$invocationCount.' argument matches were: '.$methodMatch->argumentMatchDescription();
+			$result[] = 'At invocation count '.$invocationCount.' argument matches were: '.$methodMatch->matchDescription();
 		}
 		return implode("\n",$result);
 	}

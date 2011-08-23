@@ -13,7 +13,14 @@ class MockitParameterMatchResult
 	{
 		if(!($expected instanceof IMockitMatcher))
 		{
-			$expected = new MockitEqualsMatcher($expected);
+			if(is_object($expected))
+			{
+				$expected = new MockitSameMatcher($expected);
+			}
+			else
+			{
+				$expected = new MockitEqualsMatcher($expected);
+			}
 		}
 		/* @var $expected IMockitMatcher */
 		$this->matches = $expected->matches($actual);

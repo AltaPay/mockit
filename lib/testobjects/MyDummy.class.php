@@ -3,11 +3,34 @@
 class MyDummy
 implements IDummy
 {
+	/**
+	 * @return string
+	 */
 	public function doIt($toWho)
 	{
 		return $toWho."'s momma";
 	}
 
+	/**
+	 * @return MyDummy
+	 */
+	public function getDummy()
+	{
+		return new MyDummy();
+	}
+	
+	/**
+	 * @return array of MyDummy
+	 */
+	public function getDummies()
+	{
+		return array(new MyDummy(), new MyDummy());
+	}
+	
+	
+	/**
+	 * @return MyDummy
+	 */
 	public function addDummy(MyDummy $dummy)
 	{
 		return $dummy;

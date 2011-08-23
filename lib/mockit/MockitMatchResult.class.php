@@ -15,6 +15,10 @@ class MockitMatchResult
 		$this->verificationEvent = $expected;
 		$this->matchedEvent = $actual;
 		$this->matchName($expected->getName(), $actual->getName());
+		if($expected->getMock() !== $actual->getMock())
+		{
+			$this->matches = false;
+		}
 		if(is_array($expected->getArguments()))
 		{
 			$actualArguments = $actual->getArguments();

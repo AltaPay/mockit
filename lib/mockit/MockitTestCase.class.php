@@ -30,4 +30,9 @@ class MockitTestCase extends PHPUnit_Framework_TestCase
 	{
 		return new MockitRegexMatcher($regex);
 	}
+	
+	public function equals($val)
+	{
+		return new MockitEqualsMatcher($val);
+	}
 }

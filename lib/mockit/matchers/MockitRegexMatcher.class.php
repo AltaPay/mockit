@@ -26,4 +26,9 @@ class MockitRegexMatcher
 			return $this->regex .' matched "'.$other.'"';
 		}
 	}
+	
+	public function description()
+	{
+		return $this->regex;
+	}
 }

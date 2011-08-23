@@ -154,6 +154,43 @@ class MockFailingTests
 		$mock->once()->doIt('1');
 		$mock->once()->doIt('2');
 	}
+
+	/**
+	 * @expectedException MockitVerificationException
+	 */
+	public function testRecursiveMockWithFailingVerification()
+	{
+		$mock = $this->getMockit('MyDummy')->recursive();
+		$instance = $mock->instance();
+		
+		$mock->with()->addDummy($this->any())->when()->doIt($this->any())->thenReturn('wah');
+		
+		$this->assertEquals('wah',$instance->addDummy($instance)->doIt('1'));
+		
+		$mock->with()->addDummy($this->any())->once()->doIt('2');
+	}
+	
+	/**
+	 * @expectedException Exception
+	 */
+	public function testRecursiveMockOfMethodThatReturnsArrayThrowsExplainingException()
+	{
+		$mock = $this->getMockit('MyDummy')->recursive();
+		$instance = $mock->instance();
+
+		$mock->with()->getDummies()->doSomething();
+	}
+	
+	/**
+	 * @expectedException Exception
+	 */
+	public function testRecursiveMockOfMethodThatReturnsUnmockableObjectThrowsExplainingException()
+	{
+		$mock = $this->getMockit('MyDummy')->recursive();
+		$instance = $mock->instance();
+
+		$mock->with()->doIt('1')->doSomething();
+	}
 }
 
 

@@ -27,5 +27,9 @@ class MockitSameMatcher
 		}
 	}
 	
+	public function description()
+	{
+		return Mockit::describeArgument($this->value);
+	}
 
 }

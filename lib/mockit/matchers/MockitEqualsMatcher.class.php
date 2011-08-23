@@ -62,4 +62,9 @@ class MockitEqualsMatcher
 		}
 		return $result;
 	}
+	
+	public function description()
+	{
+		return Mockit::describeArgument($this->value);
+	}
 }

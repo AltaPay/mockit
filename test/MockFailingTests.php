@@ -139,6 +139,30 @@ class MockFailingTests
 		$mock2->once()->doIt('2');
 		$mock->once()->doIt('1');
 	}
+	
+	public function testRecursiveMockWithFailingVerification()
+	{
+		$mock = $this->getMockit('MyDummy')->recursive();
+		$instance = $mock->instance();
+		
+		$instance->getDummy()->doIt('1');
+		
+		$mock->with()->getDummy()->once()->doIt('2');
+	}
+	
+	public function testRecursiveMockWithFailingInOrderVerification()
+	{
+		$mock = $this->getMockit('MyDummy')->recursive();
+		$instance = $mock->instance();
+		$mock2 = $this->getMockit('MyDummy')->recursive();
+		$instance2 = $mock2->instance();
+		
+		$instance->getDummy()->doIt('2');
+		$instance2->getDummy()->doIt('1');
+		
+		$mock2->with()->getDummy()->once()->doIt('1');
+		$mock->with()->getDummy()->once()->doIt('2');
+	}
 }
 
 

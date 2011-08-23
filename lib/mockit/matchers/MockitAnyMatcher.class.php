@@ -12,4 +12,9 @@ class MockitAnyMatcher
 	{
 		return $other.' matches anything';
 	}
+	
+	public function description()
+	{
+		return '*anything*';
+	}
 }

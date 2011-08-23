@@ -11,8 +11,10 @@ class Mockit
 	
 	static private $events;
 	static private $verificationMatches;
+	static private $recursiveMocks;
 	private $matchers = array();
 	private $outOfOrder = false;
+	private $recursive = false;
 	
 	private static $mockitors = array();
 	
@@ -35,11 +37,18 @@ class Mockit
 	{
 		$ex = new Exception();
 		$trace = $ex->getTrace();
+
 		foreach($trace as $index => $traceLine)
 		{
 			if($traceLine['function'] == 'getMockit' && $traceLine['class'] == 'MockitTestCase')
 			{
 				return $trace[$index + 1]['class'].'['.$traceLine['line'].']'.'_'.$this->class->getName();
+			}
+			
+			if($traceLine['function'] == 'getRecursiveMockForMethod' && $traceLine['class'] == 'Mockit')
+			{
+				return Mockit::uniqueid($traceLine['args'][0]->getMock()->instance()).'->'.$traceLine['args'][0]->getName().'('.$traceLine['args'][0]->getArgumentsAsString().')';
+				//return $trace[$index + 1]['class'].'['.$traceLine['line'].']'.'_'.$this->class->getName();
 			}
 		}
 		return Mockit::uniqueid($this->instance());
@@ -49,11 +58,18 @@ class Mockit
 	{
 		self::$events = array();
 		self::$verificationMatches = array();
+		self::$recursiveMocks = array();
 	}
 	
 	public function outOfOrder()
 	{
 		$this->outOfOrder = true;
+		return $this;
+	}
+	
+	public function recursive()
+	{
+		$this->recursive = true;
 		return $this;
 	}
 	
@@ -71,22 +87,22 @@ class Mockit
 	
 	public function any()
 	{
-		return new MockitVerifier($this, $this->class, null);
+		return new MockitVerifier($this, null);
 	}
 	
 	public function exactly($times)
 	{
-		return new MockitVerifier($this, $this->class, $times);
+		return new MockitVerifier($this, $times);
 	}
 	
 	public function once()
 	{
-		return new MockitVerifier($this, $this->class, 1);
+		return new MockitVerifier($this, 1);
 	}
 	
 	public function never()
 	{
-		return new MockitVerifier($this, $this->class, 0);
+		return new MockitVerifier($this, 0);
 	}
 	
 	public function instance()
@@ -99,6 +115,11 @@ class Mockit
 		return self::$events;
 	}
 	
+	public function with()
+	{
+		return new MockitRecursiveMatcher($this);
+	}
+	
 	public function process(MockitEvent $event)
 	{
 		self::$events[] = $event;
@@ -107,6 +128,63 @@ class Mockit
 			if($matcher->_getEvent()->matches($event)->matches())
 			{
 				return $matcher->_getStub()->_executeStub();
+			}
+		}
+		if($this->recursive)
+		{
+			
+			foreach($this->getRecursiveMocks() as $recursiveEvent) /* @var $recursiveEvent MockitRecursiveEvent */ 
+			{ 
+				if($this !== $recursiveEvent->getEvent()->getMock())
+				{
+					continue;
+				}
+				if($recursiveEvent->getEvent()->matches($event)->matches())
+				{
+					return $recursiveEvent->getMock()->instance();
+				}
+			}
+			
+			$mock = $this->getRecursiveMockForMethod($event);
+			if(is_array($mock))
+			{
+				return $mock;
+			}
+			if(!is_null($mock))
+			{
+				return $mock->instance();
+			}
+		}
+	}
+	
+	/**
+	 * @return Mockit
+	 */
+	public function getRecursiveMockForMethod(MockitEvent $event)
+	{
+		$reflectionMethod = $this->class->getMethod($event->getName());
+		
+		if(preg_match('/\@return ([^\s]+)/',$reflectionMethod->getDocComment(),$matches))
+		{
+			$returnClass = $matches[1];
+			if($returnClass == 'array')
+			{
+				return array();
+			}
+			try
+			{
+				if(class_exists($returnClass))
+				{
+					$mock = new Mockit($returnClass);
+					$mock = $mock->recursive();
+					array_unshift(self::$recursiveMocks, new MockitRecursiveEvent($event, $mock));
+					return $mock;
+				}
+			}
+			catch(Exception $exception)
+			{
+				// if class could not be loaded, just dont return a mock
+				return null;
 			}
 		}
 	}
@@ -131,6 +209,11 @@ class Mockit
 	public function getVerificationMatches()
 	{
 		return self::$verificationMatches;
+	}
+	
+	public function getRecursiveMocks()
+	{
+		return self::$recursiveMocks;
 	}
 	
 	public function addVerificationMatch(MockitMatchResult $verificationEvent)
@@ -197,5 +280,25 @@ class Mockit
 			$object->__oid__ = uniqid(get_class($object).'_');
 		}
 		return $object->__oid__;
+	}
+	
+	public static function describeArgument($argument)
+	{
+		if($argument instanceof IMockitMatcher)
+		{
+			return $argument->description();
+		}
+		else if(is_object($argument))
+		{
+			return Mockit::uniqueid($argument);
+		}
+		else if(is_array($argument))
+		{
+			return 'Array';
+		}
+		else
+		{
+			return $argument;
+		}
 	}
 }
