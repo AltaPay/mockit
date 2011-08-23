@@ -7,6 +7,7 @@ class MockitTestCase extends PHPUnit_Framework_TestCase
 	 */
 	public function getMockit($classname, $uniqueId=null)
 	{
+		Mockit::resetMocks();
 		return new Mockit($classname, $uniqueId);
 	}
 	

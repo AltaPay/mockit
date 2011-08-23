@@ -125,6 +125,20 @@ class MockFailingTests
 		$mock2->once()->doIt('2');
 		$mock->once()->doIt('1');
 	}
+	
+	public function testDefaultMockUniqueIdsIsTestCaseClassNameAndLineNumberBased()
+	{
+		$mock = $this->getMockit('MyDummy');
+		$instance = $mock->instance();
+		$mock2 = $this->getMockit('MyDummy');
+		$instance2 = $mock2->instance();
+		
+		$instance->doIt('1');
+		$instance2->doIt('2');
+		
+		$mock2->once()->doIt('2');
+		$mock->once()->doIt('1');
+	}
 }
 
 

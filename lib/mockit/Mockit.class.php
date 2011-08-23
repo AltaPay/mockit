@@ -24,6 +24,29 @@ class Mockit
 		{
 			$this->mockitor->__oid__ = $uniqueId;
 		}
+		else
+		{
+			$this->mockitor->__oid__ = $this->generateUniqueId();
+			
+		}
+	}
+	
+	private function generateUniqueId()
+	{
+		$ex = new Exception();
+		$trace = $ex->getTrace();
+		foreach($trace as $index => $traceLine)
+		{
+			if($traceLine['function'] == 'getMockit' && $traceLine['class'] == 'MockitTestCase')
+			{
+				return $trace[$index + 1]['class'].'['.$traceLine['line'].']'.'_'.$this->class->getName();
+			}
+		}
+		return Mockit::uniqueid($this->instance());
+	}
+	
+	public static function resetMocks()
+	{
 		self::$events = array();
 		self::$verificationMatches = array();
 	}
