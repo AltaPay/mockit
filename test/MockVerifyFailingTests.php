@@ -4,6 +4,9 @@ require dirname(__FILE__).'/../autoload.php';
 class MockFailingTests
 	extends MockitTestCase
 {
+	/**
+	 * @expectedException MockitVerificationException
+	 */
 	public function testAnyNumberOfCorrectInvocationsButOneIncorrect()
 	{
 		$mock = $this->getMockit('MyDummy');
@@ -17,6 +20,9 @@ class MockFailingTests
 		$mock->any()->doIt('asdf');
 	}
 	
+	/**
+	 * @expectedException MockitVerificationException
+	 */
 	public function testFailingPassMultipleArguments()
 	{
 		$mock = $this->getMockit('MyDummy');
@@ -27,6 +33,9 @@ class MockFailingTests
 		$mock->once()->multipleArguments('arg1','arg2');
 	}
 	
+	/**
+	 * @expectedException MockitVerificationException
+	 */
 	public function testFailingPassMultipleArgumentsWithAnyMatch()
 	{
 		$mock = $this->getMockit('MyDummy');
@@ -37,7 +46,9 @@ class MockFailingTests
 		$mock->once()->multipleArguments('arg1',$this->any());
 	}
 	
-	
+	/**
+	 * @expectedException MockitVerificationException
+	 */
 	public function testSameMatcherThatFails()
 	{
 		$mock = $this->getMockit('MyDummy');
@@ -51,6 +62,9 @@ class MockFailingTests
 		$mock->once()->addDummy($this->same($dummy));
 	}
 	
+	/**
+	 * @expectedException MockitVerificationException
+	 */
 	public function testSameMatcherWithMockThatFails()
 	{
 		$mock = $this->getMockit('MyDummy');
@@ -63,6 +77,9 @@ class MockFailingTests
 		$mock->once()->addDummy($this->same($instance2));
 	}
 	
+	/**
+	 * @expectedException MockitVerificationException
+	 */
 	public function testObjectEqualsMatchingFailing()
 	{
 		$mock = $this->getMockit('MyDummy');
@@ -79,6 +96,9 @@ class MockFailingTests
 		$mock->once()->addValueObject($obj2);
 	}
 	
+	/**
+	 * @expectedException MockitVerificationException
+	 */
 	public function testObjectEqualsMatchingFailingForMethodWithMultipleParameters()
 	{
 		$mock = $this->getMockit('MyDummy');
@@ -95,11 +115,14 @@ class MockFailingTests
 		$mock->once()->multipleArguments($obj2, $obj2);
 	}
 	
+	/**
+	 * @expectedException MockitOutOfOrderException
+	 */
 	public function testInOrderVerificationsSimpleFailing()
 	{
-		$mock = $this->getMockit('MyDummy','dummy1');
+		$mock = $this->getMockit('MyDummy');
 		$instance = $mock->instance();
-		$mock2 = $this->getMockit('MyDummy','dummy2');
+		$mock2 = $this->getMockit('MyDummy');
 		$instance2 = $mock2->instance();
 		
 		$instance->doIt('1');
@@ -109,13 +132,16 @@ class MockFailingTests
 		$mock->once()->doIt('1');
 	}
 	
+	/**
+	 * @expectedException MockitOutOfOrderException
+	 */
 	public function testInOrderVerificationsMultipleIrrelevantCalls()
 	{
-		$mock = $this->getMockit('MyDummy','dummy1');
+		$mock = $this->getMockit('MyDummy');
 		$instance = $mock->instance();
-		$mock2 = $this->getMockit('MyDummy','dummy2');
+		$mock2 = $this->getMockit('MyDummy');
 		$instance2 = $mock2->instance();
-	
+		
 		$instance2->doIt('noget tredje');
 		$instance->doIt('1');
 		$instance->doIt('noget andet');
@@ -124,6 +150,9 @@ class MockFailingTests
 	
 		$mock2->once()->doIt('2');
 		$mock->once()->doIt('1');
+		
+		$mock->once()->doIt('1');
+		$mock->once()->doIt('2');
 	}
 }
 

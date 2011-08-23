@@ -9,33 +9,34 @@ class Mockit
 
 	private $mockitor;
 	
-	private $events = array();
+	static private $events;
+	static private $verificationMatches;
 	private $matchers = array();
-	
-	/**
-	 * @var MockitInOrder
-	 */
-	private $inOrder;
+	private $outOfOrder = false;
 	
 	private static $mockitors = array();
 	
-	public function __construct($classname)
+	public function __construct($classname, $uniqueId=null)
 	{
 		$this->class = new ReflectionClass($classname);
 		$this->mockitor = $this->getMockitor($this->class);
+		if(!is_null($uniqueId))
+		{
+			$this->mockitor->__oid__ = $uniqueId;
+		}
+		self::$events = array();
+		self::$verificationMatches = array();
 	}
 	
-	public function setInOrder(MockitInOrder $inOrder)
+	public function outOfOrder()
 	{
-		$this->inOrder = $inOrder;
+		$this->outOfOrder = true;
+		return $this;
 	}
 	
-	/**
-	 * @return MockitInOrder
-	 */
-	public function getInOrder()
+	public function getOutOfOrder()
 	{
-		return $this->inOrder;
+		return $this->outOfOrder;
 	}
 	
 	public function when()
@@ -72,23 +73,12 @@ class Mockit
 	
 	public function getEvents()
 	{
-		if(!is_null($this->inOrder))
-		{
-			return $this->inOrder->getEvents();
-		}
-		else
-		{
-			return $this->events;
-		}
+		return self::$events;
 	}
 	
 	public function process(MockitEvent $event)
 	{
-		$this->events[] = $event;
-		if(!is_null($this->inOrder))
-		{
-			$this->inOrder->addEvent($event);
-		}
+		self::$events[] = $event;
 		foreach($this->matchers as $matcher) /* @var $matcher MockitMatcher */
 		{
 			if($matcher->_getEvent()->matches($event)->matches())
@@ -96,6 +86,33 @@ class Mockit
 				return $matcher->_getStub()->_executeStub();
 			}
 		}
+	}
+	
+	public function getClassname()
+	{
+		return $this->class->getName();
+	}
+	
+	/**
+	 * @return MockitMatchResult
+	 */
+	public function getLastVerificationMatch()
+	{
+		if(count(self::$verificationMatches) == 0)
+		{
+			return null;
+		}
+		return self::$verificationMatches[count(self::$verificationMatches)-1];
+	}
+	
+	public function getVerificationMatches()
+	{
+		return self::$verificationMatches;
+	}
+	
+	public function addVerificationMatch(MockitMatchResult $verificationEvent)
+	{
+		self::$verificationMatches[] = $verificationEvent;
 	}
 	
 	private function getMockitor(ReflectionClass $class)
@@ -134,7 +151,7 @@ class Mockit
 				$tmpl .= implode(',',$args);
 				$tmpl .= ')'."\n";
 				$tmpl .= '{'."\n";
-				$tmpl .= "\t".'return $this->mock->process(new MockitEvent($this->mock, "'.$method->getName().'", array('.implode(',',$classlessArgs).')));'."\n";
+				$tmpl .= "\t".'return $this->mock->process(new MockitEvent($this->mock, "'.$method->getName().'", array('.implode(',',$classlessArgs).'),count($this->mock->getEvents())));'."\n";
 				$tmpl .= '}'."\n";
 			}
 			$tmpl .= '}';

@@ -13,27 +13,12 @@ class MockitVerifier
 	
 	public function __call($name, $arguments)
 	{
-		$this->event = new MockitEvent($this->mock,$name, $arguments);
+		$this->event = new MockitEvent($this->mock,$name, $arguments, count($this->mock->getVerificationMatches()));
 		
-		if(!is_null($this->mock->getInOrder()))
-		{
-			$this->inOrder();
-			
-		}
-		
-		$this->outOfOrder();
-	}
-	
-	private function inOrder()
-	{
-		$this->mock->getInOrder()->addVerification($this->event);
-	}
-	
-	private function outOfOrder()
-	{
 		$foundCount = 0;
 		$methodFoundCount = 0;
 		$methodMatchResults = array();
+		$matchResults = array();
 		foreach($this->mock->getEvents() as $event) /* @var $event MockitEvent */
 		{
 			if($this->mock !== $event->getMock())
@@ -45,6 +30,7 @@ class MockitVerifier
 			if($matchResult->matches())
 			{
 				$foundCount++;
+				$matchResults[] = $matchResult;
 			}
 			if($matchResult->methodMatches())
 			{
@@ -54,18 +40,51 @@ class MockitVerifier
 			{
 				$methodMatchResults[$methodFoundCount] = $matchResult;
 			}
-				
 		}
-		if(is_null($this->expectedCount) && $methodFoundCount == $foundCount)
-		{
-				
-		}
-		else if($foundCount !== $this->expectedCount)
+		if(!(is_null($this->expectedCount) && $methodFoundCount == $foundCount) && $foundCount !== $this->expectedCount)
 		{
 			$this->throwException($foundCount,$methodFoundCount, $methodMatchResults);
 		}
+		else
+		{
+			if(!$this->mock->getOutOfOrder())
+			{
+				$lastMatch = $this->mock->getLastVerificationMatch(); /* @var $lastMatch MockitMatchResult */
+				$actualMatchResult = $this->getRelevantMatchResult($matchResults);
+				
+				if(!is_null($lastMatch))
+				{
+					if($lastMatch->getMatchedEvent()->getIndex() >= $actualMatchResult->getMatchedEvent()->getIndex())
+					{
+						throw new MockitOutOfOrderException($lastMatch, $actualMatchResult);
+					}
+				}
+				$this->mock->addVerificationMatch($actualMatchResult);
+			}
+		}
 	}
 	
+	/**
+	 * @return MockitMatchResult
+	 */
+	private function  getRelevantMatchResult($matchResults)
+	{
+		$index = 0;
+		foreach($this->mock->getVerificationMatches() as $verificationMatch) /* @var $verificationMatch MockitMatchResult */
+		{
+			foreach($matchResults as $matchResult) /* @var $matchResult MockitMatchResult */
+			{
+				if($verificationMatch->getMatchedEvent() === $matchResult->getMatchedEvent())
+				{
+					$index++;
+					break;
+				}
+			}
+			
+		}
+		
+		return $matchResults[$index];
+	}
 	
 	private function throwException($foundCount, $methodFoundCount, $methodMatchResults)
 	{

@@ -5,13 +5,12 @@ require dirname(__FILE__).'/../autoload.php';
 class MockTest
 	extends MockitTestCase
 {
-
 	public function testPassMockObjectToMockObject()
 	{
-		$mock = $this->getMock('MyDummy');
+		$mock = $this->getMockit('MyDummy');
 		$instance = $mock->instance();
 		
-		$mock2 = $this->getMock('MyDummy');
+		$mock2 = $this->getMockit('MyDummy');
 		$instance2 = $mock2->instance();
 		
 		$instance->addDummy($instance2);
@@ -21,10 +20,10 @@ class MockTest
 	
 	public function testPassMockToMockInterface()
 	{
-		$mock = $this->getMock('IDummy');
+		$mock = $this->getMockit('IDummy');
 		$instance = $mock->instance();
 	
-		$mock2 = $this->getMock('MyDummy');
+		$mock2 = $this->getMockit('MyDummy');
 		$instance2 = $mock2->instance();
 	
 		$instance->addDummy($instance2);
@@ -34,10 +33,10 @@ class MockTest
 	
 	public function testPassMockInterfaceToMock()
 	{
-		$mock = $this->getMock('MyDummy');
+		$mock = $this->getMockit('MyDummy');
 		$instance = $mock->instance();
 	
-		$mock2 = $this->getMock('IDummy');
+		$mock2 = $this->getMockit('IDummy');
 		$instance2 = $mock2->instance();
 	
 		$instance->addIDummy($instance2);
@@ -47,7 +46,7 @@ class MockTest
 	
 	public function testAnythingMatches()
 	{
-		$mock = $this->getMock('MyDummy');
+		$mock = $this->getMockit('MyDummy');
 		$instance = $mock->instance();
 		
 		$instance->doIt('asdf');
@@ -57,7 +56,7 @@ class MockTest
 	
 	public function testAnyNumberOfCorrectInvocations()
 	{
-		$mock = $this->getMock('MyDummy');
+		$mock = $this->getMockit('MyDummy');
 		$instance = $mock->instance();
 	
 		$instance->doIt('asdf');
@@ -70,7 +69,7 @@ class MockTest
 	
 	public function testPassMultipleArguments()
 	{
-		$mock = $this->getMock('MyDummy');
+		$mock = $this->getMockit('MyDummy');
 		$instance = $mock->instance();
 		
 		$instance->multipleArguments('arg1','arg2');
@@ -80,7 +79,7 @@ class MockTest
 	
 	public function testStubbing()
 	{
-		$mock = $this->getMock('MyDummy');
+		$mock = $this->getMockit('MyDummy');
 		$instance = $mock->instance();
 
 		$mock->when()->doIt('hat')->thenReturn('din mors hat');
@@ -90,7 +89,7 @@ class MockTest
 	
 	public function testSameMatcher()
 	{
-		$mock = $this->getMock('MyDummy');
+		$mock = $this->getMockit('MyDummy');
 		$instance = $mock->instance();
 		
 		$dummy = new MyDummy();
@@ -102,10 +101,10 @@ class MockTest
 	
 	public function testSameMatcherWithMock()
 	{
-		$mock = $this->getMock('MyDummy');
+		$mock = $this->getMockit('MyDummy');
 		$instance = $mock->instance();
 	
-		$instance2 = $this->getMock('MyDummy')->instance();
+		$instance2 = $this->getMockit('MyDummy')->instance();
 	
 		$instance->addDummy($instance2);
 	
@@ -114,7 +113,7 @@ class MockTest
 	
 	public function testObjectEqualsMatching()
 	{
-		$mock = $this->getMock('MyDummy');
+		$mock = $this->getMockit('MyDummy');
 		$instance = $mock->instance();
 		
 		$obj1 = new ValueObject();
@@ -130,7 +129,7 @@ class MockTest
 	
 	public function testStubbingWithDifferentParameters()
 	{
-		$mock = $this->getMock('MyDummy');
+		$mock = $this->getMockit('MyDummy');
 		$instance = $mock->instance();
 
 		$mock->when()->doIt('hat')->thenReturn('din mors hat');
@@ -142,7 +141,7 @@ class MockTest
 	
 	public function testStubbingWithAnyMatcher()
 	{
-		$mock = $this->getMock('MyDummy');
+		$mock = $this->getMockit('MyDummy');
 		$instance = $mock->instance();
 	
 	
@@ -154,7 +153,7 @@ class MockTest
 	
 	public function testStubbingMultipleStubActions()
 	{
-		$mock = $this->getMock('MyDummy');
+		$mock = $this->getMockit('MyDummy');
 		$instance = $mock->instance();
 	
 	
@@ -180,7 +179,7 @@ class MockTest
 	
 	public function testLastStubbingActionContinues()
 	{
-		$mock = $this->getMock('MyDummy');
+		$mock = $this->getMockit('MyDummy');
 		$instance = $mock->instance();
 	
 		$mock->when()->doIt($this->any())
@@ -199,7 +198,7 @@ class MockTest
 	 */
 	public function testStubbingThrows()
 	{
-		$mock = $this->getMock('MyDummy');
+		$mock = $this->getMockit('MyDummy');
 		$instance = $mock->instance();
 		
 		$mock->when()->doIt($this->any())->thenThrow(new Exception(''));
@@ -209,7 +208,7 @@ class MockTest
 	
 	public function testStubOverride()
 	{
-		$mock = $this->getMock('MyDummy');
+		$mock = $this->getMockit('MyDummy');
 		$instance = $mock->instance();
 	
 		$mock->when()->doIt($this->any())->thenReturn('1');
@@ -221,27 +220,21 @@ class MockTest
 	
 	public function testInOrderVerifications()
 	{
-		$inOrder = $this->getInOrder();
-		$mock = $this->getMock('MyDummy');
-		$mock->setInOrder($inOrder);
+		$mock = $this->getMockit('MyDummy');
 		$instance = $mock->instance();
-		$mock2 = $this->getMock('MyDummy');
+		$mock2 = $this->getMockit('MyDummy');
 		$instance2 = $mock2->instance();
-		$mock2->setInOrder($inOrder);
 	
 		$instance->doIt('1');
 		$instance2->doIt('2');
 	
 		$mock->once()->doIt('1');
 		$mock2->once()->doIt('2');
-		$inOrder->verify();
 	}
 
 	public function testInOrderVerificationOfSameMethod()
 	{
-		$inOrder = $this->getInOrder();
-		$mock = $this->getMock('MyDummy');
-		$mock->setInOrder($inOrder);
+		$mock = $this->getMockit('MyDummy');
 		$instance = $mock->instance();
 	
 		$instance->doIt('1');
@@ -249,18 +242,14 @@ class MockTest
 	
 		$mock->once()->doIt('1');
 		$mock->once()->doIt('2');
-		$inOrder->verify();
 	}
 	
 	public function testInOrderVerificationOfSameMethodSandwhichingOtherMethod()
 	{
-		$inOrder = $this->getInOrder();
-		$mock = $this->getMock('MyDummy');
-		$mock->setInOrder($inOrder);
+		$mock = $this->getMockit('MyDummy');
 		$instance = $mock->instance();
-		$mock2 = $this->getMock('MyDummy');
+		$mock2 = $this->getMockit('MyDummy');
 		$instance2 = $mock2->instance();
-		$mock2->setInOrder($inOrder);
 	
 		$instance->doIt('1');
 		$instance2->doIt('2');
@@ -269,8 +258,22 @@ class MockTest
 		$mock->any()->doIt('1');
 		$mock2->any()->doIt('2');
 		$mock->any()->doIt('1');
-		$inOrder->verify();
 	}
+
+	public function testOutOfOrderVerifications()
+	{
+		$mock = $this->getMockit('MyDummy');
+		$instance = $mock->instance();
+		$mock2 = $this->getMockit('MyDummy')->outOfOrder();
+		$instance2 = $mock2->instance();
+	
+		$instance2->doIt('2');
+		$instance->doIt('1');
+		
+		$mock->once()->doIt('1');
+		$mock2->once()->doIt('2');
+	}
+	
 }
 
 

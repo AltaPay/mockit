@@ -41,7 +41,7 @@ class MockitMatcher
 	
 	public function __call($name, $arguments)
 	{
-		$this->event = new MockitEvent($this->mock, $name, $arguments);
+		$this->event = new MockitEvent($this->mock, $name, $arguments,-1);
 		return $this->stub;
 	}
 }
