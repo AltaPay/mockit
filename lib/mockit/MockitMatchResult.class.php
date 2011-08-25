@@ -24,7 +24,7 @@ class MockitMatchResult
 			$actualArguments = $actual->getArguments();
 			foreach($expected->getArguments() as $i => $argument)
 			{
-				$this->parameterMatch($argument, $actualArguments[$i]);
+				$this->parameterMatch($argument, @$actualArguments[$i]);
 			}
 		}
 	}
