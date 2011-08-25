@@ -28,11 +28,11 @@ class MockitRecursiveMatcher
 		$mock = $this->mock->getRecursiveMockForMethod($this->event);
 		if(is_array($mock))
 		{
-			throw new Exception('Recursive mocks does not work methods that returns an array');
+			throw new Exception('Recursive mocks does not work methods that returns an array, which this method does:  '. $this->event->getMock()->getClassname().'->'.$this->event->getName().'()');
 		}
 		if(is_null($mock))
 		{
-			throw new Exception('Recursive mocks does not work on methods without a defined mockable return type');
+			throw new Exception('Recursive mocks does not work on methods without a defined mockable return type, which this method does: '. $this->event->getMock()->getClassname().'->'.$this->event->getName().'()');
 		}
 		return $mock;
 	}

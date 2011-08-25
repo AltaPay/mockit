@@ -94,7 +94,7 @@ class MockitVerifier
 		}
 		if($methodFoundCount == 0)
 		{
-			throw new MockitVerificationException('Method was expected to be called '.$this->expectedCount.' times, but was called '.$methodFoundCount.' times');
+			throw new MockitVerificationException('Method was expected to be called '.$this->expectedCount.' times, but was called '.$methodFoundCount.' times:'."\n".$this->event->getName().'('.$this->event->getArgumentsAsString().')');
 		}
 		else if($methodFoundCount == $this->expectedCount && $foundCount != $this->expectedCount)
 		{

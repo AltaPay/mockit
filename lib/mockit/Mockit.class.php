@@ -155,6 +155,7 @@ class Mockit
 				return $mock->instance();
 			}
 		}
+		return null;
 	}
 	
 	/**
@@ -163,8 +164,8 @@ class Mockit
 	public function getRecursiveMockForMethod(MockitEvent $event)
 	{
 		$reflectionMethod = $this->class->getMethod($event->getName());
-		
-		if(preg_match('/\@return ([^\s]+)/',$reflectionMethod->getDocComment(),$matches))
+
+		if(preg_match('/\@return\s+([^\s]+)/',$reflectionMethod->getDocComment(),$matches))
 		{
 			$returnClass = $matches[1];
 			if($returnClass == 'array')
@@ -239,19 +240,57 @@ class Mockit
 			$tmpl .= 'public function __construct(Mockit $mock) { $this->mock = $mock; }'."\n";
 			foreach($class->getMethods(ReflectionMethod::IS_PUBLIC) as $method) /* @var $method ReflectionMethod */
 			{
+				if($method->name == '__construct')
+				{
+					continue;
+				}
+				
 				$tmpl .= 'public function '.$method->name.'(';
 				$args = array();
 				$classlessArgs = array();
 				foreach($method->getParameters() as $parameter) /* @var $parameter ReflectionParameter */
 				{
-					if(!is_null($parameter->getClass()))
+					$paramString = '';
+					
+					if($parameter->isArray())
 					{
-						$args[] = $parameter->getClass()->getName().' $'.$parameter->getName();
+						$paramString .= 'array ';
 					}
-					else
+					else if(!is_null($parameter->getClass()))
 					{
-						$args[] = '$'.$parameter->getName();
+						$paramString .= $parameter->getClass()->getName().' ';
 					}
+					
+					$paramString .= '$'.$parameter->getName();
+					
+					if($parameter->isDefaultValueAvailable())
+					{
+						switch(gettype($parameter->getDefaultValue()))
+						{
+							case 'boolean':
+								$paramString .= ' = '.($parameter->getDefaultValue() ? 'true' : 'false');
+								break;
+							case 'integer':
+							case 'double':
+								$paramString .= ' = '.$parameter->getDefaultValue();
+								break;
+							case 'string':
+								$paramString .= " = '".$parameter->getDefaultValue()."'";
+								break;
+							case 'NULL':
+								$paramString .= ' = null';
+								break;
+							case 'array':
+								throw new Exception('default value with array. what to do!?');
+							case 'object':
+								throw new Exception('default value with object. what to do!?');
+							case 'resource':
+								throw new Exception('default value with resource. what to do!?');
+							
+						}
+						
+					}
+					$args[] = $paramString;
 					$classlessArgs[] = '$'.$parameter->getName();
 				}
 				$tmpl .= implode(',',$args);
@@ -261,6 +300,7 @@ class Mockit
 				$tmpl .= '}'."\n";
 			}
 			$tmpl .= '}';
+
 			eval($tmpl);
 			
 			self::$mockitors[$mockitorClassname] = true;
