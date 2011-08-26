@@ -1,14 +1,32 @@
 <?php
 
 class MockitVerifier
-	extends MockitMatcher
 {
 	private $expectedCount;
 	
+	/**
+	 * @var Mockit
+	 */
+	private $mock;
+	
+	/**
+	 * 
+	 * @var MockitEvent
+	 */
+	private $event;
+	
 	public function __construct(Mockit $mock,$expectedCount)
 	{
-		parent::__construct($mock);
+		$this->mock = $mock;
 		$this->expectedCount = $expectedCount;
+	}
+	
+	/**
+	 * @return MockitEvent
+	 */
+	public function _getEvent()
+	{
+		return $this->event;
 	}
 	
 	public function __call($name, $arguments)
@@ -52,14 +70,18 @@ class MockitVerifier
 				$lastMatch = $this->mock->getLastVerificationMatch(); /* @var $lastMatch MockitMatchResult */
 				$actualMatchResult = $this->getRelevantMatchResult($matchResults);
 				
-				if(!is_null($lastMatch))
+				if(!is_null($actualMatchResult))
 				{
-					if($lastMatch->getMatchedEvent()->getIndex() >= $actualMatchResult->getMatchedEvent()->getIndex())
+					if(!is_null($lastMatch))
 					{
-						throw new MockitOutOfOrderException($lastMatch, $actualMatchResult);
+						if($lastMatch->getMatchedEvent()->getIndex() >= $actualMatchResult->getMatchedEvent()->getIndex())
+						{
+							throw new MockitOutOfOrderException($lastMatch, $actualMatchResult);
+						}
 					}
+				
+					$this->mock->addVerificationMatch($actualMatchResult);
 				}
-				$this->mock->addVerificationMatch($actualMatchResult);
 			}
 		}
 	}
@@ -83,7 +105,7 @@ class MockitVerifier
 			
 		}
 		
-		return $matchResults[$index];
+		return @$matchResults[$index];
 	}
 	
 	private function throwException($foundCount, $methodFoundCount, $methodMatchResults)

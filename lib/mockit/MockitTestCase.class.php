@@ -20,6 +20,7 @@ require_once(dirname(__FILE__).'/matchers/MockitEqualsMatcher.class.php');
 require_once(dirname(__FILE__).'/matchers/MockitAnyMatcher.class.php');
 require_once(dirname(__FILE__).'/matchers/MockitSameMatcher.class.php');
 require_once(dirname(__FILE__).'/matchers/CaptorMatcher.class.php');
+require_once(dirname(__FILE__).'/matchers/NotMatcher.class.php');
 require_once(dirname(__FILE__).'/MockitRecursiveEvent.class.php');
 
 class MockitTestCase extends PHPUnit_Framework_TestCase
@@ -51,6 +52,11 @@ class MockitTestCase extends PHPUnit_Framework_TestCase
 	public function equals($val)
 	{
 		return new MockitEqualsMatcher($val);
+	}
+
+	public function not(IMockitMatcher $childMatcher)
+	{
+		return new NotMatcher($childMatcher);
 	}
 	
 	/**

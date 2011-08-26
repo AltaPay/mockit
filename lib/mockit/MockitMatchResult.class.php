@@ -19,7 +19,7 @@ class MockitMatchResult
 		{
 			$this->matches = false;
 		}
-		if(is_array($expected->getArguments()))
+		if($this->matches && is_array($expected->getArguments()))
 		{
 			$actualArguments = $actual->getArguments();
 			foreach($expected->getArguments() as $i => $argument)

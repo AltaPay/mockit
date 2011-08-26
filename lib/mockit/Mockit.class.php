@@ -117,7 +117,7 @@ class Mockit
 	
 	public function with()
 	{
-		return new MockitRecursiveMatcher($this);
+		return new MockitRecursiveMatcher($this,$this->class);
 	}
 	
 	public function process(MockitEvent $event)

@@ -3,9 +3,9 @@
 class MockitRecursiveMatcher
 	extends MockitMatcher
 {
-	public function __construct(Mockit $mock)
+	public function __construct(Mockit $mock, ReflectionClass $class)
 	{
-		parent::__construct($mock);
+		parent::__construct($mock, $class);
 	}
 	
 	public function __call($name, $arguments)
