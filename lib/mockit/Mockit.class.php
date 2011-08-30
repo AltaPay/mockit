@@ -281,7 +281,8 @@ class Mockit
 								$paramString .= ' = null';
 								break;
 							case 'array':
-								throw new Exception('default value with array. what to do!?');
+								$paramString .= ' = array()';
+								break;
 							case 'object':
 								throw new Exception('default value with object. what to do!?');
 							case 'resource':
