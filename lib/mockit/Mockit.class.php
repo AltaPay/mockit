@@ -242,7 +242,7 @@ class Mockit
 			$tmpl .= 'public function __construct(Mockit $mock) { $this->mock = $mock; }'."\n";
 			foreach($class->getMethods(ReflectionMethod::IS_PUBLIC) as $method) /* @var $method ReflectionMethod */
 			{
-				if($method->name == '__construct')
+				if($method->name == '__construct' || $method->isStatic())
 				{
 					continue;
 				}
