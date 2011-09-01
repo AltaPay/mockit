@@ -6,6 +6,7 @@ require_once(dirname(__FILE__).'/MockitVerificationException.class.php');
 require_once(dirname(__FILE__).'/MockitMatcher.class.php');
 require_once(dirname(__FILE__).'/MockitMatchResult.class.php');
 require_once(dirname(__FILE__).'/MockitStub.class.php');
+require_once(dirname(__FILE__).'/IMockit.class.php');
 require_once(dirname(__FILE__).'/Mockit.class.php');
 require_once(dirname(__FILE__).'/MockitOutOfOrderException.class.php');
 require_once(dirname(__FILE__).'/MockitEvent.class.php');
@@ -26,7 +27,7 @@ require_once(dirname(__FILE__).'/MockitRecursiveEvent.class.php');
 class MockitTestCase extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @return Mockit
+	 * @return IMockit
 	 */
 	public function getMockit($classname, $uniqueId=null)
 	{

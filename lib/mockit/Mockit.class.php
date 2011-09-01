@@ -168,13 +168,15 @@ class Mockit
 		if(preg_match('/\@return\s+([^\s]+)/',$reflectionMethod->getDocComment(),$matches))
 		{
 			$returnClass = $matches[1];
+			
 			if($returnClass == 'array')
 			{
 				return array();
 			}
 			try
 			{
-				if(class_exists($returnClass))
+				
+				if(class_exists($returnClass) || interface_exists($returnClass))
 				{
 					$mock = new Mockit($returnClass);
 					$mock = $mock->recursive();

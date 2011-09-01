@@ -14,7 +14,7 @@ class MockitRecursiveMatcher
 		
 		foreach($this->mock->getRecursiveMocks() as $recursiveEvent) /* @var $recursiveEvent MockitRecursiveEvent */ 
 		{ 
-			if($this->mock !== $recursiveEvent->getEvent()->getMock())
+			if($this->mock !== $recursiveEvent->getEvent()->getMock() || $this->event->getName() != $recursiveEvent->getEvent()->getName())
 			{
 				continue;
 			}
