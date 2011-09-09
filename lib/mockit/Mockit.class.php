@@ -313,6 +313,11 @@ class Mockit
 	
 	public static function uniqueid($object)
 	{
+		if(is_null($object))
+		{
+			return null;
+		}
+		
 		if (!is_object($object))
 		{
 			throw new Exception("Same matcher only works for objects");
