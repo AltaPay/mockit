@@ -1,6 +1,7 @@
 <?php
 
 class Mockit
+	implements IMockit
 {
 	/**
 	* @var ReflectionClass
