@@ -10,6 +10,10 @@ class MockitAnyMatcher
 
 	function matchDescription($other)
 	{
+		if(is_object($other))
+		{
+			$other = Mockit::uniqueid($other);
+		}
 		return $other.' matches anything';
 	}
 	
