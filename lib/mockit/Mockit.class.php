@@ -228,6 +228,7 @@ class Mockit
 	private function getMockitor(ReflectionClass $class)
 	{
 		$mockitorClassname = 'Mockitor_'.$class->name;
+
 		if(!isset(self::$mockitors[$mockitorClassname]))
 		{
 			if($class->isInterface())
@@ -263,7 +264,10 @@ class Mockit
 					{
 						$paramString .= $parameter->getClass()->getName().' ';
 					}
-					
+					if($parameter->isPassedByReference())
+					{
+						$paramString .= '&';
+					}
 					$paramString .= '$'.$parameter->getName();
 					
 					if($parameter->isDefaultValueAvailable())
@@ -306,6 +310,7 @@ class Mockit
 			$tmpl .= '}';
 
 			eval($tmpl);
+			
 			
 			self::$mockitors[$mockitorClassname] = true;
 		}
