@@ -18,7 +18,13 @@ class MockitStub
 		return $this;
 	}
 	
-	public function _executeStub()
+	public function delegate($delegate)
+	{
+		$this->actions[] = new MockitDelegateEvent($delegate);
+		return $this;
+	}
+	
+	public function _executeStub($arguments)
 	{
 		$action = array_shift($this->actions); /* @var $action IMockitStubEvent */
 		if(count($this->actions) == 0)
@@ -26,6 +32,6 @@ class MockitStub
 			$this->actions[] = $action;
 		}
 		
-		return $action->execute();
+		return $action->execute($arguments);
 	}
 }

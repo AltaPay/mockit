@@ -10,7 +10,7 @@ class MockitStubReturnEvent
 		$this->value = $value;
 	}
 	
-	public function execute()
+	public function execute($arguments)
 	{
 		return $this->value;
 	}

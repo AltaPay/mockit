@@ -2,5 +2,5 @@
 
 interface IMockitStubEvent
 {
-	function execute();
+	function execute($arguments);
 }

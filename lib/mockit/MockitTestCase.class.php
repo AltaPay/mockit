@@ -13,6 +13,7 @@ require_once(dirname(__FILE__).'/MockitEvent.class.php');
 require_once(dirname(__FILE__).'/MockitParameterMatchResult.class.php');
 require_once(dirname(__FILE__).'/MockitStubReturnEvent.class.php');
 require_once(dirname(__FILE__).'/MockitStubThrowEvent.class.php');
+require_once(dirname(__FILE__).'/MockitDelegateEvent.class.php');
 require_once(dirname(__FILE__).'/MockitVerifier.class.php');
 require_once(dirname(__FILE__).'/MockitTestCase.class.php');
 require_once(dirname(__FILE__).'/MockitRecursiveMatcher.class.php');

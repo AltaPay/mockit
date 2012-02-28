@@ -10,7 +10,7 @@ class MockitStubThrowEvent
 		$this->exception = $exception;
 	}
 	
-	public function execute()
+	public function execute($arguments)
 	{
 		throw $this->exception;
 	}
