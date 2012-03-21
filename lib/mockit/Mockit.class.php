@@ -17,8 +17,6 @@ class Mockit
 	private $outOfOrder = false;
 	private $recursive = false;
 	
-	private static $mockitors = array();
-	
 	public function __construct($classname, $uniqueId=null)
 	{
 		$this->class = new ReflectionClass($classname);
@@ -229,7 +227,7 @@ class Mockit
 	{
 		$mockitorClassname = 'Mockitor_'.$class->name;
 
-		if(!isset(self::$mockitors[$mockitorClassname]))
+		if(!class_exists($mockitorClassname, false))
 		{
 			if($class->isInterface())
 			{
@@ -310,9 +308,6 @@ class Mockit
 			$tmpl .= '}';
 
 			eval($tmpl);
-			
-			
-			self::$mockitors[$mockitorClassname] = true;
 		}
 		return new $mockitorClassname($this);
 	}
