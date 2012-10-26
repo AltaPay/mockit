@@ -36,12 +36,24 @@ class MockitEqualsMatcher
 		{
 			if($this->matches($other))
 			{
-				return $this->value .' == '.$other;
+				return $this->getPrintableValue($this->value) .' == '.$this->getPrintableValue($other);
 			}
 			else 
 			{
-				return $this->value .' != '.$other;
+				return $this->getPrintableValue($this->value) .' != '.$this->getPrintableValue($other);
 			}
+		}
+	}
+	
+	private function getPrintableValue($value)
+	{
+		if (is_null($value))
+		{	
+			return 'NULL';
+		} 
+		else 
+		{
+			return empty($value) ? '""' : $value;
 		}
 	}
 	
