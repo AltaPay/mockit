@@ -302,6 +302,10 @@ class Mockit
 				$tmpl .= implode(',',$args);
 				$tmpl .= ')'."\n";
 				$tmpl .= '{'."\n";
+				if(count($classlessArgs) == 0)
+				{
+					$tmpl .= "if(count(func_get_args()) > 0){ throw new Exception('Method ".$class->getName()."->".$method->getName()."() was called with arguments even though it takes none'); }\n";
+				}
 				$tmpl .= "\t".'return $this->mock->process(new MockitEvent($this->mock, "'.$method->getName().'", array('.implode(',',$classlessArgs).'),count($this->mock->getEvents())));'."\n";
 				$tmpl .= '}'."\n";
 			}
