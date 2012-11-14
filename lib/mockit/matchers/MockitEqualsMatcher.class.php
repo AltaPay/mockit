@@ -12,7 +12,14 @@ class MockitEqualsMatcher
 	
 	public function matches($other)
 	{
-		return $this->value == $other;
+		if(is_string($other) || is_string($this->value))
+		{
+			return $this->value.'' == $other.'';
+		}
+		else
+		{
+			return $this->value == $other;
+		}
 	}
 	
 	function matchDescription($other)
