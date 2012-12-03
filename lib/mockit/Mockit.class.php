@@ -11,9 +11,9 @@ class Mockit
 	private $mockitor;
 	private $isSpy = false;
 	
-	static private $events;
-	static private $verificationMatches;
-	static private $recursiveMocks;
+	static private $events = array();
+	static private $verificationMatches = array();
+	static private $recursiveMocks = array();
 	private $matchers = array();
 	private $outOfOrder = false;
 	private $recursive = false;
@@ -147,6 +147,15 @@ class Mockit
 	
 	public function process(MockitEvent $event)
 	{
+//		static $firstCall = true;
+//		
+//		if($firstCall)
+//		{
+//			print 'Reset mocks';
+//			Mockit::resetMocks();
+//		}
+//		$firstCall = false;
+		
 		self::$events[] = $event;
 		foreach($this->matchers as $matcher) /* @var $matcher MockitMatcher */
 		{

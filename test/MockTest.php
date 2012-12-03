@@ -353,6 +353,24 @@ class MockTest
 
 		$this->assertEquals("buh",$instance->addDummy(new MyDummy())->doIt('1'));
 	}
+	
+	public function testStubbingWhileSettingUpStubBeforeLastMockIsCreated()
+	{
+		$mock = $this->getMockit('MyDummy');
+		$instance = $mock->instance();
+	
+	
+		$mock->when()->doIt($this->any())->thenReturn('din mors hat');
+	
+		$mock2 = $this->getMockit('MyDummy');
+		$instance2 = $mock2->instance();
+	
+	
+		$mock2->when()->doIt($this->any())->thenReturn('din mors hat2');
+		
+		$this->assertEquals('din mors hat', $instance->doIt('whatever'));
+		$this->assertEquals('din mors hat2', $instance2->doIt('whatever'));
+	}
 }
 
 

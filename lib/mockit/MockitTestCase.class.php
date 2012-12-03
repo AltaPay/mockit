@@ -28,12 +28,16 @@ require_once(dirname(__FILE__).'/MockitRecursiveEvent.class.php');
 
 class MockitTestCase extends PHPUnit_Framework_TestCase
 {
+	protected function tearDown()
+	{
+		Mockit::resetMocks();
+	}
+	
 	/**
 	 * @return IMockit
 	 */
 	public function getMockit($classname, $uniqueId=null)
 	{
-		Mockit::resetMocks();
 		return new Mockit($classname, $uniqueId);
 	}
 	
