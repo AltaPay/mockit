@@ -161,7 +161,7 @@ class Mockit
 		{
 			if($matcher->_getEvent()->matches($event)->matches())
 			{
-				return $matcher->_getStub()->_executeStub($event->getArguments());
+				return $matcher->_getStub($event->getName())->_executeStub($event->getArguments());
 			}
 		}
 		if($this->recursive)

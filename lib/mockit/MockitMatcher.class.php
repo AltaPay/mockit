@@ -8,7 +8,7 @@ class MockitMatcher
 	protected $mock;
 	
 	protected $event;
-	private $stub;
+	private $stubs = array();
 	
 	/**
 	 * @var ReflectionClass
@@ -19,7 +19,6 @@ class MockitMatcher
 	{
 		$this->mock = $mock;
 		$this->class = $class;
-		$this->stub = new MockitStub();
 	}
 	
 	/**
@@ -34,10 +33,15 @@ class MockitMatcher
 	 * 
 	 * @var MockitStub
 	 */
-	public function _getStub()
+	public function _getStub($name)
 	{
-		return $this->stub;
+		if(!isset($this->stubs[$name]))
+		{
+			$this->stubs[$name] = new MockitStub($this->mock, $this->class , $name);
+		}
+		return $this->stubs[$name];
 	}
+	
 	
 	public function __call($name, $arguments)
 	{
@@ -54,6 +58,6 @@ class MockitMatcher
 		}
 		
 		$this->event = new MockitEvent($this->mock, $name, $arguments,-1);
-		return $this->stub;
+		return $this->_getStub($name);
 	}
 }
