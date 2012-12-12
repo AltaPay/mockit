@@ -17,6 +17,7 @@ class Mockit
 	private $matchers = array();
 	private $outOfOrder = false;
 	private $recursive = false;
+	private $dynamic = false;
 	
 	public function __construct($classname, $uniqueId=null)
 	{
@@ -86,6 +87,17 @@ class Mockit
 		return $this;
 	}
 	
+	public function dynamic()
+	{
+		if(is_null($this->class->getMethod('__call')))
+		{
+			throw new Exception('Dynamic mocks can only be made for objects that have a __call method.');
+		}
+		
+		$this->dynamic= true;
+		return $this;
+	}
+	
 	public function getOutOfOrder()
 	{
 		return $this->outOfOrder;
@@ -147,15 +159,11 @@ class Mockit
 	
 	public function process(MockitEvent $event)
 	{
-//		static $firstCall = true;
-//		
-//		if($firstCall)
-//		{
-//			print 'Reset mocks';
-//			Mockit::resetMocks();
-//		}
-//		$firstCall = false;
-		
+		if($this->dynamic && $event->getName() == '__call')
+		{
+			$arguments = $event->getArguments();
+			$event = new MockitEvent($event->getMock(), array_shift($arguments), $arguments, $event->getIndex());
+		}
 		self::$events[] = $event;
 		foreach($this->matchers as $matcher) /* @var $matcher MockitMatcher */
 		{

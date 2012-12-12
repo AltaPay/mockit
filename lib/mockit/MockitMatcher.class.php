@@ -45,7 +45,7 @@ class MockitMatcher
 	
 	public function __call($name, $arguments)
 	{
-		if(count($arguments) == 0)
+		if(count($arguments) == 0 && $this->class->hasMethod($name))
 		{
 			$method = $this->class->getMethod($name); /* @var $method ReflectionMethod */
 			if(count($method->getParameters()) != 0)
