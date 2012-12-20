@@ -15,6 +15,8 @@ interface IMockit
 	
 	function any();
 	
+	function dynamic();
+	
 	function exactly($times);
 	
 	function once();
