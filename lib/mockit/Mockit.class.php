@@ -459,4 +459,19 @@ class Mockit
 			return $argument;
 		}
 	}
+
+	public static function initMocks($testClass)
+	{
+		$refectClass = new ReflectionClass($testClass);
+
+		foreach($refectClass->getProperties() as $property) /* @var $property ReflectionProperty */
+		{
+			$docComment = $property->getDocComment();
+			if(preg_match('/\@var Mock_(\S+)/',$docComment, $matches))
+			{
+				$property->setAccessible(true);
+				$property->setValue($testClass, new Mockit($matches[1]));
+			}
+		}
+	}
 }
