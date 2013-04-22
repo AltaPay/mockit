@@ -467,10 +467,29 @@ class Mockit
 		foreach($refectClass->getProperties() as $property) /* @var $property ReflectionProperty */
 		{
 			$docComment = $property->getDocComment();
-			if(preg_match('/\@var Mock_(\S+)/',$docComment, $matches))
+			if(preg_match('/\@var Mock_(\S+)(.+)\n/',$docComment, $matches))
 			{
 				$property->setAccessible(true);
-				$property->setValue($testClass, new Mockit($matches[1]));
+				$uniqueId = null;
+				if(preg_match('/#([\S]+)/', $matches[2],$idMatches))
+				{
+					$uniqueId = $idMatches[1];
+				}
+				$mockit = new Mockit($matches[1], $uniqueId);
+				if(strpos($matches[2],"recursive") !== false)
+				{
+					$mockit->recursive();
+				}
+				if(strpos($matches[2],"dynamic") !== false)
+				{
+					$mockit->dynamic();
+				}
+				if(strpos($matches[2],"outOfOrder") !== false)
+				{
+					$mockit->outOfOrder();
+				}
+
+				$property->setValue($testClass, $mockit);
 			}
 		}
 	}
