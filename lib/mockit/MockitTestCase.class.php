@@ -16,6 +16,14 @@ class MockitTestCase extends PHPUnit_Framework_TestCase
 	{
 		return new Mockit($classname, $uniqueId);
 	}
+
+	/**
+	 * @return IMockit
+	 */
+	public function getSpy($object)
+	{
+		return new Mockit($object);
+	}
 	
 	public function any()
 	{

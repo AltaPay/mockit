@@ -7,22 +7,6 @@ class MockVerifyFailingTests
 	/**
 	 * @expectedException MockitVerificationException
 	 */
-	public function testAnyNumberOfCorrectInvocationsButOneIncorrect()
-	{
-		$mock = $this->getMockit('MyDummy');
-		$instance = $mock->instance();
-	
-		$instance->doIt('asdf');
-		$instance->doIt('asdf');
-		$instance->doIt('asdf2');
-		$instance->doIt('asdf');
-	
-		$mock->any()->doIt('asdf');
-	}
-	
-	/**
-	 * @expectedException MockitVerificationException
-	 */
 	public function testFailingPassMultipleArguments()
 	{
 		$mock = $this->getMockit('MyDummy');

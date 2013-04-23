@@ -38,6 +38,11 @@ class MockitEvent
 		return $this->arguments;
 	}
 	
+	public function eventDescription()
+	{
+		return Mockit::uniqueid($this->getMock()->instance()).'->'.$this->getName().'('.$this->getArgumentsAsString().')';
+	}
+	
 	public function getArgumentsAsString()
 	{
 		$ar = array();

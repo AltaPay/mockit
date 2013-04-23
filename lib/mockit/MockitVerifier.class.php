@@ -15,10 +15,13 @@ class MockitVerifier
 	 */
 	private $event;
 	
-	public function __construct(Mockit $mock,$expectedCount)
+	private $inOrderInvoke = false;
+	
+	public function __construct(Mockit $mock,$expectedCount,$inOrderInvoke=false)
 	{
 		$this->mock = $mock;
 		$this->expectedCount = $expectedCount;
+		$this->inOrderInvoke = $inOrderInvoke;
 	}
 	
 	/**
@@ -59,31 +62,135 @@ class MockitVerifier
 				$methodMatchResults[$methodFoundCount] = $matchResult;
 			}
 		}
-		if(!(is_null($this->expectedCount) && $methodFoundCount == $foundCount) && $foundCount !== $this->expectedCount)
+		
+		if(!(is_null($this->expectedCount) && $methodFoundCount == $foundCount) && $foundCount < $this->expectedCount)
 		{
 			$this->throwException($foundCount,$methodFoundCount, $methodMatchResults);
 		}
-		else
+		
+		if(!$this->mock->getOutOfOrder())
 		{
-			if(!$this->mock->getOutOfOrder())
+//			print "Matching for event: ";
+//			print $this->event->eventDescription()."\n";
+			
+			$lastMatch = $this->mock->getLastVerificationMatch(); /* @var $lastMatch MockitMatchResult */
+			$actualMatchResult = $this->getRelevantMatchResult($matchResults);
+			
+//			print "last match description: ".(is_null($lastMatch) ? "NULL" : $lastMatch->matchDescription())."\n";
+//			print "actual match description: ".(is_null($actualMatchResult) ? "NULL" : $actualMatchResult->matchDescription())."\n";
+			if(!is_null($actualMatchResult))
 			{
-				$lastMatch = $this->mock->getLastVerificationMatch(); /* @var $lastMatch MockitMatchResult */
-				$actualMatchResult = $this->getRelevantMatchResult($matchResults);
-				
-				if(!is_null($actualMatchResult))
+				if(!is_null($lastMatch))
 				{
-					if(!is_null($lastMatch))
+					if($lastMatch->getMatchedEvent()->getIndex() >= $actualMatchResult->getMatchedEvent()->getIndex())
 					{
-						if($lastMatch->getMatchedEvent()->getIndex() >= $actualMatchResult->getMatchedEvent()->getIndex())
+						throw new MockitOutOfOrderException($lastMatch, $actualMatchResult);
+					}
+				}
+			
+				$this->mock->addVerificationMatch($actualMatchResult);
+			}
+			
+			if($this->inOrderInvoke)
+			{
+//				print "\nChecking event:".$this->event->eventDescription()." (".count($this->mock->getUnmatchedEvents()).")\n";
+				//while(!is_null($nextUnmatchedEvent = $this->mock->nextUnmatchedEvent()))
+				$del=0;
+				$found = false;
+				foreach($this->mock->getUnmatchedEvents() as $nextUnmatchedEvent) /* @var $nextUnmatchedEvent MockitEvent */
+				{
+					$del++;
+//					$nextUnmatchedEvent = $this->mock->nextUnmatchedEvent();
+					if(is_null($nextUnmatchedEvent))
+					{
+						throw new Exception("No more events in the events queue, but we expected ".$this->event->eventDescription()." to be called");
+					}
+					
+					$matchesOne = false;
+					$thisMatchesOne= false;
+					foreach(Mockit::getVerificationMatches() as $verificationMatch) /* @var $verificationMatch MockitMatchResult */
+					{
+						if($verificationMatch->getVerificationEvent()->matches($nextUnmatchedEvent)->matches())
 						{
-							throw new MockitOutOfOrderException($lastMatch, $actualMatchResult);
+							$matchesOne = true;
+						}
+						if($verificationMatch->getVerificationEvent()->matches($this->event)->matches())
+						{
+							$thisMatchesOne = true;
 						}
 					}
-				
-					$this->mock->addVerificationMatch($actualMatchResult);
+					
+					$matchResult = $this->event->matches($nextUnmatchedEvent);
+//					print "Matches?: ".$nextUnmatchedEvent->eventDescription()." == ".$this->event->eventDescription()."\n";
+					if($matchesOne && !$matchResult->matches())
+					{
+//						print $nextUnmatchedEvent->eventDescription()."\n";
+//						print "Matches one, but ".$nextUnmatchedEvent->eventDescription()." != ".$this->event->eventDescription()."\n";
+						throw new MockitOutOfOrderInvokedException($matchResult, $lastMatch, $this->event);
+					}
+					else if($matchResult->matches())
+					{
+//						print "Matches!: ".$nextUnmatchedEvent->eventDescription()." == ".$this->event->eventDescription()."\n";
+//						$this->mock->shiftUnmatchedEvents();
+						$this->mock->addVerificationMatch($matchResult);
+						$found = true;
+						break;
+					}
+//					else if(!$thisMatchesOne)
+//					{
+//						print "this does not match any: ".$this->event->eventDescription()."\n";
+//						continue;
+//					}
+//					else if(!$matchesOne)
+//					{
+//						print "does not match any: ".$nextUnmatchedEvent->eventDescription()."\n";
+//						continue;
+////						$this->mock->shiftUnmatchedEvents();
+////						continue;
+//					}
+//					else
+//					{
+//						print 'wtf?!'."\n";	
+//					}
+				} 
+				if($found)
+				{
+					for($i=0;$i<$del;$i++)
+					{
+						$this->mock->shiftUnmatchedEvents();
+					}
 				}
+				else
+				{
+					throw new MockitVerificationException('Could not find match for: '.$this->event->eventDescription());
+				}
+			
+			
+
+//				else
+//				{
+//					
+//					print Mockit::uniqueid($nextUnmatchedEvent->getMock()->instance()).'->'.$nextUnmatchedEvent->getName().'('.$nextUnmatchedEvent->getArgumentsAsString().')'."\n";
+//					print Mockit::uniqueid($this->event->getMock()->instance()).'->'.$this->event->getName().'('.$this->event->getArgumentsAsString().')'."\n";
+//					foreach(Mockit::getVerificationMatches() as $verificationMatch) /* @var $verificationMatch MockitMatchResult */
+//					{
+//						print "verification match result: [".Mockit::uniqueid($verificationMatch->getVerificationEvent()->getMock()->instance())."]->".$verificationMatch->getMatchedEvent()->getName()."\n";
+//					}
+//				}
+//				print "umatched events: \n";
+//				foreach($this->mock->getUnmatchedEvents() as $unmatchedEvent) /* @var $unmatchedEvent MockitEvent */
+//				{
+//					print $unmatchedEvent->eventDescription()."\n";
+//				}
+//				print "\n";
+
+				
+//				$ex = new Exception("these events are like not like eachother... man: ");
+//				print $ex->getTraceAsString();
 			}
+			
 		}
+	
 	}
 	
 	/**

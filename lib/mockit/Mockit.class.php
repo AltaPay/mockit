@@ -12,6 +12,7 @@ class Mockit
 	private $isSpy = false;
 	
 	static private $events = array();
+	static private $unmatchedEvents = null;
 	static private $verificationMatches = array();
 	static private $recursiveMocks = array();
 	private $matchers = array();
@@ -69,6 +70,7 @@ class Mockit
 		self::$events = array();
 		self::$verificationMatches = array();
 		self::$recursiveMocks = array();
+		self::$unmatchedEvents = null;
 	}
 	
 	public function outOfOrder()
@@ -97,6 +99,56 @@ class Mockit
 		$this->dynamic= true;
 		return $this;
 	}
+	
+	public function invoked()
+	{
+		if($this->outOfOrder)
+		{
+			throw new Exception('invoked only makes sense for in order mocks');
+		}
+		return new MockitVerifier($this, null, true);
+	}
+
+	public function getUnmatchedEvents()
+	{
+		if(is_null(self::$unmatchedEvents))
+		{ 
+			self::$unmatchedEvents = self::$events;
+		}
+		return self::$unmatchedEvents;
+	}
+	
+	/**
+	 * @return MockitEvent
+	 */
+	public function nextUnmatchedEvent()
+	{
+		self::getUnmatchedEvents();
+		if(empty(self::$unmatchedEvents))
+		{
+			return null;
+		}
+		return self::$unmatchedEvents[0];
+	}
+	
+	public static function printUnmatchedEvents()
+	{
+		print "Umatched events: \n";
+		foreach(self::$unmatchedEvents as $event) /* @var $event MockitEvent */
+		{
+			print $event->eventDescription()."\n";
+		}
+	} 
+	
+	/**
+	 * @return MockitEvent
+	 */
+	public function shiftUnmatchedEvents()
+	{
+		self::getUnmatchedEvents();
+		return array_shift(self::$unmatchedEvents);
+	}
+	
 	
 	public function getOutOfOrder()
 	{
@@ -467,26 +519,29 @@ class Mockit
 		foreach($refectClass->getProperties() as $property) /* @var $property ReflectionProperty */
 		{
 			$docComment = $property->getDocComment();
-			if(preg_match('/\@var Mock_(\S+)(.+)\n/',$docComment, $matches))
+			if(preg_match('/\@var Mock_(\S+)(?:\s(.+))?\n/',$docComment, $matches))
 			{
 				$property->setAccessible(true);
 				$uniqueId = null;
-				if(preg_match('/#([\S]+)/', $matches[2],$idMatches))
+				if(isset($matches[2]) && preg_match('/#([\S]+)/', $matches[2],$idMatches))
 				{
 					$uniqueId = $idMatches[1];
 				}
 				$mockit = new Mockit($matches[1], $uniqueId);
-				if(strpos($matches[2],"recursive") !== false)
+				if(isset($matches[2]))
 				{
-					$mockit->recursive();
-				}
-				if(strpos($matches[2],"dynamic") !== false)
-				{
-					$mockit->dynamic();
-				}
-				if(strpos($matches[2],"outOfOrder") !== false)
-				{
-					$mockit->outOfOrder();
+					if(strpos($matches[2],"recursive") !== false)
+					{
+						$mockit->recursive();
+					}
+					if(strpos($matches[2],"dynamic") !== false)
+					{
+						$mockit->dynamic();
+					}
+					if(strpos($matches[2],"outOfOrder") !== false)
+					{
+						$mockit->outOfOrder();
+					}
 				}
 
 				$property->setValue($testClass, $mockit);
