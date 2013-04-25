@@ -49,7 +49,12 @@ class MockitTestCase extends PHPUnit_Framework_TestCase
 	{
 		return new NotMatcher($childMatcher);
 	}
-	
+
+	public function type($type)
+	{
+		return new MockitTypeMatcher($type);
+	}
+
 	/**
 	 * @return CaptorMatcher
 	 */

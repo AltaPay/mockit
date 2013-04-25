@@ -20,6 +20,7 @@ require_once(dirname(__FILE__).'/matchers/MockitRegexMatcher.class.php');
 require_once(dirname(__FILE__).'/matchers/MockitEqualsMatcher.class.php');
 require_once(dirname(__FILE__).'/matchers/MockitAnyMatcher.class.php');
 require_once(dirname(__FILE__).'/matchers/MockitSameMatcher.class.php');
+require_once(dirname(__FILE__).'/matchers/MockitTypeMatcher.class.php');
 require_once(dirname(__FILE__).'/matchers/CaptorMatcher.class.php');
 require_once(dirname(__FILE__).'/matchers/NotMatcher.class.php');
 require_once(dirname(__FILE__).'/matchers/MockitDelegateMatcher.class.php');

@@ -303,7 +303,7 @@ class Mockit
 		return self::$verificationMatches[count(self::$verificationMatches)-1];
 	}
 	
-	public function getVerificationMatches()
+	public static function getVerificationMatches()
 	{
 		return self::$verificationMatches;
 	}
