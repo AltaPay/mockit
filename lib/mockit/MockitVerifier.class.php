@@ -67,6 +67,10 @@ class MockitVerifier
 		{
 			$this->throwException($foundCount,$methodFoundCount, $methodMatchResults);
 		}
+		else if($this->expectedCount == 0 && (!(is_null($this->expectedCount) && $methodFoundCount == $foundCount) && $foundCount > $this->expectedCount))
+		{
+			$this->throwException($foundCount,$methodFoundCount, $methodMatchResults);
+		}
 		
 		if(!$this->mock->getOutOfOrder())
 		{
