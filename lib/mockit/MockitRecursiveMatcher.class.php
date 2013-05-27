@@ -14,17 +14,12 @@ class MockitRecursiveMatcher
 		
 		foreach($this->mock->getRecursiveMocks() as $recursiveEvent) /* @var $recursiveEvent MockitRecursiveEvent */ 
 		{ 
-			if($this->mock !== $recursiveEvent->getEvent()->getMock() || $this->event->getName() != $recursiveEvent->getEvent()->getName())
-			{
-				continue;
-			}
-			
-			if($this->event->getArguments() == $recursiveEvent->getEvent()->getArguments())
+			if($this->event->matches($recursiveEvent->getEvent())->matches() || $recursiveEvent->getEvent()->matches($this->event)->matches())
 			{
 				return $recursiveEvent->getMock();
 			}
 		}
-		
+
 		$mock = $this->mock->getRecursiveMockForMethod($this->event);
 		if(is_array($mock))
 		{
