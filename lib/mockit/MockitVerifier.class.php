@@ -34,8 +34,33 @@ class MockitVerifier
 	
 	public function __call($name, $arguments)
 	{
+        $clazz = new ReflectionClass($this->mock->getClassname());
+        $method = $clazz->getMethod($name); /* @var $method ReflectionMethod */
+        if(count($method->getParameters()) != 0)
+        {
+            $methodParameters = $method->getParameters();
+            for($i=0;$i<count($method->getParameters());$i++)
+            {
+                if(!isset($arguments[$i]))
+                {
+                    $methodParameter = $methodParameters[$i]; /* @var $methodParameter ReflectionParameter */
+
+                    if($methodParameter->getDefaultValue() !== null)
+                    {
+                        $arguments[$i] = $methodParameter->getDefaultValue();
+                    }
+                    else
+                    {
+                        throw new Exception('missing parameter: '.($i+1).' ('.$methodParameter->getName().') for method: '.$method->getName().' in class: '.$clazz->getName());
+                    }
+                }
+            }
+        }
+
 		$this->event = new MockitEvent($this->mock,$name, $arguments, count($this->mock->getVerificationMatches()));
-		
+
+
+
 		$foundCount = 0;
 		$methodFoundCount = 0;
 		$methodMatchResults = array();
