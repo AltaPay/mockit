@@ -19,13 +19,30 @@ class MockitMatchResult
 		{
 			$this->matches = false;
 		}
-		if($this->matches && is_array($expected->getArguments()))
+		if($this->methodMatches && $this->matches && is_array($expected->getArguments()))
 		{
-			$actualArguments = $actual->getArguments();
-			foreach($expected->getArguments() as $i => $argument)
-			{
-				$this->parameterMatch($argument, @$actualArguments[$i]);
-			}
+            if($expected->getMock()->isDynamic())
+            {
+                $actualArguments = $actual->getArguments();
+                foreach($expected->getArguments() as $i => $argument)
+                {
+                    $this->parameterMatch(null,$argument, @$actualArguments[$i]);
+                }
+            }
+            else
+            {
+                $method = $expected->getMock()->getReflectionClass()->getMethod($expected->getName());
+                $methodParameters = $method->getParameters();
+                $actualArguments = $actual->getArguments();
+                foreach($expected->getArguments() as $i => $argument)
+                {
+                    if(!isset($methodParameters[$i]))
+                    {
+                        throw new Exception("A parameter was unexpectedly expected when calling: ".$expected->eventDescription());
+                    }
+                    $this->parameterMatch($methodParameters[$i],$argument, @$actualArguments[$i]);
+                }
+            }
 		}
 	}
 	
@@ -52,9 +69,9 @@ class MockitMatchResult
 		$this->actualName = $actual;
 	}
 	
-	private function parameterMatch($expected, $actual)
+	private function parameterMatch(ReflectionParameter $reflectionParameter=null, $expected, $actual)
 	{
-		$parameterMatch = new MockitParameterMatchResult($expected, $actual);
+		$parameterMatch = new MockitParameterMatchResult($reflectionParameter, $expected, $actual);
 		if(!$parameterMatch->matches())
 		{
 			$this->matches = false;

@@ -43,6 +43,11 @@ class Mockit
 			
 		}
 	}
+
+    public function getReflectionClass()
+    {
+        return $this->class;
+    }
 	
 	private function generateUniqueId()
 	{
@@ -491,7 +496,17 @@ class Mockit
 		}
 		return $classlessArgs;
 	}
-	
+
+    public function isRecursive()
+    {
+        return $this->recursive;
+    }
+
+    public function isDynamic()
+    {
+        return $this->dynamic;
+    }
+
 	public static function describeArgument($argument)
 	{
 		if($argument instanceof IMockitMatcher)

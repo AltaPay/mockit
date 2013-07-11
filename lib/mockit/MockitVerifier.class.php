@@ -45,13 +45,10 @@ class MockitVerifier
                 {
                     $methodParameter = $methodParameters[$i]; /* @var $methodParameter ReflectionParameter */
 
-                    if($methodParameter->getDefaultValue() !== null)
+
+                    if($methodParameter->isOptional())
                     {
                         $arguments[$i] = $methodParameter->getDefaultValue();
-                    }
-                    else
-                    {
-                        throw new Exception('missing parameter: '.($i+1).' ('.$methodParameter->getName().') for method: '.$method->getName().' in class: '.$clazz->getName());
                     }
                 }
             }

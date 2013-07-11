@@ -9,11 +9,11 @@ class MockitParameterMatchResult
 	private $matcher;
 	private $actual;
 	
-	public function __construct($expected, $actual)
+	public function __construct(ReflectionParameter $reflectionParameter=null,$expected, $actual)
 	{
 		if(!($expected instanceof IMockitMatcher))
 		{
-			if(is_object($expected))
+			if(is_object($expected) || ($reflectionParameter != null && $reflectionParameter->getClass() != null))
 			{
 				$expected = new MockitSameMatcher($expected);
 			}
