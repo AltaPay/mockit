@@ -21,28 +21,28 @@ class MockitMatchResult
 		}
 		if($this->methodMatches && $this->matches && is_array($expected->getArguments()))
 		{
-            if($expected->getMock()->isDynamic())
-            {
-                $actualArguments = $actual->getArguments();
-                foreach($expected->getArguments() as $i => $argument)
-                {
-                    $this->parameterMatch(null,$argument, @$actualArguments[$i]);
-                }
-            }
-            else
-            {
-                $method = $expected->getMock()->getReflectionClass()->getMethod($expected->getName());
-                $methodParameters = $method->getParameters();
-                $actualArguments = $actual->getArguments();
-                foreach($expected->getArguments() as $i => $argument)
-                {
-                    if(!isset($methodParameters[$i]))
-                    {
-                        throw new Exception("A parameter was unexpectedly expected when calling: ".$expected->eventDescription());
-                    }
-                    $this->parameterMatch($methodParameters[$i],$argument, @$actualArguments[$i]);
-                }
-            }
+			if($expected->getMock()->isDynamic())
+			{
+				$actualArguments = $actual->getArguments();
+				foreach($expected->getArguments() as $i => $argument)
+				{
+					$this->parameterMatch(null,$argument, @$actualArguments[$i]);
+				}
+			}
+			else
+			{
+				$method = $expected->getMock()->getReflectionClass()->getMethod($expected->getName());
+				$methodParameters = $method->getParameters();
+				$actualArguments = $actual->getArguments();
+				foreach($expected->getArguments() as $i => $argument)
+				{
+					if(!isset($methodParameters[$i]))
+					{
+						throw new Exception("A parameter was unexpectedly expected when calling: ".$expected->eventDescription());
+					}
+					$this->parameterMatch($methodParameters[$i],$argument, @$actualArguments[$i]);
+				}
+			}
 		}
 	}
 	
