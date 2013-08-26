@@ -389,15 +389,30 @@ class Mockit
 				{
 					continue;
 				}
+
 				$tmpl .= $this->getMethodSignature($class, $method);
 				$tmpl .= '{'."\n";
 				if(count($this->getClasslessArgs($class, $method)) == 0)
 				{
 					$tmpl .= "\tif(count(func_get_args()) > 0){ throw new Exception('Method ".$class->getName()."->".$method->getName()."() was called with arguments even though it takes none'); }\n";
 				}
-				$tmpl .= "\t".'$event = new MockitEvent($this->mock, "'.$method->getName().'", array('.implode(',',$this->getClasslessArgs($class, $method)).'),count($this->mock->getEvents()));'."\n";
-				$tmpl .= "\t".'$result = $this->mock->process($event);'."\n";
-				$tmpl .= "\t".'if($this->mock->haveStubEvent($event)) { return $result; } else { return parent::'.$method->getName().'('.implode(',',$this->getClasslessArgs($class, $method)).'); } '."\n";
+				if($method->name == '__call')
+				{
+					$tmpl .= "\t".'if($this->mock->isDynamic()) {'."\n";
+
+					$tmpl .= "\t\t".'$args = func_get_args();'."\n";
+					$tmpl .= "\t\t".'$event = new MockitEvent($this->mock, $args[0], $args[1],count($this->mock->getEvents()));'."\n";
+					$tmpl .= "\t\t".'$result = $this->mock->process($event);'."\n";
+					$tmpl .= "\t\t".'if($this->mock->haveStubEvent($event)) { return $result; } else { return parent::'.$method->getName().'('.implode(',',$this->getClasslessArgs($class, $method)).'); } '."\n";
+					$tmpl .= "\t".'}'."\n";
+					$tmpl .= "\t".'else'."\n";
+				}
+				$tmpl .= "\t".'{'."\n";
+				$tmpl .= "\t\t".'$event = new MockitEvent($this->mock, "'.$method->getName().'", array('.implode(',',$this->getClasslessArgs($class, $method)).'),count($this->mock->getEvents()));'."\n";
+				$tmpl .= "\t\t".'$result = $this->mock->process($event);'."\n";
+				$tmpl .= "\t\t".'if($this->mock->haveStubEvent($event)) { return $result; } else { return parent::'.$method->getName().'('.implode(',',$this->getClasslessArgs($class, $method)).'); } '."\n";
+				$tmpl .= "\t".'}'."\n";
+
 				$tmpl .= '}'."\n";
 				
 			}
