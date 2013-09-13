@@ -18,7 +18,7 @@ class CaptorMatcher
 
 	function matchDescription($other)
 	{
-		return $other.' matches anything';
+		return (is_object($other) ? get_class($other) : $other).' matches anything';
 	}
 	
 	public function description()

@@ -35,24 +35,27 @@ class MockitVerifier
 	public function __call($name, $arguments)
 	{
         $clazz = new ReflectionClass($this->mock->getClassname());
-        $method = $clazz->getMethod($name); /* @var $method ReflectionMethod */
-        if(count($method->getParameters()) != 0)
-        {
-            $methodParameters = $method->getParameters();
-            for($i=0;$i<count($method->getParameters());$i++)
-            {
-                if(!isset($arguments[$i]))
-                {
-                    $methodParameter = $methodParameters[$i]; /* @var $methodParameter ReflectionParameter */
+		if($clazz->hasMethod($name))
+		{
+	        $method = $clazz->getMethod($name); /* @var $method ReflectionMethod */
+	        if(count($method->getParameters()) != 0)
+	        {
+	            $methodParameters = $method->getParameters();
+	            for($i=0;$i<count($method->getParameters());$i++)
+	            {
+	                if(!isset($arguments[$i]))
+	                {
+	                    $methodParameter = $methodParameters[$i]; /* @var $methodParameter ReflectionParameter */
 
 
-                    if($methodParameter->isOptional())
-                    {
-                        $arguments[$i] = $methodParameter->getDefaultValue();
-                    }
-                }
-            }
-        }
+	                    if($methodParameter->isOptional())
+	                    {
+	                        $arguments[$i] = $methodParameter->getDefaultValue();
+	                    }
+	                }
+	            }
+	        }
+		}
 
 		$this->event = new MockitEvent($this->mock,$name, $arguments, count($this->mock->getVerificationMatches()));
 
