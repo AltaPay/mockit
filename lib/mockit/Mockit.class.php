@@ -441,7 +441,10 @@ class Mockit
 		}
 		return $object->__oid__;
 	}
-	
+
+	/**
+	 * There is a duplicate of this method in AopWrapperGenerator
+	 */
 	private function getMethodSignature(ReflectionClass $class, ReflectionMethod $method)
 	{
 		$tmpl = ($method->isPublic() ? 'public' : ($method->isProtected() ? 'protected' : 'private')).' function '.$method->name.'(';
