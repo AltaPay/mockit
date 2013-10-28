@@ -467,7 +467,7 @@ class Mockit
 				$paramString .= '&';
 			}
 			$paramString .= '$'.$parameter->getName();
-			
+
 			if($parameter->isDefaultValueAvailable())
 			{
 				switch(gettype($parameter->getDefaultValue()))
@@ -495,6 +495,10 @@ class Mockit
 					
 				}
 				
+			}
+			else if($parameter->allowsNull())
+			{
+				$paramString .= ' = null';
 			}
 			$args[] = $paramString;
 			$classlessArgs[] = '$'.$parameter->getName();
