@@ -68,4 +68,11 @@ class MockitTestCase extends PHPUnit_Framework_TestCase
 	{
 		return new MockitDelegateMatcher($delegate);
 	}
+
+	public function xmlDelegate($content)
+	{
+		return $this->delegate(function($var) use ($content) {
+			return $var instanceof SimpleXMLExtended && (string)$var == $content;
+		});
+	}
 }
