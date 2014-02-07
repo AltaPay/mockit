@@ -371,6 +371,27 @@ class MockTest
 		$this->assertEquals('din mors hat', $instance->doIt('whatever'));
 		$this->assertEquals('din mors hat2', $instance2->doIt('whatever'));
 	}
+
+
+
+	public function test_noFurtherInvocations_successWhenNoInteractions()
+	{
+		$mock = $this->getMockit('MyDummy')->recursive();
+		$mock->instance();
+
+		$mock->noFurtherInvocations();
+	}
+
+	public function test_noFurtherInvocations_successWhenNoInteractionsAfterMatchedInteractions()
+	{
+		$mock = $this->getMockit('MyDummy')->recursive();
+
+
+		$mock->instance()->getDummy();
+
+		$mock->once()->getDummy();
+		$mock->noFurtherInvocations();
+	}
 }
 
 

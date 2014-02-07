@@ -114,6 +114,9 @@ class Mockit
 		return new MockitVerifier($this, null, true);
 	}
 
+	/**
+	 * @return MockitEvent[]
+	 */
 	public function getUnmatchedEvents()
 	{
 		if(is_null(self::$unmatchedEvents))
@@ -200,6 +203,17 @@ class Mockit
 	public function with()
 	{
 		return new MockitRecursiveMatcher($this,$this->class);
+	}
+
+	public function noFurtherInvocations()
+	{
+		foreach(self::getUnmatchedEvents() as $event)
+		{
+			if($event->getMock() === $this)
+			{
+				throw new MockitVerificationException('Unexpected invocation on mock: '.$event->eventDescription());
+			}
+		}
 	}
 	
 	public function haveStubEvent(MockitEvent $event)

@@ -175,6 +175,32 @@ class MockVerifyFailingTests
 
 		$mock->with()->doIt('1')->doSomething();
 	}
+
+	/**
+	 * @expectedException MockitVerificationException
+	 */
+	public function test_noFurtherInvocations_throwExceptionIfThereIsAnInvocation()
+	{
+		$mock = $this->getMockit('MyDummy')->recursive();
+
+		$mock->instance()->getDummy();
+
+		$mock->noFurtherInvocations();
+	}
+
+	/**
+	 * @expectedException MockitVerificationException
+	 */
+	public function test_noFurtherInvocations_throwExceptionIfThereIsFurtherInvocations()
+	{
+		$mock = $this->getMockit('MyDummy')->recursive();
+
+		$mock->instance()->getDummy();
+		$mock->instance()->getDummy();
+
+		$mock->once()->getDummy();
+		$mock->noFurtherInvocations();
+	}
 }
 
 

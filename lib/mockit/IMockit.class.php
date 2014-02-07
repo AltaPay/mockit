@@ -26,4 +26,6 @@ interface IMockit
 	function instance();
 	
 	function with();
+
+	function noFurtherInvocations();
 }
