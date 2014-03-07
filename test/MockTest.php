@@ -413,15 +413,6 @@ class MockTest
 		$this->assertEquals('testmock->addDummy(testmock)', Mockit::uniqueid($instance->addDummy($instance)));
 	}
 
-	public function test_onceAndOnlyOnce()
-	{
-		$mock = $this->getMockit('MyDummy')->recursive();
-
-		$mock->instance()->getDummy();
-		$mock->instance()->getDummy();
-
-		$mock->once()->getDummy();
-	}
 }
 
 

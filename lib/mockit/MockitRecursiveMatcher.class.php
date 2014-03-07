@@ -18,20 +18,23 @@ class MockitRecursiveMatcher
 		{
 			$m = $recursiveEvent->getEvent()->matches($this->event);
 			$m2 = $this->event->matches($recursiveEvent->getEvent());
-			if($m->matches() && $m2->matches() && ($m->getMatchScore() == $m2->getMatchScore()))
+
+			if($m->matches() && ($m->getMatchScore() == (int)$m->getMatchScore()))
 			{
 				if(is_null($bestMatch) || $bestMatch->getMatchScore() < $m->getMatchScore())
 				{
 					$bestMatch = $m;
 					$bestMatchMock = $recursiveEvent->getMock();
 				}
+			}
+			if($m2->matches() && ($m2->getMatchScore() == (int)$m2->getMatchScore()))
+			{
 				if(is_null($bestMatch) || $bestMatch->getMatchScore() < $m2->getMatchScore())
 				{
 					$bestMatch = $m2;
 					$bestMatchMock = $this->event->getMock();
 				}
 			}
-
 		}
 		if(!is_null($bestMatch))
 		{
