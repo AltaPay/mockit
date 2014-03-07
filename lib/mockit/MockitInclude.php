@@ -3,6 +3,7 @@
 require_once(dirname(__FILE__).'/IMockitStubEvent.class.php');
 require_once(dirname(__FILE__).'/matchers/IMockitMatcher.class.php');
 require_once(dirname(__FILE__).'/MockitVerificationException.class.php');
+require_once(dirname(__FILE__).'/MockitOutOfOrderInvokedException.class.php');
 require_once(dirname(__FILE__).'/MockitMatcher.class.php');
 require_once(dirname(__FILE__).'/MockitMatchResult.class.php');
 require_once(dirname(__FILE__).'/MockitStub.class.php');

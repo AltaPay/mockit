@@ -191,7 +191,7 @@ class MockitVerifier
 						$this->mock->shiftUnmatchedEvents();
 					}
 				}
-				else
+				else if($this->inOrderInvoke || ($this->expectedCount > 0))
 				{
 					throw new MockitVerificationException('Could not find match for: '.$this->event->eventDescription());
 				}
