@@ -143,10 +143,12 @@ class MockitVerifier
 						{
 							$matchesOne = true;
 						}
+						/*
 						if($verificationMatch->getVerificationEvent()->matches($this->event)->matches())
 						{
 							$thisMatchesOne = true;
 						}
+						*/
 					}
 					
 					$matchResult = $this->event->matches($nextUnmatchedEvent);

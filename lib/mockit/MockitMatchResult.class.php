@@ -28,12 +28,12 @@ class MockitMatchResult
 				$actualArguments = $actual->getArguments();
 				foreach($expected->getArguments() as $i => $argument)
 				{
-					$this->parameterMatch(null,$argument, @$actualArguments[$i], $i);
+					$this->parameterMatch(null,$argument, @$actualArguments[$i]);
 				}
 			}
 			else
 			{
-				$method = $expected->getMock()->getReflectionClass()->getMethod($expected->getName());
+				$method = $expected->getMock()->getReflectionClass( )->getMethod($expected->getName());
 				$methodParameters = $method->getParameters();
 				$actualArguments = $actual->getArguments();
 				foreach($expected->getArguments() as $i => $argument)
@@ -42,7 +42,7 @@ class MockitMatchResult
 					{
 						throw new Exception("A parameter was unexpectedly expected when calling: ".$expected->eventDescription());
 					}
-					$this->parameterMatch($methodParameters[$i],$argument, @$actualArguments[$i], $i);
+					$this->parameterMatch($methodParameters[$i],$argument, @$actualArguments[$i]);
 				}
 			}
 		}
@@ -71,7 +71,7 @@ class MockitMatchResult
 		$this->actualName = $actual;
 	}
 	
-	private function parameterMatch(ReflectionParameter $reflectionParameter=null, $expected, $actual, $parameterIndex)
+	private function parameterMatch(ReflectionParameter $reflectionParameter=null, $expected, $actual)
 	{
 		$parameterMatch = new MockitParameterMatchResult($reflectionParameter, $expected, $actual);
 		if(!$parameterMatch->matches())
