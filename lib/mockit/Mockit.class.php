@@ -245,20 +245,33 @@ class Mockit
 		}
 		if($this->recursive)
 		{
-			
+			$bestMatch = null; /* @var $bestMatch MockitMatchResult */
+			$bestMatchRecursiveEvent = null;
 			foreach($this->getRecursiveMocks() as $recursiveEvent) /* @var $recursiveEvent MockitRecursiveEvent */ 
 			{ 
 				if($this !== $recursiveEvent->getEvent()->getMock())
 				{
 					continue;
 				}
-				if($recursiveEvent->getEvent()->matches($event)->matches())
+				$m = $recursiveEvent->getEvent()->matches($event);
+				if($m->matches())
 				{
-					return $recursiveEvent->getMock()->instance();
+					if(is_null($bestMatch) || $bestMatch->getMatchScore() < $m->getMatchScore())
+					{
+						$bestMatchRecursiveEvent = $recursiveEvent;
+						$bestMatch = $m;
+					}
 				}
+			}
+			if(!is_null($bestMatch))
+			{
+				//print 'Real best match: '.$bestMatch->matchDescription().': '.$bestMatch->getMatchScore()."\n";
+				//print "found match for recursive mock: ".Mockit::uniqueid($bestMatchRecursiveEvent->getMock()->instance())."\n";
+				return $bestMatchRecursiveEvent->getMock()->instance();
 			}
 			
 			$mock = $this->getRecursiveMockForMethod($event);
+			//print 'Real creating new mock: '.Mockit::uniqueid($mock->instance())."\n";
 			if(is_array($mock))
 			{
 				return $mock;

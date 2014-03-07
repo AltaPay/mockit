@@ -8,6 +8,7 @@ class MockitParameterMatchResult
 	 */
 	private $matcher;
 	private $actual;
+	private $matchScore = 0;
 	
 	public function __construct(ReflectionParameter $reflectionParameter=null,$expected, $actual)
 	{
@@ -24,6 +25,14 @@ class MockitParameterMatchResult
 		}
 		/* @var $expected IMockitMatcher */
 		$this->matches = $expected->matches($actual);
+		if($this->matches && ($expected instanceof MockitAnyMatcher))
+		{
+			$this->matchScore = 0.9;
+		}
+		else if($this->matches)
+		{
+			$this->matchScore = 1;
+		}
 		$this->matcher = $expected;
 		$this->actual = $actual;
 	}
@@ -32,9 +41,15 @@ class MockitParameterMatchResult
 	{
 		return $this->matches;
 	}
-	
+
+	public function getMatchScore()
+	{
+		return $this->matchScore;
+	}
+
 	public function matchDescription()
 	{
 		return $this->matcher->matchDescription($this->actual);
 	}
+
 }

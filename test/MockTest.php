@@ -282,7 +282,6 @@ class MockTest
 		$mock->with()->getDummy()->when()->doIt('1')->thenReturn('lol');
 		
 		$this->assertEquals('lol',$instance->getDummy()->doIt('1'));
-		
 		$mock->with()->getDummy()->once()->doIt('1');
 	}
 	
@@ -331,7 +330,7 @@ class MockTest
 		
 		$this->assertNull($instance->doIt('1'));
 	}
-	
+
 	public function testRecursiveMockWithSpecificOverriding()
 	{
 		$mock = $this->getMockit('MyDummy')->recursive();
@@ -386,11 +385,42 @@ class MockTest
 	{
 		$mock = $this->getMockit('MyDummy')->recursive();
 
-
 		$mock->instance()->getDummy();
 
 		$mock->once()->getDummy();
 		$mock->noFurtherInvocations();
+	}
+
+	public function test_matchTheAnyMatcherIfAMoreSpecificMatchIsNotAvailable()
+	{
+		$mock = $this->getMockit('MyDummy','testmock')->recursive();
+		$instance = $mock->instance();
+
+		$mock->with()->addDummy($instance)->when()->doIt($this->any())->thenReturn('wah');
+		$mock->with()->addDummy($this->any())->when()->doIt($this->any())->thenReturn('buh');
+
+		$this->assertEquals('testmock->addDummy(*anything*)', Mockit::uniqueid($instance->addDummy(new MyDummy())));
+	}
+
+	public function test_matchTheSpecificMatchIfAvailable()
+	{
+		$mock = $this->getMockit('MyDummy','testmock')->recursive();
+		$instance = $mock->instance();
+
+		$mock->with()->addDummy($this->any())->when()->doIt($this->any())->thenReturn('buh');
+		$mock->with()->addDummy($instance)->when()->doIt($this->any())->thenReturn('wah');
+
+		$this->assertEquals('testmock->addDummy(testmock)', Mockit::uniqueid($instance->addDummy($instance)));
+	}
+
+	public function test_onceAndOnlyOnce()
+	{
+		$mock = $this->getMockit('MyDummy')->recursive();
+
+		$mock->instance()->getDummy();
+		$mock->instance()->getDummy();
+
+		$mock->once()->getDummy();
 	}
 }
 

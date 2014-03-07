@@ -198,8 +198,21 @@ class MockVerifyFailingTests
 		$mock->instance()->getDummy();
 		$mock->instance()->getDummy();
 
-		$mock->once()->getDummy();
+		$mock->invoked()->getDummy();
 		$mock->noFurtherInvocations();
+	}
+
+	/**
+	 * @expectedException MockitVerificationException
+	 */
+	public function test_callingSameMockMethodTwiceWhenRestrictedToOnceFails()
+	{
+		$mock = $this->getMockit('MyDummy')->recursive();
+
+		$mock->instance()->getDummy();
+		$mock->instance()->getDummy();
+
+		$mock->once()->getDummy();
 	}
 }
 

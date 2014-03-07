@@ -11,13 +11,31 @@ class MockitRecursiveMatcher
 	public function __call($name, $arguments)
 	{
 		$this->event = new MockitEvent($this->mock,$name, $arguments, count($this->mock->getVerificationMatches()));
-		
-		foreach($this->mock->getRecursiveMocks() as $recursiveEvent) /* @var $recursiveEvent MockitRecursiveEvent */ 
+
+		$bestMatch = null; /* @var $bestMatch MockitMatchResult */
+		$bestMatchMock = null;
+		foreach($this->mock->getRecursiveMocks() as $recursiveEvent) /* @var $recursiveEvent MockitRecursiveEvent */
 		{
-			if($this->event->matches($recursiveEvent->getEvent())->matches() || $recursiveEvent->getEvent()->matches($this->event)->matches())
+			$m = $recursiveEvent->getEvent()->matches($this->event);
+			$m2 = $this->event->matches($recursiveEvent->getEvent());
+			if($m->matches() && $m2->matches() && ($m->getMatchScore() == $m2->getMatchScore()))
 			{
-				return $recursiveEvent->getMock();
+				if(is_null($bestMatch) || $bestMatch->getMatchScore() < $m->getMatchScore())
+				{
+					$bestMatch = $m;
+					$bestMatchMock = $recursiveEvent->getMock();
+				}
+				if(is_null($bestMatch) || $bestMatch->getMatchScore() < $m2->getMatchScore())
+				{
+					$bestMatch = $m2;
+					$bestMatchMock = $this->event->getMock();
+				}
 			}
+
+		}
+		if(!is_null($bestMatch))
+		{
+			return $bestMatchMock;
 		}
 
 		$mock = $this->mock->getRecursiveMockForMethod($this->event);

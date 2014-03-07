@@ -87,8 +87,8 @@ class MockitVerifier
 				$methodMatchResults[$methodFoundCount] = $matchResult;
 			}
 		}
-		
-		if(!(is_null($this->expectedCount) && $methodFoundCount == $foundCount) && $foundCount < $this->expectedCount)
+
+		if(!(is_null($this->expectedCount) && $methodFoundCount == $foundCount) && $foundCount != $this->expectedCount)
 		{
 			$this->throwException($foundCount,$methodFoundCount, $methodMatchResults);
 		}
@@ -120,7 +120,7 @@ class MockitVerifier
 				$this->mock->addVerificationMatch($actualMatchResult);
 			}
 			
-			if($this->inOrderInvoke)
+			//if($this->inOrderInvoke)
 			{
 //				print "\nChecking event:".$this->event->eventDescription()." (".count($this->mock->getUnmatchedEvents()).")\n";
 				//while(!is_null($nextUnmatchedEvent = $this->mock->nextUnmatchedEvent()))
