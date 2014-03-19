@@ -3,27 +3,27 @@
 class MockitVerifier
 {
 	private $expectedCount;
-	
+
 	/**
 	 * @var Mockit
 	 */
 	private $mock;
-	
+
 	/**
-	 * 
+	 *
 	 * @var MockitEvent
 	 */
 	private $event;
-	
+
 	private $inOrderInvoke = false;
-	
+
 	public function __construct(Mockit $mock,$expectedCount,$inOrderInvoke=false)
 	{
 		$this->mock = $mock;
 		$this->expectedCount = $expectedCount;
 		$this->inOrderInvoke = $inOrderInvoke;
 	}
-	
+
 	/**
 	 * @return MockitEvent
 	 */
@@ -31,30 +31,30 @@ class MockitVerifier
 	{
 		return $this->event;
 	}
-	
+
 	public function __call($name, $arguments)
 	{
-        $clazz = new ReflectionClass($this->mock->getClassname());
+		$clazz = new ReflectionClass($this->mock->getClassname());
 		if($clazz->hasMethod($name))
 		{
-	        $method = $clazz->getMethod($name); /* @var $method ReflectionMethod */
-	        if(count($method->getParameters()) != 0)
-	        {
-	            $methodParameters = $method->getParameters();
-	            for($i=0;$i<count($method->getParameters());$i++)
-	            {
-	                if(!isset($arguments[$i]))
-	                {
-	                    $methodParameter = $methodParameters[$i]; /* @var $methodParameter ReflectionParameter */
+			$method = $clazz->getMethod($name); /* @var $method ReflectionMethod */
+			if(count($method->getParameters()) != 0)
+			{
+				$methodParameters = $method->getParameters();
+				for($i=0;$i<count($method->getParameters());$i++)
+				{
+					if(!isset($arguments[$i]))
+					{
+						$methodParameter = $methodParameters[$i]; /* @var $methodParameter ReflectionParameter */
 
 
-	                    if($methodParameter->isOptional())
-	                    {
-	                        $arguments[$i] = $methodParameter->getDefaultValue();
-	                    }
-	                }
-	            }
-	        }
+						if($methodParameter->isOptional())
+						{
+							$arguments[$i] = $methodParameter->getDefaultValue();
+						}
+					}
+				}
+			}
 		}
 
 		$this->event = new MockitEvent($this->mock,$name, $arguments, count($this->mock->getVerificationMatches()));
@@ -71,7 +71,7 @@ class MockitVerifier
 			{
 				continue;
 			}
-				
+
 			$matchResult = $this->event->matches($event);
 			if($matchResult->matches())
 			{
@@ -96,15 +96,15 @@ class MockitVerifier
 		{
 			$this->throwException($foundCount,$methodFoundCount, $methodMatchResults);
 		}
-		
+
 		if(!$this->mock->getOutOfOrder())
 		{
 //			print "Matching for event: ";
 //			print $this->event->eventDescription()."\n";
-			
+
 			$lastMatch = $this->mock->getLastVerificationMatch(); /* @var $lastMatch MockitMatchResult */
 			$actualMatchResult = $this->getRelevantMatchResult($matchResults);
-			
+
 //			print "last match description: ".(is_null($lastMatch) ? "NULL" : $lastMatch->matchDescription())."\n";
 //			print "actual match description: ".(is_null($actualMatchResult) ? "NULL" : $actualMatchResult->matchDescription())."\n";
 			if(!is_null($actualMatchResult))
@@ -116,10 +116,10 @@ class MockitVerifier
 						throw new MockitOutOfOrderException($lastMatch, $actualMatchResult);
 					}
 				}
-			
+
 				$this->mock->addVerificationMatch($actualMatchResult);
 			}
-			
+
 			//if($this->inOrderInvoke)
 			{
 //				print "\nChecking event:".$this->event->eventDescription()." (".count($this->mock->getUnmatchedEvents()).")\n";
@@ -134,7 +134,7 @@ class MockitVerifier
 					{
 						throw new Exception("No more events in the events queue, but we expected ".$this->event->eventDescription()." to be called");
 					}
-					
+
 					$matchesOne = false;
 					$thisMatchesOne= false;
 					foreach(Mockit::getVerificationMatches() as $verificationMatch) /* @var $verificationMatch MockitMatchResult */
@@ -150,7 +150,7 @@ class MockitVerifier
 						}
 						*/
 					}
-					
+
 					$matchResult = $this->event->matches($nextUnmatchedEvent);
 //					print "Matches?: ".$nextUnmatchedEvent->eventDescription()." == ".$this->event->eventDescription()."\n";
 					if($matchesOne && !$matchResult->matches())
@@ -183,7 +183,7 @@ class MockitVerifier
 //					{
 //						print 'wtf?!'."\n";	
 //					}
-				} 
+				}
 				if($found)
 				{
 					for($i=0;$i<$del;$i++)
@@ -191,12 +191,12 @@ class MockitVerifier
 						$this->mock->shiftUnmatchedEvents();
 					}
 				}
-				else if($this->inOrderInvoke || ($this->expectedCount > 0))
+				else if($this->expectedCount > 0)
 				{
 					throw new MockitVerificationException('Could not find match for: '.$this->event->eventDescription());
 				}
-			
-			
+
+
 
 //				else
 //				{
@@ -215,15 +215,15 @@ class MockitVerifier
 //				}
 //				print "\n";
 
-				
+
 //				$ex = new Exception("these events are like not like eachother... man: ");
 //				print $ex->getTraceAsString();
 			}
-			
+
 		}
-	
+
 	}
-	
+
 	/**
 	 * @return MockitMatchResult
 	 */
@@ -240,12 +240,12 @@ class MockitVerifier
 					break;
 				}
 			}
-			
+
 		}
-		
+
 		return @$matchResults[$index];
 	}
-	
+
 	private function throwException($foundCount, $methodFoundCount, $methodMatchResults)
 	{
 		if(is_null($this->expectedCount))
@@ -269,7 +269,7 @@ class MockitVerifier
 			throw new MockitVerificationException('Method was expected to be called with the correct arguments '.$this->expectedCount.' times, but was called '.$methodFoundCount.' times but only '.$foundCount.' with the correct arguments. Incorrect matches were: '."\n".$this->getArgumentDescriptions($methodMatchResults));
 		}
 	}
-	
+
 	private function getArgumentDescriptions($methodMatchResults)
 	{
 		$result = array();
