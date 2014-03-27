@@ -404,7 +404,7 @@ class Mockit
 			$tmpl .= '$this->mock = $mock;'."\n";
 			foreach($class->getProperties() as  $property) /* @var $property ReflectionProperty */
 			{
-				if($property->isPublic() || $property->isProtected())
+				if(($property->isPublic() || $property->isProtected()) && !$property->isStatic())
 				{
 					$tmpl .= '$this->'.$property->getName().' = $original->'.$property->getName().';'."\n";
 				}
