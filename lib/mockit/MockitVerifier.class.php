@@ -97,6 +97,11 @@ class MockitVerifier
 			$this->throwException($foundCount,$methodFoundCount, $methodMatchResults);
 		}
 
+		/*
+		$ex = new Exception();
+		$trace = $ex->getTrace();
+		print $trace[0]['file'].'('.$trace[0]['line'].')'."\n";
+*/
 		if(!$this->mock->getOutOfOrder())
 		{
 //			print "Matching for event: ";
@@ -122,12 +127,14 @@ class MockitVerifier
 
 			//if($this->inOrderInvoke)
 			{
+
 //				print "\nChecking event:".$this->event->eventDescription()." (".count($this->mock->getUnmatchedEvents()).")\n";
 				//while(!is_null($nextUnmatchedEvent = $this->mock->nextUnmatchedEvent()))
 				$del=0;
 				$found = false;
 				foreach($this->mock->getUnmatchedEvents() as $nextUnmatchedEvent) /* @var $nextUnmatchedEvent MockitEvent */
 				{
+
 					$del++;
 //					$nextUnmatchedEvent = $this->mock->nextUnmatchedEvent();
 					if(is_null($nextUnmatchedEvent))
@@ -167,22 +174,25 @@ class MockitVerifier
 						$found = true;
 						break;
 					}
-//					else if(!$thisMatchesOne)
-//					{
-//						print "this does not match any: ".$this->event->eventDescription()."\n";
+					/*
+					else if(!$thisMatchesOne)
+					{
+						print "this does not match any: ".$this->event->eventDescription()."\n";
+						continue;
+					}
+
+					else if(!$matchesOne)
+					{
+						print "does not match any: ".$nextUnmatchedEvent->eventDescription()."\n";
+						continue;
+//						$this->mock->shiftUnmatchedEvents();
 //						continue;
-//					}
-//					else if(!$matchesOne)
-//					{
-//						print "does not match any: ".$nextUnmatchedEvent->eventDescription()."\n";
-//						continue;
-////						$this->mock->shiftUnmatchedEvents();
-////						continue;
-//					}
-//					else
-//					{
-//						print 'wtf?!'."\n";	
-//					}
+					}
+					else
+					{
+						print 'wtf?!'."\n";
+					}
+					*/
 				}
 				if($found)
 				{
@@ -191,7 +201,7 @@ class MockitVerifier
 						$this->mock->shiftUnmatchedEvents();
 					}
 				}
-				else if($this->expectedCount > 0)
+				else if($this->expectedCount > 0 || is_null($this->expectedCount))
 				{
 					throw new MockitVerificationException('Could not find match for: '.$this->event->eventDescription());
 				}
