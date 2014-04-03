@@ -413,6 +413,42 @@ class MockTest
 		$this->assertEquals('testmock->addDummy(testmock)', Mockit::uniqueid($instance->addDummy($instance)));
 	}
 
+	public function testAnyNumberOfCorrectInvocationsButOneIncorrect()
+	{
+		$mock = $this->getMockit('MyDummy');
+		$instance = $mock->instance();
+
+		$instance->doIt('asdf');
+		$instance->doIt('asdf');
+		$instance->doIt('asdf2');
+		$instance->doIt('asdf');
+
+		$mock->any()->doIt('asdf');
+	}
+
+	public function test_invokingTheSameMethodTwiceWithDifferentArgumentsIsMatchedCorrectlyWithInvoked()
+	{
+		$mock = $this->getMockit('MyDummy');
+		$instance = $mock->instance();
+
+		$instance->doIt('hat1');
+		$instance->doIt('hat2');
+
+		$mock->invoked()->doIt('hat1');
+		$mock->invoked()->doIt('hat2');
+	}
+
+	public function test_invokingTheSameMethodTwiceWithDifferentArgumentsIsMatchedCorrectlyWithOnce()
+	{
+		$mock = $this->getMockit('MyDummy');
+		$instance = $mock->instance();
+
+		$instance->doIt('hat1');
+		$instance->doIt('hat2');
+
+		$mock->once()->doIt('hat1');
+		$mock->once()->doIt('hat2');
+	}
 }
 
 

@@ -88,11 +88,11 @@ class MockitVerifier
 			}
 		}
 
-		if(!(is_null($this->expectedCount) && $methodFoundCount == $foundCount) && $foundCount != $this->expectedCount)
+		if(!(is_null($this->expectedCount)/* && $methodFoundCount == $foundCount*/) && $foundCount != $this->expectedCount)
 		{
 			$this->throwException($foundCount,$methodFoundCount, $methodMatchResults);
 		}
-		else if($this->expectedCount == 0 && (!(is_null($this->expectedCount) && $methodFoundCount == $foundCount) && $foundCount > $this->expectedCount))
+		else if($this->expectedCount === 0 && (!(is_null($this->expectedCount) && $methodFoundCount == $foundCount) && $foundCount > $this->expectedCount))
 		{
 			$this->throwException($foundCount,$methodFoundCount, $methodMatchResults);
 		}

@@ -4,18 +4,7 @@ require dirname(__FILE__).'/../autoload.php';
 class MockFailingTests
 	extends MockitTestCase
 {
-	public function testAnyNumberOfCorrectInvocationsButOneIncorrect()
-	{
-		$mock = $this->getMockit('MyDummy');
-		$instance = $mock->instance();
-	
-		$instance->doIt('asdf');
-		$instance->doIt('asdf');
-		$instance->doIt('asdf2');
-		$instance->doIt('asdf');
-	
-		$mock->any()->doIt('asdf');
-	}
+
 	
 	public function testFailingPassMultipleArguments()
 	{
