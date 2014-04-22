@@ -203,7 +203,7 @@ class MockitVerifier
 				}
 				else if($this->expectedCount > 0 || is_null($this->expectedCount))
 				{
-					throw new MockitVerificationException('Could not find match for: '.$this->event->eventDescription());
+					throw new MockitVerificationException($this->event->eventDescription().' was not called');
 				}
 
 
