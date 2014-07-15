@@ -36,7 +36,7 @@ class MockHelperGenerator
 		$code .= "\t/**\n\t * @return Mock_implementation_".$className."\n\t */\n\tfunction once();\n\n";
 		$code .= "\t/**\n\t * @return Mock_implementation_".$className."\n\t */\n\tfunction invoked();\n\n";
 		$code .= "\t/**\n\t * @return Mock_implementation_".$className."\n\t */\n\tfunction never();\n\n";
-		$code .= "\t/**\n\tfunction noFurtherInvocations();\n\n";
+		$code .= "\tfunction noFurtherInvocations();\n\n";
 		$code .= "\t/**\n\t * @return ".$className."\n\t */\n\tfunction instance();\n\n";
 		$code .= "\t/**\n\t * @return Mock_with_implementation_".$className."\n\t */\n\tfunction with();\n\n";
 		$code .= "}\n";
