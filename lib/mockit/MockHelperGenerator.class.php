@@ -83,7 +83,6 @@ class MockHelperGenerator
 				&& (strpos($matches[1],'varchar') != 0)
 				&& (class_exists($matches[1]) || interface_exists($matches[1])))
 			{
-			{
 				$withImplementationCode .= "\t/**\n\t *  @return Mock_".$matches[1]."\n\t */\n\tfunction ".$method->getName()."(".implode(',',$parameters).");\n\n";
 
 			}
