@@ -79,12 +79,11 @@ class MockHelperGenerator
 			if(
 				preg_match('/\@return\s+(\S+)/',$method->getDocComment(), $matches)
 				&& !in_array($matches[1], array('void','mixed','string'))
-				&& (strpos($matches[1],'char') != 0)
-				&& (strpos($matches[1],'varchar') != 0)
+				&& (strpos($matches[1],'char') !== 0)
+				&& (strpos($matches[1],'varchar') !== 0)
 				&& (class_exists($matches[1]) || interface_exists($matches[1])))
 			{
 				$withImplementationCode .= "\t/**\n\t *  @return Mock_".$matches[1]."\n\t */\n\tfunction ".$method->getName()."(".implode(',',$parameters).");\n\n";
-
 			}
 			$implementationCode .= "\t/**\n\t * @return MockitStub\n\t*/\n\tfunction ".$method->getName()."(".implode(',',$parameters).");\n\n";
 		}
