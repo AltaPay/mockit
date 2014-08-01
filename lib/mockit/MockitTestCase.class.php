@@ -40,6 +40,11 @@ class MockitTestCase extends PHPUnit_Framework_TestCase
 	{
 		return new MockitRegexMatcher($regex);
 	}
+
+	public function xpath($xpath, $value)
+	{
+		return new MockitXpathMatcher($xpath, $value);
+	}
 	
 	public function equals($val)
 	{

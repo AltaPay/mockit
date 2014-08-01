@@ -18,6 +18,7 @@ require_once(dirname(__FILE__).'/MockitDelegateEvent.class.php');
 require_once(dirname(__FILE__).'/MockitVerifier.class.php');
 require_once(dirname(__FILE__).'/MockitRecursiveMatcher.class.php');
 require_once(dirname(__FILE__).'/matchers/MockitRegexMatcher.class.php');
+require_once(dirname(__FILE__).'/matchers/MockitXpathMatcher.class.php');
 require_once(dirname(__FILE__).'/matchers/MockitEqualsMatcher.class.php');
 require_once(dirname(__FILE__).'/matchers/MockitAnyMatcher.class.php');
 require_once(dirname(__FILE__).'/matchers/MockitSameMatcher.class.php');
