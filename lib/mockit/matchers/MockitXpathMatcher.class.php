@@ -48,7 +48,7 @@ class MockitXpathMatcher
 		{
 			$result = $this->xpathElementFound($other);
 
-			return 'xpath element found, but '.((string)$result[0]) .' !== '.$this->value;
+			return 'xpath element found, but '.((string)$result[0]) .' != '.$this->value;
 		}
 		else
 		{
