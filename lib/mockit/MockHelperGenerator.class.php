@@ -77,16 +77,22 @@ class MockHelperGenerator
 			}
 
 			if(
-				preg_match('/\@return\s+(\S+)/',$method->getDocComment(), $matches)
-				&& !in_array($matches[1], array('void','mixed','string'))
-				&& (strpos($matches[1],'char') !== 0)
-				&& (strpos($matches[1],'varchar') !== 0)
+				preg_match('/\@return\s+([\S]+?)(?:\|null)?\s*$/',$method->getDocComment(), $matches)
+				&& !in_array(strtolower($matches[1]), array('void','mixed','string','int','array','bool'))
+				&& (stripos($matches[1],'char') !== 0)
+				&& (stripos($matches[1],'varchar') !== 0)
+				&& (stripos($matches[1],'decimal') !== 0)
+				&& (stripos($matches[1],'enum') !== 0)
+				&& (strpos($matches[1],'[]') === false)
 				&& (class_exists($matches[1]) || interface_exists($matches[1])))
 			{
 				$withImplementationCode .= "\t/**\n\t *  @return Mock_".$matches[1]."\n\t */\n\tfunction ".$method->getName()."(".implode(',',$parameters).");\n\n";
 			}
+
 			$implementationCode .= "\t/**\n\t * @return MockitStub\n\t*/\n\tfunction ".$method->getName()."(".implode(',',$parameters).");\n\n";
 		}
+
+
 		$implementationCode .= "}\n\n";
 		$withImplementationCode .= "}\n\n";
 
