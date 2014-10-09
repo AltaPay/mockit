@@ -77,7 +77,7 @@ class MockHelperGenerator
 			}
 
 			if(
-				preg_match('/\@return\s+([\S]+?)(?:\|null)?\s*$/',$method->getDocComment(), $matches)
+				preg_match('/\@return\s+([^\s\|]+)(?:\|null)?/',$method->getDocComment(), $matches)
 				&& !in_array(strtolower($matches[1]), array('void','mixed','string','int','array','bool'))
 				&& (stripos($matches[1],'char') !== 0)
 				&& (stripos($matches[1],'varchar') !== 0)
