@@ -108,7 +108,7 @@ class MockitVerifier
 //			print $this->event->eventDescription()."\n";
 
 			$lastMatch = $this->mock->getLastVerificationMatch(); /* @var $lastMatch MockitMatchResult */
-			$actualMatchResult = $this->getRelevantMatchResult($matchResults);
+			$actualMatchResult = $this->getRelevantMatchResult($matchResults,$lastMatch);
 
 //			print "last match description: ".(is_null($lastMatch) ? "NULL" : $lastMatch->matchDescription())."\n";
 //			print "actual match description: ".(is_null($actualMatchResult) ? "NULL" : $actualMatchResult->matchDescription())."\n";
@@ -237,23 +237,36 @@ class MockitVerifier
 	/**
 	 * @return MockitMatchResult
 	 */
-	private function  getRelevantMatchResult($matchResults)
+	private function  getRelevantMatchResult($matchResults, MockitMatchResult $lastMatch = null)
 	{
 		$index = 0;
+		$found = false;
 		foreach($this->mock->getVerificationMatches() as $verificationMatch) /* @var $verificationMatch MockitMatchResult */
 		{
 			foreach($matchResults as $matchResult) /* @var $matchResult MockitMatchResult */
 			{
 				if($verificationMatch->getMatchedEvent() === $matchResult->getMatchedEvent())
 				{
+					$found = true;
 					$index++;
 					break;
 				}
 			}
-
 		}
 
+		if(!$found && !is_null($lastMatch))
+		{
+			foreach($matchResults as $matchResult) /* @var $matchResult MockitMatchResult */
+			{
+				if($matchResult->getMatchedEvent()->getIndex() > $lastMatch->getMatchedEvent()->getIndex())
+				{
+					return $matchResult;
+				}
+			}
+
+		}
 		return @$matchResults[$index];
+
 	}
 
 	private function throwException($foundCount, $methodFoundCount, $methodMatchResults)

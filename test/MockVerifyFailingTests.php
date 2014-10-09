@@ -134,9 +134,6 @@ class MockVerifyFailingTests
 	
 		$mock2->once()->doIt('2');
 		$mock->once()->doIt('1');
-		
-		$mock->once()->doIt('1');
-		$mock->once()->doIt('2');
 	}
 
 	/**

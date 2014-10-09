@@ -108,6 +108,24 @@ class MockInOrderTest
 		$mock->invoked()->getDummy();
 		$mock2->invoked()->getDummy();
 	}
+
+	public function test_inOrderWithMultipleIrrelevantAroundIt()
+	{
+		$mock = $this->getMockit('MyDummy');
+		$instance = $mock->instance();
+
+
+		$instance->getDummies();
+		$instance->doIt('asdf');
+		$instance->getDummy();
+		$instance->getDummies();
+		$instance->doIt('asdf');
+
+		$mock->invoked()->getDummy();
+		$mock->invoked()->getDummies();
+		$mock->invoked()->doIt('asdf');
+
+	}
 }
 
 
