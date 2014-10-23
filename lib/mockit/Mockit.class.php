@@ -523,7 +523,7 @@ class Mockit
 				}
 				
 			}
-			else if($parameter->allowsNull())
+			else if($parameter->allowsNull() || $parameter->isOptional())
 			{
 				$paramString .= ' = null';
 			}
