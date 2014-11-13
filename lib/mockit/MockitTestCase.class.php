@@ -80,4 +80,11 @@ class MockitTestCase extends PHPUnit_Framework_TestCase
 			return $var instanceof SimpleXMLExtended && (string)$var == $content;
 		});
 	}
+
+	public function xmlDelegateXMLElement($content)
+	{
+		return $this->delegate(function($var) use ($content) {
+			return $var instanceof SimpleXMLElement && (string)$var == $content;
+		});
+	}
 }
