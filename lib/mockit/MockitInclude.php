@@ -26,4 +26,5 @@ require_once(dirname(__FILE__).'/matchers/MockitTypeMatcher.class.php');
 require_once(dirname(__FILE__).'/matchers/CaptorMatcher.class.php');
 require_once(dirname(__FILE__).'/matchers/NotMatcher.class.php');
 require_once(dirname(__FILE__).'/matchers/MockitDelegateMatcher.class.php');
+require_once(dirname(__FILE__).'/matchers/MockitXmlMatcher.class.php');
 require_once(dirname(__FILE__).'/MockitRecursiveEvent.class.php');

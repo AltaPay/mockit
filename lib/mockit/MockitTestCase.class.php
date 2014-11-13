@@ -61,6 +61,11 @@ class MockitTestCase extends PHPUnit_Framework_TestCase
 		return new MockitTypeMatcher($type);
 	}
 
+	public function xml($xmlString)
+	{
+		return new MockitXmlMatcher($xmlString);
+	}
+
 	/**
 	 * @return CaptorMatcher
 	 */
