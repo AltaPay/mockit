@@ -580,10 +580,12 @@ class Mockit
 	{
 		$refectClass = new ReflectionClass($testClass);
 
+		$initializedMockObjects = array();
+		$initializedMockObjectsByType = array();
 		foreach($refectClass->getProperties() as $property) /* @var $property ReflectionProperty */
 		{
 			$docComment = $property->getDocComment();
-			if(preg_match('/\@var Mock_(\S+)(?:\s(.+))?\n/',$docComment, $matches))
+			if(preg_match('/\@var\s+Mock_(\S+)(?:\s(.+))?\n/',$docComment, $matches))
 			{
 				$property->setAccessible(true);
 				$uniqueId = null;
@@ -608,7 +610,45 @@ class Mockit
 					}
 				}
 
+				$initializedMockObjects[$property->getName()] = $mockit;
+				$initializedMockObjectsByType[$matches[1]] = $mockit;
 				$property->setValue($testClass, $mockit);
+			}
+		}
+
+		foreach($refectClass->getProperties() as $property) /* @var $property ReflectionProperty */
+		{
+			$docComment = $property->getDocComment();
+			if(preg_match('/\@AutoInitialize/',$docComment, $matches) && preg_match('/\@var\s+/',$docComment))
+			{
+				if(!preg_match('/\@var\s+(\S+)?\n/',$docComment, $typeMatches))
+				{
+					throw new Exception('Could not auto initialize: '.$property->getName().'. Invalid variable type.');
+				}
+
+				$type = $typeMatches[1];
+				$initClass = new ReflectionClass($type);
+				$parameters = array();
+				foreach($initClass->getConstructor()->getParameters() as $parameter)
+				{
+					if(isset($initializedMockObjects[$parameter->getName()]))
+					{
+						$parameters[] = $initializedMockObjects[$parameter->getName()]->instance();
+					}
+					else if(isset($initializedMockObjectsByType[$parameter->getClass()->getName()]))
+					{
+						throw new Exception('You already initialized a mock of type: '.$parameter->getClass()->getName().' but it did not have the expected name: '.$parameter->getName());
+					}
+					else
+					{
+						$mock = new Mockit($parameter->getClass()->getName(), 'AutoInitialized_'.$parameter->getClass()->getName());
+
+						$parameters[] = $mock->instance();
+					}
+				}
+
+				$property->setAccessible(true);
+				$property->setValue($testClass, $initClass->newInstanceArgs($parameters));
 			}
 		}
 	}
