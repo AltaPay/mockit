@@ -578,11 +578,11 @@ class Mockit
 
 	public static function initMocks($testClass)
 	{
-		$refectClass = new ReflectionClass($testClass);
+		$reflectClass = new ReflectionClass($testClass);
 
 		$initializedMockObjects = array();
 		$initializedMockObjectsByType = array();
-		foreach($refectClass->getProperties() as $property) /* @var $property ReflectionProperty */
+		foreach($reflectClass->getProperties() as $property) /* @var $property ReflectionProperty */
 		{
 			$docComment = $property->getDocComment();
 			if(preg_match('/\@var\s+Mock_(\S+)(?:\s(.+))?\n/',$docComment, $matches))
@@ -616,7 +616,7 @@ class Mockit
 			}
 		}
 
-		foreach($refectClass->getProperties() as $property) /* @var $property ReflectionProperty */
+		foreach($reflectClass->getProperties() as $property) /* @var $property ReflectionProperty */
 		{
 			$docComment = $property->getDocComment();
 			if(preg_match('/\@AutoInitialize/',$docComment, $matches) && preg_match('/\@var\s+/',$docComment))
@@ -641,6 +641,12 @@ class Mockit
 						else if(isset($initializedMockObjectsByType[$parameter->getClass()->getName()]))
 						{
 							throw new Exception('You already initialized a mock of type: '.$parameter->getClass()->getName().' but it did not have the expected name: '.$parameter->getName());
+						}
+						else if (!is_null($reflectClass->getProperty($parameter->getName())))
+						{
+							$nonMockProperty = $reflectClass->getProperty($parameter->getName());
+							$nonMockProperty->setAccessible(true);
+							$parameters[] = $nonMockProperty->getValue($testClass);
 						}
 						else
 						{
