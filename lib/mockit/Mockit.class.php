@@ -642,7 +642,7 @@ class Mockit
 						{
 							throw new Exception('You already initialized a mock of type: '.$parameter->getClass()->getName().' but it did not have the expected name: '.$parameter->getName());
 						}
-						else if (!is_null($reflectClass->getProperty($parameter->getName())))
+						else if ($reflectClass->hasProperty($parameter->getName()))
 						{
 							$nonMockProperty = $reflectClass->getProperty($parameter->getName());
 							$nonMockProperty->setAccessible(true);
