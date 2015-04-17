@@ -626,29 +626,37 @@ class Mockit
 					throw new Exception('Could not auto initialize: '.$property->getName().'. Invalid variable type.');
 				}
 
+				$property->setAccessible(true);
 				$type = $typeMatches[1];
 				$initClass = new ReflectionClass($type);
-				$parameters = array();
-				foreach($initClass->getConstructor()->getParameters() as $parameter)
+				if(!is_null($initClass->getConstructor()))
 				{
-					if(isset($initializedMockObjects[$parameter->getName()]))
+					$parameters = array();
+					foreach($initClass->getConstructor()->getParameters() as $parameter)
 					{
-						$parameters[] = $initializedMockObjects[$parameter->getName()]->instance();
-					}
-					else if(isset($initializedMockObjectsByType[$parameter->getClass()->getName()]))
-					{
-						throw new Exception('You already initialized a mock of type: '.$parameter->getClass()->getName().' but it did not have the expected name: '.$parameter->getName());
-					}
-					else
-					{
-						$mock = new Mockit($parameter->getClass()->getName(), 'AutoInitialized_'.$parameter->getClass()->getName());
+						if(isset($initializedMockObjects[$parameter->getName()]))
+						{
+							$parameters[] = $initializedMockObjects[$parameter->getName()]->instance();
+						}
+						else if(isset($initializedMockObjectsByType[$parameter->getClass()->getName()]))
+						{
+							throw new Exception('You already initialized a mock of type: '.$parameter->getClass()->getName().' but it did not have the expected name: '.$parameter->getName());
+						}
+						else
+						{
+							$mock = new Mockit($parameter->getClass()->getName(), 'AutoInitialized_'.$parameter->getClass()->getName());
 
-						$parameters[] = $mock->instance();
+							$parameters[] = $mock->instance();
+						}
 					}
+
+					$property->setValue($testClass, $initClass->newInstanceArgs($parameters));
+				}
+				else
+				{
+					$property->setValue($testClass, $initClass->newInstance());
 				}
 
-				$property->setAccessible(true);
-				$property->setValue($testClass, $initClass->newInstanceArgs($parameters));
 			}
 		}
 	}
