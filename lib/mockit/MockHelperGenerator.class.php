@@ -83,6 +83,7 @@ class MockHelperGenerator
 				&& (stripos($matches[1],'varchar') !== 0)
 				&& (stripos($matches[1],'decimal') !== 0)
 				&& (stripos($matches[1],'enum') !== 0)
+				&& (stripos($matches[1],'set') !== 0)
 				&& (strpos($matches[1],'[]') === false)
 				&& (class_exists($matches[1]) || interface_exists($matches[1])))
 			{
