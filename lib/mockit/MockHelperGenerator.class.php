@@ -47,7 +47,7 @@ class MockHelperGenerator
 
 		foreach($reflectionClass->getMethods() as $method) /* @var $method ReflectionMethod */
 		{
-			if($method->isConstructor())
+			if($method->isConstructor() || $method->isStatic())
 			{
 				continue;
 			}
