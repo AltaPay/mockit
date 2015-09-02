@@ -585,7 +585,7 @@ class Mockit
 		foreach($reflectClass->getProperties() as $property) /* @var $property ReflectionProperty */
 		{
 			$docComment = $property->getDocComment();
-			if(preg_match('/\@var\s+Mock_(\S+)(?:\s(.+))?\n/',$docComment, $matches))
+			if(preg_match('/\@var\s+Mock_([^\s;]+)(?:\s(.+))?\n/',$docComment, $matches))
 			{
 				$property->setAccessible(true);
 				$uniqueId = null;
