@@ -79,12 +79,12 @@ class MockHelperGenerator
 			if(
 				preg_match('/\@return\s+(?:null\|)?([^\s\|]+)(?:\|null)?/',$method->getDocComment(), $matches)
 				&& !in_array(strtolower($matches[1]), array('void','mixed','string','int','array','bool','uuid','varint','integer','longtext','longblob','boolean','tinyint','text','float'))
-				&& (stripos($matches[1],'char') !== 0)
-				&& (stripos($matches[1],'varchar') !== 0)
-				&& (stripos($matches[1],'decimal') !== 0)
-				&& (stripos($matches[1],'enum') !== 0)
-				&& (stripos($matches[1],'set') !== 0)
-				&& (stripos($matches[1],'int') !== 0)
+				&& (!preg_match('/^char([^\w]|$)/',$matches[1]))
+				&& (!preg_match('/^varchar([^\w]|$)/',$matches[1]))
+				&& (!preg_match('/^decimal([^\w]|$)/',$matches[1]))
+				&& (!preg_match('/^enum([^\w]|$)/',$matches[1]))
+				&& (!preg_match('/^set([^\w]|$)/',$matches[1]))
+				&& (!preg_match('/^int([^\w]|$)/',$matches[1]))
 				&& (strpos($matches[1],'[]') === false)
 				&& (class_exists($matches[1]) || interface_exists($matches[1])))
 			{
