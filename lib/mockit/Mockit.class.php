@@ -40,7 +40,6 @@ class Mockit
 		else
 		{
 			$this->mockitor->__oid__ = $this->generateUniqueId();
-			
 		}
 	}
 
@@ -634,36 +633,64 @@ class Mockit
 					$parameters = array();
 					foreach($initClass->getConstructor()->getParameters() as $parameter)
 					{
-						if(isset($initializedMockObjects[$parameter->getName()]))
-						{
-							$parameters[] = $initializedMockObjects[$parameter->getName()]->instance();
-						}
-						else if(isset($initializedMockObjectsByType[$parameter->getClass()->getName()]))
-						{
-							throw new Exception('You already initialized a mock of type: '.$parameter->getClass()->getName().' but it did not have the expected name: '.$parameter->getName());
-						}
-						else if ($reflectClass->hasProperty($parameter->getName()))
-						{
-							$nonMockProperty = $reflectClass->getProperty($parameter->getName());
-							$nonMockProperty->setAccessible(true);
-							$parameters[] = $nonMockProperty->getValue($testClass);
-						}
-						else
-						{
-							$mock = new Mockit($parameter->getClass()->getName(), 'AutoInitialized_'.$parameter->getClass()->getName());
-
-							$parameters[] = $mock->instance();
-						}
+						$parameters[] = self::getAutoInitializeMockParam($initializedMockObjects, $initializedMockObjectsByType, $reflectClass, $testClass, $parameter);
 					}
 
-					$property->setValue($testClass, $initClass->newInstanceArgs($parameters));
+					$autoInstance = $initClass->newInstanceArgs($parameters);
 				}
 				else
 				{
-					$property->setValue($testClass, $initClass->newInstance());
+					// Please note that if the constructor is on the parent class (which works in PHP) this will fail
+					$autoInstance = $initClass->newInstance();
 				}
 
+				// Find @Inject's in the class hierarchy
+				do
+				{
+					foreach($initClass->getMethods(ReflectionMethod::IS_PUBLIC) as $method)
+					{
+						if(preg_match('/\@Inject/',$method->getDocComment()))
+						{
+							$parameters = array();
+							foreach($method->getParameters() as $parameter)
+							{
+								$parameters[] = self::getAutoInitializeMockParam($initializedMockObjects, $initializedMockObjectsByType, $reflectClass, $testClass, $parameter);
+							}
+
+							$method->invokeArgs($autoInstance, $parameters);
+						}
+					}
+
+					$initClass = $initClass->getParentClass();
+				}
+				while(is_object($initClass));
+
+				$property->setValue($testClass, $autoInstance);
 			}
+		}
+	}
+
+	private static function getAutoInitializeMockParam(array $initializedMockObjects, array $initializedMockObjectsByType, ReflectionClass $reflectClass, $testClass, $parameter)
+	{
+		if(isset($initializedMockObjects[$parameter->getName()]))
+		{
+			return $initializedMockObjects[$parameter->getName()]->instance();
+		}
+		else if(isset($initializedMockObjectsByType[$parameter->getClass()->getName()]))
+		{
+			throw new Exception('You already initialized a mock of type: '.$parameter->getClass()->getName().' but it did not have the expected name: '.$parameter->getName());
+		}
+		else if ($reflectClass->hasProperty($parameter->getName()))
+		{
+			$nonMockProperty = $reflectClass->getProperty($parameter->getName());
+			$nonMockProperty->setAccessible(true);
+			return $nonMockProperty->getValue($testClass);
+		}
+		else
+		{
+			$mock = new Mockit($parameter->getClass()->getName(), 'AutoInitialized_'.$parameter->getClass()->getName());
+
+			return $mock->instance();
 		}
 	}
 }
