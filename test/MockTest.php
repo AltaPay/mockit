@@ -449,6 +449,46 @@ class MockTest
 		$mock->once()->doIt('hat1');
 		$mock->once()->doIt('hat2');
 	}
+
+	public function test_recursiveMockUnderstandsClassLevelTypeDeclarations()
+	{
+		$mock = $this->getMockit('MyDummy')->recursive(); /* @var $mock Mock_MyDummy */
+		$instance = $mock->instance(); /* @var $instance MyDummy */
+
+		$instance->myDummyWithTypeDefinitionOnClassLevel()->doIt('who');
+
+		$mock->with()->myDummyWithTypeDefinitionOnClassLevel()->once()->doIt('who');
+	}
+
+	public function test_recursiveMockUnderstandsBaseClassLevelTypeDeclarations()
+	{
+		$mock = $this->getMockit('MyDummy')->recursive(); /* @var $mock Mock_MyDummy */
+		$instance = $mock->instance(); /* @var $instance MyDummy */
+
+		$instance->myDummyWithTypeDefinitionOnBaseClassLevel()->doIt('who');
+
+		$mock->with()->myDummyWithTypeDefinitionOnBaseClassLevel()->once()->doIt('who');
+	}
+
+	public function test_recursiveMockUnderstandsClassLevelTypeDeclarations_forDynamicMocks()
+	{
+		$mock = $this->getMockit('DynamicDummy')->recursive()->dynamic(); /* @var $mock Mock_DynamicDummy */
+		$instance = $mock->instance(); /* @var $instance DynamicDummy */
+
+		$instance->beDynamic()->doIt('who');
+
+		$mock->with()->beDynamic()->once()->doIt('who');
+	}
+
+	public function test_recursiveMockDoesNotTruncateClassLevelDeclarations_forDynamicMocks()
+	{
+		$mock = $this->getMockit('DynamicDumbDummy')->recursive()->dynamic(); /* @var $mock Mock_DynamicDumbDummy */
+		$instance = $mock->instance(); /* @var $instance DynamicDummy */
+
+		// Only beDynamicAndAlsoDumb() is declared on DynamicDumbDummy.class, so it should not be able to match beDynamic()
+		// and thus the return value of beDynamic should be null
+		$this->assertNull($instance->beDynamic());
+	}
 }
 
 

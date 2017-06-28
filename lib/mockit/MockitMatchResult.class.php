@@ -119,4 +119,18 @@ class MockitMatchResult
 	{
 		return $this->matchScore;
 	}
+
+	public function matchesInOrder(MockitMatchResult $lastMatch = null)
+	{
+		if(!is_null($lastMatch))
+		{
+			if($lastMatch->getMatchedEvent()->getIndex() >= $this->getMatchedEvent()->getIndex())
+			{
+				throw new MockitOutOfOrderException($lastMatch, $this);
+			}
+		}
+
+		$this->verificationEvent->getMock()->addVerificationMatch($this);
+
+	}
 }

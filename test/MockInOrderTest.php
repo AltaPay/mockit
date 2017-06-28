@@ -25,7 +25,7 @@ class MockInOrderTest
 	/**
 	 * @expectedException MockitOutOfOrderInvokedException
 	 */
-	public function testInOrderFailCase()
+	public function testInOrder_failOnTooManyCallsBetweenOutliers()
 	{
 		$mock = $this->getMockit('MyDummy', 'd1');
 		$instance = $mock->instance();
@@ -42,7 +42,46 @@ class MockInOrderTest
 		$mock2->invoked()->getDummy();
 		$mock->invoked()->getDummy();
 	}
-	
+
+	/**
+	 * @expectedException MockitOutOfOrderInvokedException
+	 */
+	public function testInOrder_failOnTooManyCallsBeforeOutlier()
+	{
+		$mock = $this->getMockit('MyDummy', 'd1');
+		$instance = $mock->instance();
+
+		$mock2 = $this->getMockit('MyDummy','d2');
+		$instance2 = $mock2->instance();
+
+		$instance2->getDummy();
+		$instance2->getDummy();
+		$instance->getDummy();
+
+		$mock2->invoked()->getDummy();
+		$mock->invoked()->getDummy();
+	}
+
+	/**
+	 * Handling this case would require checking it in the teardown method, which would overcomplicate matters
+	 */
+	public function testInOrder_failOnTooManyCallsAfterOutlier_willNotFail()
+	{
+		$mock = $this->getMockit('MyDummy', 'd1');
+		$instance = $mock->instance();
+
+		$mock2 = $this->getMockit('MyDummy','d2');
+		$instance2 = $mock2->instance();
+
+		$instance->getDummy();
+		$instance2->getDummy();
+		$instance2->getDummy();
+
+
+		$mock->invoked()->getDummy();
+		$mock2->invoked()->getDummy();
+	}
+
 	public function testInOrderWithNonCheckedMockCalledInBetween()
 	{
 		$mock  = $this->getMockit('MyDummy','d1');

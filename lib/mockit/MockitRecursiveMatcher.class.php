@@ -10,7 +10,7 @@ class MockitRecursiveMatcher
 	
 	public function __call($name, $arguments)
 	{
-		$this->event = new MockitEvent($this->mock,$name, $arguments, count($this->mock->getVerificationMatches()));
+		$this->event = new MockitEvent($this->mock,$name, $arguments, $this->mock->getVerificationMatches()->count());
 
 		$bestMatch = null; /* @var $bestMatch MockitMatchResult */
 		$bestMatchMock = null;

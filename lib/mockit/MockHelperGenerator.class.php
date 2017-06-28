@@ -43,8 +43,26 @@ class MockHelperGenerator
 
 
 		$implementationCode = 'interface Mock_implementation_'.$className." \n{\n";
-		$withImplementationCode = 'interface Mock_with_implementation_'.$className." \n{\n";
 
+		$classLevelMethodDefinitions = array();
+		$class = $reflectionClass;
+		do
+		{
+			if (preg_match('/\@method\s+([\S]+)\s+(\S+)/',$class->getDocComment(),$matches))
+			{
+				$methodName = $matches[2];
+				if(!isset($classLevelMethodDefinitions[$methodName]))
+				{
+					$classLevelMethodDefinitions[$methodName] = '* @method Mock_'.$matches[1]." ".$matches[2]."\n";
+				}
+			}
+			$class = $class->getParentClass();
+		}
+		while(!is_null($class) && $class !== false);
+
+
+		$withImplementationCode = "/**\n".implode("\n",$classLevelMethodDefinitions)." */\n";
+		$withImplementationCode .= 'interface Mock_with_implementation_'.$className." \n{\n";
 		foreach($reflectionClass->getMethods() as $method) /* @var $method ReflectionMethod */
 		{
 			if($method->isConstructor() || $method->isStatic())
@@ -76,24 +94,24 @@ class MockHelperGenerator
 				$parameters[] = $paramString;
 			}
 
+			$returnType = MockitGenerator::getReturnTypeFor($reflectionClass,$method->getName());
 			if(
-				preg_match('/\@return\s+(?:null\|)?([^\s\|]+)(?:\|null)?/',$method->getDocComment(), $matches)
-				&& !in_array(strtolower($matches[1]), array('void','mixed','string','int','array','bool','uuid','varint','integer','longtext','longblob','boolean','tinyint','text','float'))
-				&& (!preg_match('/^char([^\w]|$)/',$matches[1]))
-				&& (!preg_match('/^varchar([^\w]|$)/',$matches[1]))
-				&& (!preg_match('/^decimal([^\w]|$)/',$matches[1]))
-				&& (!preg_match('/^enum([^\w]|$)/',$matches[1]))
-				&& (!preg_match('/^set([^\w]|$)/',$matches[1]))
-				&& (!preg_match('/^int([^\w]|$)/',$matches[1]))
-				&& (strpos($matches[1],'[]') === false)
-				&& (class_exists($matches[1]) || interface_exists($matches[1])))
+				!is_null($returnType)
+				&& !in_array(strtolower($returnType), array('void','mixed','string','int','array','bool','uuid','varint','integer','longtext','longblob','boolean','tinyint','text','float'))
+				&& (!preg_match('/^char([^\w]|$)/',$returnType))
+				&& (!preg_match('/^varchar([^\w]|$)/',$returnType))
+				&& (!preg_match('/^decimal([^\w]|$)/',$returnType))
+				&& (!preg_match('/^enum([^\w]|$)/',$returnType))
+				&& (!preg_match('/^set([^\w]|$)/',$returnType))
+				&& (!preg_match('/^int([^\w]|$)/',$returnType))
+				&& (strpos($returnType,'[]') === false)
+				&& (class_exists($returnType) || interface_exists($returnType)))
 			{
-				$withImplementationCode .= "\t/**\n\t *  @return Mock_".$matches[1]."\n\t */\n\tfunction ".$method->getName()."(".implode(',',$parameters).");\n\n";
+				$withImplementationCode .= "\t/**\n\t *  @return Mock_".$returnType."\n\t */\n\tfunction ".$method->getName()."(".implode(',',$parameters).");\n\n";
 			}
 
 			$implementationCode .= "\t/**\n\t * @return MockitStub\n\t*/\n\tfunction ".$method->getName()."(".implode(',',$parameters).");\n\n";
 		}
-
 
 		$implementationCode .= "}\n\n";
 		$withImplementationCode .= "}\n\n";

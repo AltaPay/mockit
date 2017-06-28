@@ -10,10 +10,19 @@ class Mockit
 
 	private $mockitor;
 	private $isSpy = false;
-	
-	static private $events = array();
+
+	/**
+	 * @var MockitEventList
+	 */
+	static private $events = null;
+	/**
+	 * @var MockitEventList
+	 */
 	static private $unmatchedEvents = null;
-	static private $verificationMatches = array();
+	/**
+	 * @var MockitVerificationMatchList
+	 */
+	static private $verificationMatches = null;
 	static private $recursiveMocks = array();
 	private $matchers = array();
 	private $outOfOrder = false;
@@ -22,15 +31,24 @@ class Mockit
 	
 	public function __construct($classname, $uniqueId=null)
 	{
+		if(is_null(self::$verificationMatches))
+		{
+			self::$verificationMatches = new MockitVerificationMatchList();
+		}
+		if(is_null(self::$events))
+		{
+			self::$events = new MockitEventList();
+		}
+
 		$this->class = new ReflectionClass($classname);
 		if(is_object($classname))
 		{
-			$this->mockitor = $this->getSpy($this->class, $classname);
+			$this->mockitor = MockitGenerator::getSpy($this->class, $classname, $this);
 			$this->isSpy = true;
 		}
 		else
 		{
-			$this->mockitor = $this->getMockitor($this->class);
+			$this->mockitor = MockitGenerator::getMockitor($this->class,$this);
 		}
 		
 		if(!is_null($uniqueId))
@@ -71,8 +89,8 @@ class Mockit
 	
 	public static function resetMocks()
 	{
-		self::$events = array();
-		self::$verificationMatches = array();
+		self::$events = new MockitEventList();
+		self::$verificationMatches = new MockitVerificationMatchList();
 		self::$recursiveMocks = array();
 		self::$unmatchedEvents = null;
 	}
@@ -103,24 +121,16 @@ class Mockit
 		$this->dynamic= true;
 		return $this;
 	}
-	
-	public function invoked()
-	{
-		if($this->outOfOrder)
-		{
-			throw new Exception('invoked only makes sense for in order mocks');
-		}
-		return new MockitVerifier($this, null, true);
-	}
+
 
 	/**
-	 * @return MockitEvent[]
+	 * @return MockitEventList
 	 */
 	public function getUnmatchedEvents()
 	{
 		if(is_null(self::$unmatchedEvents))
 		{ 
-			self::$unmatchedEvents = self::$events;
+			self::$unmatchedEvents = self::$events->copy();
 		}
 		return self::$unmatchedEvents;
 	}
@@ -131,17 +141,17 @@ class Mockit
 	public function nextUnmatchedEvent()
 	{
 		self::getUnmatchedEvents();
-		if(empty(self::$unmatchedEvents))
+		if(self::$unmatchedEvents->isEmpty())
 		{
 			return null;
 		}
-		return self::$unmatchedEvents[0];
+		return self::$unmatchedEvents->first();
 	}
 	
 	public static function printUnmatchedEvents()
 	{
 		print "Umatched events: \n";
-		foreach(self::$unmatchedEvents as $event) /* @var $event MockitEvent */
+		foreach(self::$unmatchedEvents->getIterator() as $event)
 		{
 			print $event->eventDescription()."\n";
 		}
@@ -153,7 +163,7 @@ class Mockit
 	public function shiftUnmatchedEvents()
 	{
 		self::getUnmatchedEvents();
-		return array_shift(self::$unmatchedEvents);
+		return self::$unmatchedEvents->shift();
 	}
 	
 	
@@ -171,29 +181,41 @@ class Mockit
 	
 	public function any()
 	{
-		return new MockitVerifier($this, null);
+		return new MockitVerifier($this, MockitExpectedCount::get(null));
 	}
 	
 	public function exactly($times)
 	{
-		return new MockitVerifier($this, $times);
+		return new MockitVerifier($this, MockitExpectedCount::get($times));
 	}
 	
 	public function once()
 	{
-		return new MockitVerifier($this, 1);
+		return new MockitVerifier($this, MockitExpectedCount::get(1));
 	}
 	
 	public function never()
 	{
-		return new MockitVerifier($this, 0);
+		return new MockitVerifier($this, MockitExpectedCount::get(0));
 	}
-	
+
+	public function invoked()
+	{
+		if($this->outOfOrder)
+		{
+			throw new Exception('invoked only makes sense for in order mocks');
+		}
+		return new MockitVerifier($this, MockitExpectedCount::invoked());
+	}
+
 	public function instance()
 	{
 		return $this->mockitor;
 	}
-	
+
+	/**
+	 * @return MockitEventList
+	 */
 	public function getEvents()
 	{
 		return self::$events;
@@ -234,7 +256,7 @@ class Mockit
 			$arguments = $event->getArguments();
 			$event = new MockitEvent($event->getMock(), array_shift($arguments), $arguments, $event->getIndex());
 		}
-		self::$events[] = $event;
+		self::$events->add($event);
 		foreach($this->matchers as $matcher) /* @var $matcher MockitMatcher */
 		{
 			if($matcher->_getEvent()->matches($event)->matches())
@@ -282,39 +304,36 @@ class Mockit
 		}
 		return null;
 	}
-	
+
 	/**
 	 * @return Mockit
 	 */
 	public function getRecursiveMockForMethod(MockitEvent $event)
 	{
-		$reflectionMethod = $this->class->getMethod($event->getName());
+		$returnClass = MockitGenerator::getReturnTypeFor($this->class, $event->getName(), $this->isDynamic());
 
-		if(preg_match('/\@return\s+([^\s]+)/',$reflectionMethod->getDocComment(),$matches))
+		if($returnClass == 'array')
 		{
-			$returnClass = $matches[1];
-			
-			if($returnClass == 'array')
+			return array();
+		}
+
+		try
+		{
+			if(class_exists($returnClass) || interface_exists($returnClass))
 			{
-				return array();
-			}
-			try
-			{
-				
-				if(class_exists($returnClass) || interface_exists($returnClass))
-				{
-					$mock = new Mockit($returnClass);
-					$mock = $mock->recursive();
-					array_unshift(self::$recursiveMocks, new MockitRecursiveEvent($event, $mock));
-					return $mock;
-				}
-			}
-			catch(Exception $exception)
-			{
-				// if class could not be loaded, just dont return a mock
-				return null;
+
+				$mock = new Mockit($returnClass);
+				$mock = $mock->recursive();
+				array_unshift(self::$recursiveMocks, new MockitRecursiveEvent($event, $mock));
+				return $mock;
 			}
 		}
+		catch(Exception $exception)
+		{
+			// if class could not be loaded, just dont return a mock
+			return null;
+		}
+
 	}
 	
 	public function getClassname()
@@ -325,15 +344,18 @@ class Mockit
 	/**
 	 * @return MockitMatchResult
 	 */
-	public function getLastVerificationMatch()
+	public function getPreviousVerificationMatch()
 	{
-		if(count(self::$verificationMatches) == 0)
+		if(self::$verificationMatches->count() == 0)
 		{
 			return null;
 		}
-		return self::$verificationMatches[count(self::$verificationMatches)-1];
+		return self::$verificationMatches->last();
 	}
-	
+
+	/**
+	 * @return MockitVerificationMatchList
+	 */
 	public static function getVerificationMatches()
 	{
 		return self::$verificationMatches;
@@ -346,108 +368,12 @@ class Mockit
 	
 	public function addVerificationMatch(MockitMatchResult $verificationEvent)
 	{
-		self::$verificationMatches[] = $verificationEvent;
+		self::$verificationMatches->add($verificationEvent);
 	}
 	
-	private function getMockitor(ReflectionClass $class)
-	{
-		$mockitorClassname = 'Mockitor_'.$class->name;
 
-		if(!class_exists($mockitorClassname, false))
-		{
-			if($class->isInterface())
-			{
-				$tmpl = 'class '.$mockitorClassname.' implements '.$class->name.'{';
-			}
-			else
-			{
-				$tmpl = 'class Mockitor_'.$class->name.' extends '.$class->name.'{';
-			}
-			$tmpl .= "\n";
-			$tmpl .= 'private $mock;'."\n";
-			$tmpl .= 'public function __construct(Mockit $mock) { $this->mock = $mock; }'."\n";
-			foreach($class->getMethods(ReflectionMethod::IS_PUBLIC|ReflectionMethod::IS_PROTECTED) as $method) /* @var $method ReflectionMethod */
-			{
-				if($method->name == '__construct' || $method->isStatic() || $method->isFinal())
-				{
-					continue;
-				}
-				
-				$tmpl .= $this->getMethodSignature($class, $method);
-				$tmpl .= '{'."\n";
-				if(count($this->getClasslessArgs($class, $method)) == 0)
-				{
-					$tmpl .= "if(count(func_get_args()) > 0){ throw new Exception('Method ".$class->getName()."->".$method->getName()."() was called with arguments even though it takes none'); }\n";
-				}
-				$tmpl .= "\t".'return $this->mock->process(new MockitEvent($this->mock, "'.$method->getName().'", array('.implode(',',$this->getClasslessArgs($class, $method)).'),count($this->mock->getEvents())));'."\n";
-				$tmpl .= '}'."\n";
-			}
-			$tmpl .= '}';
-
-			eval($tmpl);
-		}
-		return new $mockitorClassname($this);
-	}
 	
-	private function getSpy(ReflectionClass $class, $original)
-	{
-		$mockitorClassname = 'Spyor_'.$class->name;
 
-		if(!class_exists($mockitorClassname, false))
-		{
-			$tmpl = 'class '.$mockitorClassname.' extends '.$class->name.'{';
-			
-			$tmpl .= "\n";
-			$tmpl .= 'private $mock;'."\n";
-			$tmpl .= 'public function __construct(Mockit $mock, $original) {'."\n"; 
-			$tmpl .= '$this->mock = $mock;'."\n";
-			foreach($class->getProperties() as  $property) /* @var $property ReflectionProperty */
-			{
-				if(($property->isPublic() || $property->isProtected()) && !$property->isStatic())
-				{
-					$tmpl .= '$this->'.$property->getName().' = $original->'.$property->getName().';'."\n";
-				}
-			}
-			$tmpl .= '}'."\n";
-			foreach($class->getMethods() as $method) /* @var $method ReflectionMethod */
-			{
-				if($method->name == '__construct' || $method->isStatic() || $method->isFinal())
-				{
-					continue;
-				}
-
-				$tmpl .= $this->getMethodSignature($class, $method);
-				$tmpl .= '{'."\n";
-				if(count($this->getClasslessArgs($class, $method)) == 0)
-				{
-					$tmpl .= "\tif(count(func_get_args()) > 0){ throw new Exception('Method ".$class->getName()."->".$method->getName()."() was called with arguments even though it takes none'); }\n";
-				}
-				if($method->name == '__call')
-				{
-					$tmpl .= "\t".'if($this->mock->isDynamic()) {'."\n";
-
-					$tmpl .= "\t\t".'$args = func_get_args();'."\n";
-					$tmpl .= "\t\t".'$event = new MockitEvent($this->mock, $args[0], $args[1],count($this->mock->getEvents()));'."\n";
-					$tmpl .= "\t\t".'$mockProcessEventResult = $this->mock->process($event);'."\n";
-					$tmpl .= "\t\t".'if($this->mock->haveStubEvent($event)) { return $mockProcessEventResult; } else { return parent::'.$method->getName().'('.implode(',',$this->getClasslessArgs($class, $method)).'); } '."\n";
-					$tmpl .= "\t".'}'."\n";
-					$tmpl .= "\t".'else'."\n";
-				}
-				$tmpl .= "\t".'{'."\n";
-				$tmpl .= "\t\t".'$event = new MockitEvent($this->mock, "'.$method->getName().'", array('.implode(',',$this->getClasslessArgs($class, $method)).'),count($this->mock->getEvents()));'."\n";
-				$tmpl .= "\t\t".'$mockProcessEventResult = $this->mock->process($event);'."\n";
-				$tmpl .= "\t\t".'if($this->mock->haveStubEvent($event)) { return $mockProcessEventResult; } else { return parent::'.$method->getName().'('.implode(',',$this->getClasslessArgs($class, $method)).'); } '."\n";
-				$tmpl .= "\t".'}'."\n";
-
-				$tmpl .= '}'."\n";
-				
-			}
-			$tmpl .= '}';
-
-			eval($tmpl);
-		}
-		return new $mockitorClassname($this, $original);
-	}
 	
 	public static function uniqueid($object)
 	{
@@ -468,82 +394,8 @@ class Mockit
 		return $object->__oid__;
 	}
 
-	/**
-	 * There is a duplicate of this method in AopWrapperGenerator
-	 */
-	private function getMethodSignature(ReflectionClass $class, ReflectionMethod $method)
-	{
-		$tmpl = ($method->isPublic() ? 'public' : ($method->isProtected() ? 'protected' : 'private')).' function '.$method->name.'(';
-		$args = array();
-		$classlessArgs = array();
-		foreach($method->getParameters() as $parameter) /* @var $parameter ReflectionParameter */
-		{
-			$paramString = '';
-			
-			if($parameter->isArray())
-			{
-				$paramString .= 'array ';
-			}
-			else if(!is_null($parameter->getClass()))
-			{
-				$paramString .= $parameter->getClass()->getName().' ';
-			}
-			if($parameter->isPassedByReference())
-			{
-				$paramString .= '&';
-			}
-			$paramString .= '$'.$parameter->getName();
 
-			if($parameter->isDefaultValueAvailable())
-			{
-				switch(gettype($parameter->getDefaultValue()))
-				{
-					case 'boolean':
-						$paramString .= ' = '.($parameter->getDefaultValue() ? 'true' : 'false');
-						break;
-					case 'integer':
-					case 'double':
-						$paramString .= ' = '.$parameter->getDefaultValue();
-						break;
-					case 'string':
-						$paramString .= " = '".$parameter->getDefaultValue()."'";
-						break;
-					case 'NULL':
-						$paramString .= ' = null';
-						break;
-					case 'array':
-						$paramString .= ' = array()';
-						break;
-					case 'object':
-						throw new Exception('default value with object. what to do!?');
-					case 'resource':
-						throw new Exception('default value with resource. what to do!?');
-					
-				}
-				
-			}
-			else if($parameter->allowsNull() || $parameter->isOptional())
-			{
-				$paramString .= ' = null';
-			}
-			$args[] = $paramString;
-			$classlessArgs[] = '$'.$parameter->getName();
-		}
-		$tmpl .= implode(',',$args);
-		$tmpl .= ')'."\n";
-
-		return $tmpl;
-	}
 	
-	private function getClasslessArgs(ReflectionClass $class, ReflectionMethod $method)
-	{
-		$classlessArgs = array();
-		foreach($method->getParameters() as $parameter) /* @var $parameter ReflectionParameter */
-		{
-			$classlessArgs[] = '$'.$parameter->getName();
-		}
-		return $classlessArgs;
-	}
 
 	public function isRecursive()
 	{

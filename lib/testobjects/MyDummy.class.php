@@ -1,7 +1,11 @@
 <?php
 
+/**
+ * @method MyDummy myDummyWithTypeDefinitionOnClassLevel
+ */
 class MyDummy
-implements IDummy
+	extends MyDummyBase
+	implements IDummy
 {
 	/**
 	 * @return string
@@ -40,7 +44,7 @@ implements IDummy
 	{
 		return $dummy;
 	}
-	
+
 	public function multipleArguments($arg1, $arg2)
 	{
 		
