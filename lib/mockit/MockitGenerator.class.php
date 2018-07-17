@@ -61,7 +61,14 @@ class MockitGenerator
 			}
 			$tmpl .= '}';
 
-			eval($tmpl);
+			try
+			{
+				eval($tmpl);
+			}
+			catch (ParseError $parseError)
+			{
+				// do nothing
+			}
 		}
 		return new $mockitorClassname($mock);
 	}
@@ -121,7 +128,14 @@ class MockitGenerator
 			}
 			$tmpl .= '}';
 
-			eval($tmpl);
+			try
+			{
+				eval($tmpl);
+			}
+			catch (ParseError $parseError)
+			{
+				// do nothing
+			}
 		}
 		return new $mockitorClassname($mock, $original);
 	}
