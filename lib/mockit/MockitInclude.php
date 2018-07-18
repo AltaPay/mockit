@@ -28,3 +28,4 @@ require_once(dirname(__FILE__).'/matchers/NotMatcher.class.php');
 require_once(dirname(__FILE__).'/matchers/MockitDelegateMatcher.class.php');
 require_once(dirname(__FILE__).'/matchers/MockitXmlMatcher.class.php');
 require_once(dirname(__FILE__).'/MockitRecursiveEvent.class.php');
+require_once(dirname(__FILE__).'/MockitVerificationMatchList.class.php');
