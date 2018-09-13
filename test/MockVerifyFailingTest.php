@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__).'/../autoload.php';
 
-class MockVerifyFailingTests
+class MockVerifyFailingTest
 	extends MockitTestCase
 {
 	/**
