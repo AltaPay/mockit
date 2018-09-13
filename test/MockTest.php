@@ -1,6 +1,6 @@
 <?php
 
-require dirname(__FILE__).'/../autoload.php';
+require_once dirname(__FILE__).'/../autoload.php';
 
 class MockTest
 	extends MockitTestCase
