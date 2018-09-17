@@ -4,7 +4,7 @@ require_once dirname(__FILE__).'/../autoload.php';
 class MockFailingTests
 	extends MockitTestCase
 {
-
+	// These tests are made for failing. Failing is what they'll do...
 	
 	public function testFailingPassMultipleArguments()
 	{
