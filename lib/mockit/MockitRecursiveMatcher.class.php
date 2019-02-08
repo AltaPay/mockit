@@ -8,7 +8,7 @@ class MockitRecursiveMatcher
 		parent::__construct($mock, $class);
 	}
 	
-	public function __call($name, $arguments)
+	public function __call($name, array $arguments)
 	{
 		$this->event = new MockitEvent($this->mock,$name, $arguments, $this->mock->getVerificationMatches()->count());
 
