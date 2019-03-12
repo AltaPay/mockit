@@ -43,7 +43,7 @@ class MockitMatcher
 	}
 	
 	
-	public function __call($name, array $arguments)
+	public function __call($name, array $arguments) //todo doublecheck
 	{
 		if(count($arguments) == 0 && $this->class->hasMethod($name))
 		{
