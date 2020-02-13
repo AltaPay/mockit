@@ -1,82 +1,98 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" readonly="true" id="60a767c5-5dfd-4047-8c4b-7b05133eed38" name="Default" comment="[31] If method allows null, so should the mockitor version">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/php.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/MockTest.php" afterPath="$PROJECT_DIR$/test/MockTest.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/MockVerifyFailingTests.php" afterPath="$PROJECT_DIR$/test/MockVerifyFailingTests.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/mockit/Mockit.class.php" afterPath="$PROJECT_DIR$/lib/mockit/Mockit.class.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/mockit/MockitMatchResult.class.php" afterPath="$PROJECT_DIR$/lib/mockit/MockitMatchResult.class.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/mockit/MockitParameterMatchResult.class.php" afterPath="$PROJECT_DIR$/lib/mockit/MockitParameterMatchResult.class.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/mockit/MockitRecursiveMatcher.class.php" afterPath="$PROJECT_DIR$/lib/mockit/MockitRecursiveMatcher.class.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/mockit/MockitVerifier.class.php" afterPath="$PROJECT_DIR$/lib/mockit/MockitVerifier.class.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/external/phpunit/PHPUnit/Framework/TestCase.php" afterPath="$PROJECT_DIR$/external/phpunit/PHPUnit/Framework/TestCase.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/WorkTests.php" afterPath="$PROJECT_DIR$/test/WorkTests.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+    <list default="true" id="60a767c5-5dfd-4047-8c4b-7b05133eed38" name="Default" comment="[m50] Remove external dependency">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/external" beforeDir="true" afterPath="$PROJECT_DIR$/external" afterDir="true" />
     </list>
     <ignored path="Mockit.iws" />
     <ignored path=".idea/workspace.xml" />
-    <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
+  <component name="ComposerSettings">
+    <execution>
+      <executable />
+    </execution>
+  </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="$PROJECT_DIR$/../../patches" />
   </component>
-  <component name="DaemonCodeAnalyzer">
-    <disable_hints />
-  </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FavoritesManager">
     <favorites_list name="Mockit" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="Mockit.class.php" pinned="false" current="false" current-in-tab="false">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lib/mockit/Mockit.class.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="273" column="14" selection-start="6045" selection-end="6045" vertical-scroll-proportion="-8.875" vertical-offset="3882" max-vertical-offset="9300">
-              <folding />
+            <state relative-caret-position="5460">
+              <caret line="273" column="12" selection-start-line="273" selection-start-column="12" selection-end-line="273" selection-end-column="12" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MockitRecursiveMatcher.class.php" pinned="false" current="true" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lib/mockit/MockitRecursiveMatcher.class.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="0" selection-start="332" selection-end="332" vertical-scroll-proportion="0.3207547" vertical-offset="40" max-vertical-offset="855">
-              <folding />
+            <state relative-caret-position="280">
+              <caret line="14" selection-start-line="14" selection-end-line="14" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="WorkTests.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test/WorkTests.php">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/composer.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="0" selection-start="166" selection-end="166" vertical-scroll-proportion="-5.625" vertical-offset="0" max-vertical-offset="270">
-              <folding />
+            <state relative-caret-position="40">
+              <caret line="2" column="1" lean-forward="true" selection-start-line="2" selection-start-column="1" selection-end-line="2" selection-end-column="1" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MockitVerifier.class.php" pinned="false" current="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.idea/misc.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="360">
+              <caret line="18" column="18" lean-forward="true" selection-start-line="18" selection-start-column="18" selection-end-line="18" selection-end-column="18" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/beforecommit.sh">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="80">
+              <caret line="4" column="37" lean-forward="true" selection-start-line="4" selection-start-column="37" selection-end-line="4" selection-end-column="37" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/autoload.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="40">
+              <caret line="2" column="6" selection-start-line="2" selection-start-column="6" selection-end-line="2" selection-end-column="6" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lib/mockit/MockitVerifier.class.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="90" column="0" selection-start="2035" selection-end="2035" vertical-scroll-proportion="-8.875" vertical-offset="1137" max-vertical-offset="4290">
-              <folding />
+            <state relative-caret-position="1800">
+              <caret line="90" selection-start-line="90" selection-end-line="90" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MockTest.php" pinned="false" current="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test/MockTest.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="413" column="5" selection-start="10572" selection-end="10572" vertical-scroll-proportion="-3.936709" vertical-offset="5884" max-vertical-offset="6510">
-              <folding />
+            <state relative-caret-position="8260">
+              <caret line="413" column="5" selection-start-line="413" selection-start-column="5" selection-end-line="413" selection-end-column="5" />
             </state>
           </provider>
         </entry>
@@ -88,192 +104,43 @@
       <setting name="OPEN_NEW_TAB" value="false" />
     </FindUsagesManager>
   </component>
-  <component name="IdeDocumentHistory">
-    <option name="changedFiles">
-      <list>
-        <option value="$PROJECT_DIR$/composer.json" />
-        <option value="$PROJECT_DIR$/lib/mockit/MockitMatcher.class.php" />
-        <option value="$PROJECT_DIR$/lib/mockit/matchers/MockitEqualsMatcher.class.php" />
-        <option value="$PROJECT_DIR$/lib/mockit/IMockit.class.php" />
-        <option value="$PROJECT_DIR$/lib/mockit/MockHelperGenerator.class.php" />
-        <option value="$PROJECT_DIR$/external/phpunit/PHPUnit/Framework/TestCase.php" />
-        <option value="$PROJECT_DIR$/test/MockVerifyFailingTests.php" />
-        <option value="$PROJECT_DIR$/external/phpunit/PHPUnit/Framework.php" />
-        <option value="$PROJECT_DIR$/autoload.php" />
-        <option value="$PROJECT_DIR$/lib/mockit/matchers/MockitSameMatcher.class.php" />
-        <option value="$PROJECT_DIR$/lib/mockit/matchers/MockitTypeMatcher.class.php" />
-        <option value="$PROJECT_DIR$/lib/mockit/matchers/NotMatcher.class.php" />
-        <option value="$PROJECT_DIR$/lib/mockit/matchers/IMockitMatcher.class.php" />
-        <option value="$PROJECT_DIR$/lib/mockit/MockitParameterMatchResult.class.php" />
-        <option value="$PROJECT_DIR$/lib/mockit/MockitMatchResult.class.php" />
-        <option value="$PROJECT_DIR$/lib/mockit/Mockit.class.php" />
-        <option value="$PROJECT_DIR$/lib/mockit/MockitVerifier.class.php" />
-        <option value="$PROJECT_DIR$/test/MockTest.php" />
-        <option value="$PROJECT_DIR$/test/WorkTests.php" />
-        <option value="$PROJECT_DIR$/lib/mockit/MockitRecursiveMatcher.class.php" />
-      </list>
-    </option>
-  </component>
-  <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" interpreter_name="php ununtu" />
+  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="php ununtu" />
   <component name="ProjectFrameBounds">
     <option name="x" value="-1" />
     <option name="y" value="27" />
     <option name="width" value="1682" />
     <option name="height" value="1024" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
-    <OptionsSetting value="true" id="Add" />
-    <OptionsSetting value="true" id="Remove" />
-    <OptionsSetting value="true" id="Checkout" />
-    <OptionsSetting value="true" id="Update" />
-    <OptionsSetting value="true" id="Status" />
-    <OptionsSetting value="true" id="Edit" />
-    <ConfirmationsSetting value="0" id="Add" />
-    <ConfirmationsSetting value="0" id="Remove" />
-  </component>
   <component name="ProjectReloadState">
     <option name="STATE" value="0" />
   </component>
   <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1" splitterProportion="0.5">
-      <flattenPackages />
-      <showMembers />
-      <showModules />
+    <navigator proportions="" version="1">
       <showLibraryContents ProjectPane="true" />
-      <hideEmptyPackages />
-      <abbreviatePackageNames />
-      <autoscrollToSource />
-      <autoscrollFromSource />
-      <sortByType />
+      <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Mockit" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Mockit" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Mockit" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Mockit" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Mockit" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="test" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Mockit" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Mockit" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lib" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Mockit" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Mockit" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lib" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mockit" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Mockit" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Mockit" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lib" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mockit" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="matchers" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Mockit" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Mockit" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="external" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="phpunit" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Mockit" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Mockit" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="external" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="phpunit" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PHPUnit" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
+          <expand>
+            <path>
+              <item name="Mockit" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Mockit" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Mockit" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Mockit" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Mockit" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Mockit" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+              <item name="mockit" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
         </subPane>
       </pane>
     </panes>
@@ -314,213 +181,87 @@
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
   </component>
-  <component name="RestoreUpdateTree">
-    <UpdateInfo date="Moments ago" ActionInfo="_Update">
-      <UpdatedFiles>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Updated from server" />
-          <option name="myStatusName" value="Changed on server" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="CHANGED_ON_SERVER" />
-          <FILE-GROUP>
-            <option name="myUpdateName" value="Updated" />
-            <option name="myStatusName" value="Changed" />
-            <option name="mySupportsDeletion" value="false" />
-            <option name="myCanBeAbsent" value="false" />
-            <option name="myId" value="UPDATED" />
-          </FILE-GROUP>
-          <FILE-GROUP>
-            <option name="myUpdateName" value="Created" />
-            <option name="myStatusName" value="Created" />
-            <option name="mySupportsDeletion" value="false" />
-            <option name="myCanBeAbsent" value="false" />
-            <option name="myId" value="CREATED" />
-          </FILE-GROUP>
-          <FILE-GROUP>
-            <option name="myUpdateName" value="Deleted" />
-            <option name="myStatusName" value="Deleted" />
-            <option name="mySupportsDeletion" value="false" />
-            <option name="myCanBeAbsent" value="true" />
-            <option name="myId" value="REMOVED_FROM_REPOSITORY" />
-          </FILE-GROUP>
-          <FILE-GROUP>
-            <option name="myUpdateName" value="Restored" />
-            <option name="myStatusName" value="Will be restored" />
-            <option name="mySupportsDeletion" value="false" />
-            <option name="myCanBeAbsent" value="false" />
-            <option name="myId" value="RESTORED" />
-          </FILE-GROUP>
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Modified" />
-          <option name="myStatusName" value="Modified" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="MODIFIED" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Skipped" />
-          <option name="myStatusName" value="Skipped" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="SKIPPED" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Merged with conflicts" />
-          <option name="myStatusName" value="Will be merged with conflicts" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="MERGED_WITH_CONFLICTS" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Merged with tree conflicts" />
-          <option name="myStatusName" value="Merged with tree conflicts" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="MERGED_WITH_TREE_CONFLICT" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Merged with property conflicts" />
-          <option name="myStatusName" value="Will be merged with property conflicts" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="MERGED_WITH_PROPERTY_CONFLICT" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Merged" />
-          <option name="myStatusName" value="Will be merged" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="MERGED" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Not in repository" />
-          <option name="myStatusName" value="Not in repository" />
-          <option name="mySupportsDeletion" value="true" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="UNKNOWN" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Locally added" />
-          <option name="myStatusName" value="Locally added" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="LOCALLY_ADDED" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Locally removed" />
-          <option name="myStatusName" value="Locally removed" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="LOCALLY_REMOVED" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Switched" />
-          <option name="myStatusName" value="Switched" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="SWITCHED" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Externals" />
-          <option name="myStatusName" value="Externals" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="true" />
-          <option name="myId" value="external" />
-          <PATH vcs="svn" revision="497">$PROJECT_DIR$/external/phpunit</PATH>
-        </FILE-GROUP>
-      </UpdatedFiles>
-    </UpdateInfo>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
   </component>
   <component name="RunManager" selected="PHPUnit.WorkTests.test_onceAndOnlyOnce">
-    <configuration default="false" name="WorkTests.testasdf" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
-      <CommandLine workingDirectory="$PROJECT_DIR$" />
-      <TestRunner class="WorkTests" file="$PROJECT_DIR$/test/WorkTests.php" method="testasdf" scope="Method" />
-      <RunnerSettings RunnerId="PhpRunner" />
-      <ConfigurationWrapper RunnerId="PhpRunner" />
-      <method />
-    </configuration>
-    <configuration default="false" name="MockTest" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
-      <CommandLine workingDirectory="$PROJECT_DIR$" />
-      <TestRunner class="MockTest" file="$PROJECT_DIR$/test/MockTest.php" scope="Class" />
-      <RunnerSettings RunnerId="PhpRunner" />
-      <ConfigurationWrapper RunnerId="PhpRunner" />
-      <method />
-    </configuration>
-    <configuration default="false" name="WorkTests" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
-      <CommandLine workingDirectory="$PROJECT_DIR$" />
-      <TestRunner class="WorkTests" file="$PROJECT_DIR$/test/WorkTests.php" scope="Class" />
-      <RunnerSettings RunnerId="PhpRunner" />
-      <ConfigurationWrapper RunnerId="PhpRunner" />
-      <method />
-    </configuration>
-    <configuration default="false" name="WorkTests.testRecursiveMockWithStubbingAndVerification" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
-      <CommandLine workingDirectory="$PROJECT_DIR$" />
-      <TestRunner class="WorkTests" file="$PROJECT_DIR$/test/WorkTests.php" method="testRecursiveMockWithStubbingAndVerification" scope="Method" />
-      <RunnerSettings RunnerId="PhpRunner" />
-      <ConfigurationWrapper RunnerId="PhpRunner" />
-      <method />
-    </configuration>
-    <configuration default="false" name="WorkTests.test_onceAndOnlyOnce" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
-      <CommandLine workingDirectory="$PROJECT_DIR$" />
-      <TestRunner class="WorkTests" file="$PROJECT_DIR$/test/WorkTests.php" method="test_onceAndOnlyOnce" scope="Method" />
-      <RunnerSettings RunnerId="PhpRunner" />
-      <ConfigurationWrapper RunnerId="PhpRunner" />
-      <method />
-    </configuration>
-    <configuration default="true" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
-      <CommandLine workingDirectory="$PROJECT_DIR$" />
-      <TestRunner file="$PROJECT_DIR$/external/phpunit/phpunit.php" scope="Class" />
-      <method />
-    </configuration>
-    <configuration default="true" type="PhpLocalRunConfigurationType" factoryName="PHP Console">
-      <method />
-    </configuration>
-    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug" singleton="true">
-      <method />
-    </configuration>
     <configuration default="true" type="AppEnginePhpConfigurationType" factoryName="App Engine for PHP">
       <method />
     </configuration>
     <configuration default="true" type="PhpUnitRemoteRunConfigurationType" factoryName="PHPUnit on Server">
       <method />
     </configuration>
-    <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="PHPUnit.WorkTests.testasdf" />
-      <item index="1" class="java.lang.String" itemvalue="PHPUnit.MockTest" />
-      <item index="2" class="java.lang.String" itemvalue="PHPUnit.WorkTests" />
-      <item index="3" class="java.lang.String" itemvalue="PHPUnit.WorkTests.testRecursiveMockWithStubbingAndVerification" />
-      <item index="4" class="java.lang.String" itemvalue="PHPUnit.WorkTests.test_onceAndOnlyOnce" />
+    <configuration default="true" type="JavascriptDebugType" singleton="true">
+      <method v="2" />
+    </configuration>
+    <configuration name="MockTest" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <CommandLine workingDirectory="$PROJECT_DIR$" />
+      <TestRunner class="MockTest" file="$PROJECT_DIR$/test/MockTest.php" scope="Class" />
+      <RunnerSettings RunnerId="PhpRunner" />
+      <ConfigurationWrapper RunnerId="PhpRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="WorkTests" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <CommandLine workingDirectory="$PROJECT_DIR$" />
+      <TestRunner class="WorkTests" file="$PROJECT_DIR$/test/WorkTests.php" scope="Class" />
+      <RunnerSettings RunnerId="PhpRunner" />
+      <ConfigurationWrapper RunnerId="PhpRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="WorkTests.testRecursiveMockWithStubbingAndVerification" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <CommandLine workingDirectory="$PROJECT_DIR$" />
+      <TestRunner class="WorkTests" file="$PROJECT_DIR$/test/WorkTests.php" method="testRecursiveMockWithStubbingAndVerification" scope="Method" />
+      <RunnerSettings RunnerId="PhpRunner" />
+      <ConfigurationWrapper RunnerId="PhpRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="WorkTests.test_onceAndOnlyOnce" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <CommandLine workingDirectory="$PROJECT_DIR$" />
+      <TestRunner class="WorkTests" file="$PROJECT_DIR$/test/WorkTests.php" method="test_onceAndOnlyOnce" scope="Method" />
+      <RunnerSettings RunnerId="PhpRunner" />
+      <ConfigurationWrapper RunnerId="PhpRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="WorkTests.testasdf" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <CommandLine workingDirectory="$PROJECT_DIR$" />
+      <TestRunner class="WorkTests" file="$PROJECT_DIR$/test/WorkTests.php" method="testasdf" scope="Method" />
+      <RunnerSettings RunnerId="PhpRunner" />
+      <ConfigurationWrapper RunnerId="PhpRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
+      <CommandLine workingDirectory="$PROJECT_DIR$" />
+      <TestRunner file="$PROJECT_DIR$/external/phpunit/phpunit.php" scope="Class" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="PHPUnit.WorkTests.testasdf" />
+      <item itemvalue="PHPUnit.MockTest" />
+      <item itemvalue="PHPUnit.WorkTests" />
+      <item itemvalue="PHPUnit.WorkTests.testRecursiveMockWithStubbingAndVerification" />
+      <item itemvalue="PHPUnit.WorkTests.test_onceAndOnlyOnce" />
     </list>
     <recent_temporary>
-      <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="PHPUnit.WorkTests.test_onceAndOnlyOnce" />
-        <item index="1" class="java.lang.String" itemvalue="PHPUnit.WorkTests" />
-        <item index="2" class="java.lang.String" itemvalue="PHPUnit.MockTest" />
-        <item index="3" class="java.lang.String" itemvalue="PHPUnit.WorkTests.testRecursiveMockWithStubbingAndVerification" />
-        <item index="4" class="java.lang.String" itemvalue="PHPUnit.WorkTests.testasdf" />
+      <list>
+        <item itemvalue="PHPUnit.WorkTests.test_onceAndOnlyOnce" />
+        <item itemvalue="PHPUnit.WorkTests" />
+        <item itemvalue="PHPUnit.MockTest" />
+        <item itemvalue="PHPUnit.WorkTests.testRecursiveMockWithStubbingAndVerification" />
+        <item itemvalue="PHPUnit.WorkTests.testasdf" />
       </list>
     </recent_temporary>
   </component>
-  <component name="ShelveChangesManager" show_recycled="false" />
-  <component name="SvnConfiguration" maxAnnotateRevisions="500" myUseAcceleration="nothing" myAutoUpdateAfterCommit="false" cleanupOnStartRun="true" SSL_PROTOCOLS="sslv3">
-    <option name="USER" value="" />
-    <option name="PASSWORD" value="" />
-    <option name="mySSHConnectionTimeout" value="30000" />
-    <option name="mySSHReadTimeout" value="30000" />
-    <option name="LAST_MERGED_REVISION" />
-    <option name="MERGE_DRY_RUN" value="false" />
-    <option name="MERGE_DIFF_USE_ANCESTRY" value="true" />
-    <option name="UPDATE_LOCK_ON_DEMAND" value="false" />
-    <option name="IGNORE_SPACES_IN_MERGE" value="false" />
-    <option name="CHECK_NESTED_FOR_QUICK_MERGE" value="false" />
-    <option name="IGNORE_SPACES_IN_ANNOTATE" value="true" />
-    <option name="SHOW_MERGE_SOURCES_IN_ANNOTATE" value="true" />
-    <option name="FORCE_UPDATE" value="false" />
-    <option name="IGNORE_EXTERNALS" value="false" />
+  <component name="SvnConfiguration" cleanupOnStartRun="true" SSL_PROTOCOLS="sslv3">
     <configuration useDefault="false">$USER_HOME$/.subversion</configuration>
-    <myIsUseDefaultProxy>false</myIsUseDefaultProxy>
     <supportedVersion>125</supportedVersion>
   </component>
   <component name="SvnFileUrlMappingImpl">
@@ -553,62 +294,89 @@
     <task active="true" id="Default" summary="Default task">
       <changelist id="60a767c5-5dfd-4047-8c4b-7b05133eed38" name="Default" comment="" />
       <created>1370852796681</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
       <updated>1370852796681</updated>
     </task>
     <task id="LOCAL-00001" summary="[71] added a composer file to mockit">
       <created>1370852900101</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
       <updated>1370852900101</updated>
     </task>
     <task id="LOCAL-00002" summary="[42] fixed bug in mockit, where the default value of a method was not automatically considered for the verification">
       <created>1373373044101</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
       <updated>1373373044101</updated>
     </task>
     <task id="LOCAL-00003" summary="[8] Fixed a few bugs in mockit, regarding not handling default values correctly">
       <created>1373532494112</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
       <updated>1373532494112</updated>
     </task>
     <task id="LOCAL-00004" summary="[8] fixed indetation">
       <created>1373875412101</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
       <updated>1373875412101</updated>
     </task>
     <task id="LOCAL-00005" summary="minor fixes for mockit">
       <created>1379064319101</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
       <updated>1379064319101</updated>
     </task>
     <task id="LOCAL-00006" summary="[31] If method allows null, so should the mockitor version">
       <created>1382946045100</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
       <updated>1382946045100</updated>
     </task>
     <task id="LOCAL-00007" summary="added support for no further invocations to mockit">
       <created>1391765421101</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
       <updated>1391765421101</updated>
     </task>
     <option name="localTasksCounter" value="8" />
     <servers />
   </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="354000" />
+  </component>
   <component name="ToolWindowManager">
-    <frame x="-1" y="27" width="1682" height="1024" extended-state="6" />
-    <editor active="false" />
+    <frame x="4480" y="-2" width="2560" height="1442" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info id="Changes" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3329609" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32402235" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32849163" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32988507" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3384333" sideWeight="0.6666667" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960895" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.6666667" visible="true" weight="0.22651275" />
+      <window_info id="Structure" order="1" weight="0.25" />
+      <window_info id="Favorites" order="2" />
+      <window_info anchor="bottom" id="SVN Properties" weight="0.32971296" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32402235" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32960895" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.32849163" />
+      <window_info active="true" anchor="bottom" id="Changes" order="8" visible="true" weight="0.3329609" />
+      <window_info anchor="bottom" id="Event Log" order="9" />
+      <window_info anchor="bottom" id="Messages" order="10" weight="0.32988507" />
+      <window_info anchor="bottom" id="Terminal" order="11" visible="true" weight="0.32971296" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Database" order="3" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -616,13 +384,7 @@
       <collection />
     </option>
   </component>
-  <component name="VcsContentAnnotationSettings">
-    <option name="myLimit" value="2678400000" />
-  </component>
   <component name="VcsManagerConfiguration">
-    <option name="myTodoPanelSettings">
-      <TodoPanelSettings />
-    </option>
     <MESSAGE value="[71] added a composer file to mockit" />
     <MESSAGE value="[42] fixed bug in mockit, where the default value of a method was not automatically considered for the verification" />
     <MESSAGE value="[8] Fixed a few bugs in mockit, regarding not handling default values correctly" />
@@ -631,218 +393,205 @@
     <MESSAGE value="[31] If method allows null, so should the mockitor version" />
     <MESSAGE value="Added support for no further interactions to mockit" />
     <MESSAGE value="added support for no further invocations to mockit" />
-    <option name="LAST_COMMIT_MESSAGE" value="added support for no further invocations to mockit" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager />
+    <MESSAGE value="[m50] Remove external dependency" />
+    <option name="LAST_COMMIT_MESSAGE" value="[m50] Remove external dependency" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/composer.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="1" selection-start="30" selection-end="30" vertical-scroll-proportion="0.05703422" vertical-offset="0" max-vertical-offset="526" />
+        <state relative-caret-position="40">
+          <caret line="2" column="1" lean-forward="true" selection-start-line="2" selection-start-column="1" selection-end-line="2" selection-end-column="1" />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/mockit/IMockit.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="36" selection-start="344" selection-end="344" vertical-scroll-proportion="0.8269962" vertical-offset="0" max-vertical-offset="540">
-          <folding />
+        <state>
+          <caret line="29" column="36" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/mockit/MockitVerificationException.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="6" selection-start="13" selection-end="13" vertical-scroll-proportion="0.056710776" vertical-offset="0" max-vertical-offset="529">
+        <state>
+          <caret line="2" column="6" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/mockit/MockHelperGenerator.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="65" selection-start="1187" selection-end="1187" vertical-scroll-proportion="0.32163742" vertical-offset="405" max-vertical-offset="1440" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/external/phpunit/PHPUnit/Framework/TestCase.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1518" column="5" selection-start="43981" selection-end="43981" vertical-scroll-proportion="0.3197026" vertical-offset="21968" max-vertical-offset="22905">
-          <folding />
+        <state>
+          <caret line="38" column="65" />
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/external/phpunit/PHPUnit/Framework/TestCase.php" />
     <entry file="file://$PROJECT_DIR$/test/MockFailingTests.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="56" column="38" selection-start="1278" selection-end="1278" vertical-scroll-proportion="0.38112524" vertical-offset="630" max-vertical-offset="2625">
+        <state>
+          <caret line="56" column="38" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/mockit/MockitStub.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="37" column="4" selection-start="674" selection-end="674" vertical-scroll-proportion="0.35390198" vertical-offset="360" max-vertical-offset="1320">
+        <state>
+          <caret line="37" column="4" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/testobjects/MyDummy.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="30" selection-start="192" selection-end="192" vertical-scroll-proportion="0.4355717" vertical-offset="0" max-vertical-offset="870">
+        <state>
+          <caret line="16" column="30" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test/MockVerifyFailingTests.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="199" column="0" selection-start="4757" selection-end="4757" vertical-scroll-proportion="-11.375" vertical-offset="2712" max-vertical-offset="3390">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/external/phpunit/PHPUnit/Framework.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="555">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/external/phpunit/phpunit.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="570">
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/test/MockVerifyFailingTests.php" />
+    <entry file="file://$PROJECT_DIR$/external/phpunit/PHPUnit/Framework.php" />
+    <entry file="file://$PROJECT_DIR$/external/phpunit/phpunit.php" />
     <entry file="file://$PROJECT_DIR$/autoload.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="0" selection-start="6" selection-end="6" vertical-scroll-proportion="-0.625" vertical-offset="0" max-vertical-offset="855">
-          <folding />
+        <state relative-caret-position="40">
+          <caret line="2" column="6" selection-start-line="2" selection-start-column="6" selection-end-line="2" selection-end-column="6" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/mockit/MockitMatcher.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="4" selection-start="614" selection-end="614" vertical-scroll-proportion="1.1813186" vertical-offset="0" max-vertical-offset="1020">
+        <state>
+          <caret line="43" column="4" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/mockit/matchers/NotMatcher.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="14" selection-start="21" selection-end="21" vertical-scroll-proportion="0.054945055" vertical-offset="0" max-vertical-offset="546">
+        <state>
+          <caret line="2" column="14" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/mockit/matchers/MockitTypeMatcher.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="22" selection-start="29" selection-end="29" vertical-scroll-proportion="0.027472528" vertical-offset="15" max-vertical-offset="600">
+        <state>
+          <caret line="2" column="22" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/mockit/matchers/MockitSameMatcher.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="6" selection-start="13" selection-end="13" vertical-scroll-proportion="0.027472528" vertical-offset="15" max-vertical-offset="600">
+        <state>
+          <caret line="2" column="6" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/mockit/matchers/MockitRegexMatcher.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="6" selection-start="13" selection-end="13" vertical-scroll-proportion="0.054945055" vertical-offset="0" max-vertical-offset="585">
+        <state>
+          <caret line="2" column="6" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/mockit/matchers/MockitEqualsMatcher.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="6" selection-start="13" selection-end="13" vertical-scroll-proportion="0.054945055" vertical-offset="0" max-vertical-offset="1410">
+        <state>
+          <caret line="2" column="6" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/mockit/matchers/MockitDelegateMatcher.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="6" selection-start="13" selection-end="13" vertical-scroll-proportion="0.054945055" vertical-offset="0" max-vertical-offset="660">
+        <state>
+          <caret line="2" column="6" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/mockit/matchers/MockitAnyMatcher.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="6" selection-start="13" selection-end="13" vertical-scroll-proportion="0.054945055" vertical-offset="0" max-vertical-offset="546">
+        <state>
+          <caret line="2" column="6" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/mockit/matchers/CaptorMatcher.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="6" selection-start="13" selection-end="13" vertical-scroll-proportion="0.054945055" vertical-offset="0" max-vertical-offset="546">
+        <state>
+          <caret line="2" column="6" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/mockit/matchers/IMockitMatcher.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="1" selection-start="126" selection-end="126" vertical-scroll-proportion="0.24725275" vertical-offset="0" max-vertical-offset="546">
+        <state>
+          <caret line="9" column="1" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/mockit/MockitParameterMatchResult.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="12" selection-start="766" selection-end="766" vertical-scroll-proportion="0.7790055" vertical-offset="72" max-vertical-offset="900">
+        <state>
+          <caret line="33" column="12" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/mockit/MockitMatchResult.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="38" selection-start="404" selection-end="404" vertical-scroll-proportion="0.4502814" vertical-offset="0" max-vertical-offset="1905">
+        <state>
+          <caret line="16" column="38" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/mockit/MockitEvent.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="38" selection-start="584" selection-end="584" vertical-scroll-proportion="0.34798536" vertical-offset="410" max-vertical-offset="1020">
-          <folding />
+        <state>
+          <caret line="40" column="38" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/mockit/Mockit.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="273" column="14" selection-start="6045" selection-end="6045" vertical-scroll-proportion="-8.875" vertical-offset="3882" max-vertical-offset="9300">
-          <folding />
+        <state relative-caret-position="5460">
+          <caret line="273" column="12" selection-start-line="273" selection-start-column="12" selection-end-line="273" selection-end-column="12" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test/MockTest.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="413" column="5" selection-start="10572" selection-end="10572" vertical-scroll-proportion="-3.936709" vertical-offset="5884" max-vertical-offset="6510">
-          <folding />
+        <state relative-caret-position="8260">
+          <caret line="413" column="5" selection-start-line="413" selection-start-column="5" selection-end-line="413" selection-end-column="5" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/mockit/MockitVerifier.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="90" column="0" selection-start="2035" selection-end="2035" vertical-scroll-proportion="-8.875" vertical-offset="1137" max-vertical-offset="4290">
-          <folding />
+        <state relative-caret-position="1800">
+          <caret line="90" selection-start-line="90" selection-end-line="90" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test/WorkTests.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="0" selection-start="166" selection-end="166" vertical-scroll-proportion="-5.625" vertical-offset="0" max-vertical-offset="270">
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/test/WorkTests.php" />
     <entry file="file://$PROJECT_DIR$/lib/mockit/MockitRecursiveMatcher.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="0" selection-start="332" selection-end="332" vertical-scroll-proportion="0.3207547" vertical-offset="40" max-vertical-offset="855">
-          <folding />
+        <state relative-caret-position="280">
+          <caret line="14" selection-start-line="14" selection-end-line="14" />
         </state>
       </provider>
     </entry>
   </component>
 </project>
-
