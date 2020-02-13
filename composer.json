@@ -1,3 +1,17 @@
 {
-    "name":"pensio/mockit"
+    "name":"pensio/mockit",
+    "minimum-stability": "dev",
+    "config": {
+        "secure-http": false
+    },
+    "require-dev": {
+
+        "pensio/phpunit": "dev-PHPUnit"
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "http://packages.mars.pensio.com"
+        }
+    ]
 }
