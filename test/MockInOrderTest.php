@@ -3,14 +3,17 @@
 require_once dirname(__FILE__).'/../autoload.php';
 
 class MockInOrderTest
-	extends MockitTestCase
+    extends MockitTestCase
 {
+    /**
+     * @Test
+     */
 	public function testInOrderSuccessCase()
 	{
-		$mock = $this->getMockit('MyDummy','d1');
+		$mock = Mockit::getMock('MyDummy','d1');
 		$instance = $mock->instance();
 		
-		$mock2 = $this->getMockit('MyDummy','d2');
+		$mock2 = Mockit::getMock('MyDummy','d2');
 		$instance2 = $mock2->instance();
 		
 		$instance->getDummy();
@@ -23,14 +26,15 @@ class MockInOrderTest
 	}
 	
 	/**
+     * @Test
 	 * @expectedException MockitOutOfOrderInvokedException
 	 */
 	public function testInOrder_failOnTooManyCallsBetweenOutliers()
 	{
-		$mock = $this->getMockit('MyDummy', 'd1');
+		$mock = Mockit::getMock('MyDummy', 'd1');
 		$instance = $mock->instance();
 		
-		$mock2 = $this->getMockit('MyDummy','d2');
+		$mock2 = Mockit::getMock('MyDummy','d2');
 		$instance2 = $mock2->instance();
 		
 		$instance->getDummy();
@@ -44,14 +48,15 @@ class MockInOrderTest
 	}
 
 	/**
+     * @Test
 	 * @expectedException MockitOutOfOrderInvokedException
 	 */
 	public function testInOrder_failOnTooManyCallsBeforeOutlier()
 	{
-		$mock = $this->getMockit('MyDummy', 'd1');
+		$mock = Mockit::getMock('MyDummy', 'd1');
 		$instance = $mock->instance();
 
-		$mock2 = $this->getMockit('MyDummy','d2');
+		$mock2 = Mockit::getMock('MyDummy','d2');
 		$instance2 = $mock2->instance();
 
 		$instance2->getDummy();
@@ -63,14 +68,15 @@ class MockInOrderTest
 	}
 
 	/**
+     * @Test
 	 * Handling this case would require checking it in the teardown method, which would overcomplicate matters
 	 */
 	public function testInOrder_failOnTooManyCallsAfterOutlier_willNotFail()
 	{
-		$mock = $this->getMockit('MyDummy', 'd1');
+		$mock = Mockit::getMock('MyDummy', 'd1');
 		$instance = $mock->instance();
 
-		$mock2 = $this->getMockit('MyDummy','d2');
+		$mock2 = Mockit::getMock('MyDummy','d2');
 		$instance2 = $mock2->instance();
 
 		$instance->getDummy();
@@ -82,15 +88,18 @@ class MockInOrderTest
 		$mock2->invoked()->getDummy();
 	}
 
+    /**
+     * @Test
+     */
 	public function testInOrderWithNonCheckedMockCalledInBetween()
 	{
-		$mock  = $this->getMockit('MyDummy','d1');
+		$mock  = Mockit::getMock('MyDummy','d1');
 		$instance = $mock->instance();
 		
-		$mock2 = $this->getMockit('MyDummy','d2');
+		$mock2 = Mockit::getMock('MyDummy','d2');
 		$instance2 = $mock2->instance();
 		
-		$mock3 = $this->getMockit('MyDummy','d3');
+		$mock3 = Mockit::getMock('MyDummy','d3');
 		$instance3 = $mock3->instance();
 		
 		$instance->getDummy();
@@ -102,17 +111,19 @@ class MockInOrderTest
 		$mock2->invoked()->getDummy();
 		$mock->invoked()->getDummy();
 	}
-	
-	
+
+    /**
+     * @Test
+     */
 	public function testInOrderWithNonCheckedMockCalledAround()
 	{
-		$mock  = $this->getMockit('MyDummy','d1');
+		$mock  = Mockit::getMock('MyDummy','d1');
 		$instance = $mock->instance();
 		
-		$mock2 = $this->getMockit('MyDummy','d2');
+		$mock2 = Mockit::getMock('MyDummy','d2');
 		$instance2 = $mock2->instance();
 		
-		$mock3 = $this->getMockit('MyDummy','d3');
+		$mock3 = Mockit::getMock('MyDummy','d3');
 		$instance3 = $mock3->instance();
 		
 		$instance3->getDummy();
@@ -128,14 +139,15 @@ class MockInOrderTest
 	
 	
 	/**
+     * @Test
 	 * @expectedException MockitVerificationException
 	 */
 	public function testWorking()
 	{
-		$mock  = $this->getMockit('MyDummy','d1');
+		$mock  = Mockit::getMock('MyDummy','d1');
 		$instance = $mock->instance();
 		
-		$mock2 = $this->getMockit('MyDummy','d2');
+		$mock2 = Mockit::getMock('MyDummy','d2');
 		$instance2 = $mock2->instance();
 		
 		$instance->getDummy();
@@ -148,9 +160,12 @@ class MockInOrderTest
 		$mock2->invoked()->getDummy();
 	}
 
+    /**
+     * @Test
+     */
 	public function test_inOrderWithMultipleIrrelevantAroundIt()
 	{
-		$mock = $this->getMockit('MyDummy');
+		$mock = Mockit::getMock('MyDummy');
 		$instance = $mock->instance();
 
 

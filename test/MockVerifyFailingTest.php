@@ -3,14 +3,15 @@
 require_once dirname(__FILE__).'/../autoload.php';
 
 class MockVerifyFailingTest
-	extends MockitTestCase
+    extends MockitTestCase
 {
 	/**
 	 * @expectedException MockitVerificationException
-	 */
+     * @Test
+     */
 	public function testFailingPassMultipleArguments()
 	{
-		$mock = $this->getMockit('MyDummy');
+		$mock = Mockit::getMock('MyDummy');
 		$instance = $mock->instance();
 	
 		$instance->multipleArguments('arg3','arg2');
@@ -20,10 +21,11 @@ class MockVerifyFailingTest
 	
 	/**
 	 * @expectedException MockitVerificationException
-	 */
+     * @Test
+     */
 	public function testFailingPassMultipleArgumentsWithAnyMatch()
 	{
-		$mock = $this->getMockit('MyDummy');
+		$mock = Mockit::getMock('MyDummy');
 		$instance = $mock->instance();
 	
 		$instance->multipleArguments('arg3','arg2');
@@ -33,10 +35,11 @@ class MockVerifyFailingTest
 	
 	/**
 	 * @expectedException MockitVerificationException
-	 */
+     * @Test
+     */
 	public function testSameMatcherThatFails()
 	{
-		$mock = $this->getMockit('MyDummy');
+		$mock = Mockit::getMock('MyDummy');
 		$instance = $mock->instance();
 	
 		$dummy = new MyDummy();
@@ -49,25 +52,27 @@ class MockVerifyFailingTest
 	
 	/**
 	 * @expectedException MockitVerificationException
-	 */
+     * @Test
+     */
 	public function testSameMatcherWithMockThatFails()
 	{
-		$mock = $this->getMockit('MyDummy');
+		$mock = Mockit::getMock('MyDummy');
 		$instance = $mock->instance();
 	
-		$instance2 = $this->getMockit('MyDummy')->instance();
+		$instance2 = Mockit::getMock('MyDummy')->instance();
 	
-		$instance->addDummy($this->getMockit('MyDummy')->instance());
+		$instance->addDummy(Mockit::getMock('MyDummy')->instance());
 	
 		$mock->once()->addDummy($this->same($instance2));
 	}
 	
 	/**
 	 * @expectedException MockitVerificationException
-	 */
+     * @Test
+     */
 	public function testObjectEqualsMatchingFailing()
 	{
-		$mock = $this->getMockit('MyDummy');
+		$mock = Mockit::getMock('MyDummy');
 		$instance = $mock->instance();
 	
 		$obj1 = new ValueObject();
@@ -83,10 +88,11 @@ class MockVerifyFailingTest
 	
 	/**
 	 * @expectedException MockitVerificationException
-	 */
+     * @Test
+     */
 	public function testObjectEqualsMatchingFailingForMethodWithMultipleParameters()
 	{
-		$mock = $this->getMockit('MyDummy');
+		$mock = Mockit::getMock('MyDummy');
 		$instance = $mock->instance(); /* @var $instance MyDummy */
 	
 		$obj1 = new ValueObject();
@@ -102,12 +108,13 @@ class MockVerifyFailingTest
 	
 	/**
 	 * @expectedException MockitOutOfOrderException
-	 */
+     * @Test
+     */
 	public function testInOrderVerificationsSimpleFailing()
 	{
-		$mock = $this->getMockit('MyDummy');
+		$mock = Mockit::getMock('MyDummy');
 		$instance = $mock->instance();
-		$mock2 = $this->getMockit('MyDummy');
+		$mock2 = Mockit::getMock('MyDummy');
 		$instance2 = $mock2->instance();
 		
 		$instance->doIt('1');
@@ -119,12 +126,13 @@ class MockVerifyFailingTest
 	
 	/**
 	 * @expectedException MockitOutOfOrderException
-	 */
+     * @Test
+     */
 	public function testInOrderVerificationsMultipleIrrelevantCalls()
 	{
-		$mock = $this->getMockit('MyDummy');
+		$mock = Mockit::getMock('MyDummy');
 		$instance = $mock->instance();
-		$mock2 = $this->getMockit('MyDummy');
+		$mock2 = Mockit::getMock('MyDummy');
 		$instance2 = $mock2->instance();
 		
 		$instance2->doIt('noget tredje');
@@ -139,25 +147,27 @@ class MockVerifyFailingTest
 
 	/**
 	 * @expectedException MockitVerificationException
-	 */
+     * @Test
+     */
 	public function testRecursiveMockWithFailingVerification()
 	{
-		$mock = $this->getMockit('MyDummy')->recursive();
+		$mock = Mockit::getMock('MyDummy')->recursive();
 		$instance = $mock->instance();
 		
 		$mock->with()->addDummy($this->any())->when()->doIt($this->any())->thenReturn('wah');
 		
-		$this->assertEquals('wah',$instance->addDummy($instance)->doIt('1'));
+		Assert::equals('wah',$instance->addDummy($instance)->doIt('1'));
 		
 		$mock->with()->addDummy($this->any())->once()->doIt('2');
 	}
 	
 	/**
 	 * @expectedException Exception
-	 */
+     * @Test
+     */
 	public function testRecursiveMockOfMethodThatReturnsArrayThrowsExplainingException()
 	{
-		$mock = $this->getMockit('MyDummy')->recursive();
+		$mock = Mockit::getMock('MyDummy')->recursive();
 		$instance = $mock->instance();
 
 		$mock->with()->getDummies()->doSomething();
@@ -165,10 +175,11 @@ class MockVerifyFailingTest
 	
 	/**
 	 * @expectedException Exception
-	 */
+     * @Test
+     */
 	public function testRecursiveMockOfMethodThatReturnsUnmockableObjectThrowsExplainingException()
 	{
-		$mock = $this->getMockit('MyDummy')->recursive();
+		$mock = Mockit::getMock('MyDummy')->recursive();
 		$instance = $mock->instance();
 
 		$mock->with()->doIt('1')->doSomething();
@@ -176,10 +187,11 @@ class MockVerifyFailingTest
 
 	/**
 	 * @expectedException MockitVerificationException
-	 */
+     * @Test
+     */
 	public function test_noFurtherInvocations_throwExceptionIfThereIsAnInvocation()
 	{
-		$mock = $this->getMockit('MyDummy')->recursive();
+		$mock = Mockit::getMock('MyDummy')->recursive();
 
 		$mock->instance()->getDummy();
 
@@ -188,10 +200,11 @@ class MockVerifyFailingTest
 
 	/**
 	 * @expectedException MockitVerificationException
-	 */
+     * @Test
+     */
 	public function test_noFurtherInvocations_throwExceptionIfThereIsFurtherInvocations()
 	{
-		$mock = $this->getMockit('MyDummy')->recursive();
+		$mock = Mockit::getMock('MyDummy')->recursive();
 
 		$mock->instance()->getDummy();
 		$mock->instance()->getDummy();
@@ -202,10 +215,11 @@ class MockVerifyFailingTest
 
 	/**
 	 * @expectedException MockitVerificationException
-	 */
+     * @Test
+     */
 	public function test_callingSameMockMethodTwiceWhenRestrictedToOnceFails()
 	{
-		$mock = $this->getMockit('MyDummy')->recursive();
+		$mock = Mockit::getMock('MyDummy')->recursive();
 
 		$mock->instance()->getDummy();
 		$mock->instance()->getDummy();

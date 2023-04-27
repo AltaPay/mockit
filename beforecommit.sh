@@ -2,4 +2,4 @@
 
 svn up
 
-php vendor/pensio/phpunit/phpunit/phpunit.php test
+php UnitTestSuite.php

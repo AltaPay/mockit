@@ -5,7 +5,7 @@ class MockitVerificationMatchList
 {
 	private $matches = array();
 
-	public function count()
+	public function count() : int
 	{
 		return count($this->matches);
 	}
@@ -23,7 +23,7 @@ class MockitVerificationMatchList
 	/**
 	 * @return MockitMatchResult[]
 	 */
-	public function getIterator()
+	public function getIterator() : Traversable
 	{
 		return new ArrayIterator($this->matches);
 	}
