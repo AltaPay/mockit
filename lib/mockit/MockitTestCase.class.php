@@ -2,11 +2,10 @@
 
 require_once(dirname(__FILE__).'/MockitInclude.php');
 
-class MockitTestCase extends PHPUnit_Framework_TestCase
+class MockitTestCase /* extends PHPUnit_Framework_TestCase */
 {
 	protected function tearDown()
 	{
-		parent::tearDown();
 		Mockit::resetMocks();
 	}
 	

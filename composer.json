@@ -5,13 +5,17 @@
         "secure-http": false
     },
     "require-dev": {
-
-        "pensio/phpunit": "dev-PHPUnit"
+        "pensio/testit": "*"
     },
     "repositories": [
         {
+            "name" : "testitlocal",
+            "type" : "path",
+            "url" : "../testit/"
+        },
+        {
             "type": "composer",
-            "url": "http://packages.mars.pensio.com"
+            "url": "https://packages.altapay.cloud/"
         }
     ]
 }

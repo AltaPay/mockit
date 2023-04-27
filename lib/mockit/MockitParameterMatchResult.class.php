@@ -14,7 +14,7 @@ class MockitParameterMatchResult
 	{
 		if(!($expected instanceof IMockitMatcher))
 		{
-			if(is_object($expected) || ($reflectionParameter != null && $reflectionParameter->getClass() != null))
+			if(is_object($expected) || ($reflectionParameter != null && $reflectionParameter->getType() != null))
 			{
 				$expected = new MockitSameMatcher($expected);
 			}

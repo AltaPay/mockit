@@ -75,13 +75,9 @@ class MockHelperGenerator
 			{
 				$paramString = '';
 
-				if($parameter->isArray())
+                if(!is_null($parameter->getType()))
 				{
-					$paramString .= 'array ';
-				}
-				else if(!is_null($parameter->getClass()))
-				{
-					$paramString .= $parameter->getClass()->getName().' ';
+					$paramString .= $parameter->getType()->getName().' ';
 				}
 				if($parameter->isPassedByReference())
 				{

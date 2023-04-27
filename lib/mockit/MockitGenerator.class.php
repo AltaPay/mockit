@@ -45,7 +45,7 @@ class MockitGenerator
 			$tmpl .= 'public function __construct(Mockit $mock) { $this->mock = $mock; }'."\n";
 			foreach($class->getMethods(ReflectionMethod::IS_PUBLIC|ReflectionMethod::IS_PROTECTED) as $method) /* @var $method ReflectionMethod */
 			{
-				if($method->name == '__construct' || $method->isStatic() || $method->isFinal())
+				if($method->name == '__construct' || $method->name == '__call' || $method->isStatic() || $method->isFinal())
 				{
 					continue;
 				}
@@ -88,7 +88,7 @@ class MockitGenerator
 			$tmpl .= '}'."\n";
 			foreach($class->getMethods() as $method) /* @var $method ReflectionMethod */
 			{
-				if($method->name == '__construct' || $method->isStatic() || $method->isFinal())
+				if($method->name == '__construct' || $method->name == '__call' || $method->isStatic() || $method->isFinal())
 				{
 					continue;
 				}
@@ -131,25 +131,26 @@ class MockitGenerator
 	 */
 	private static function getMethodSignature(ReflectionClass $class, ReflectionMethod $method)
 	{
-		$tmpl = ($method->isPublic() ? 'public' : ($method->isProtected() ? 'protected' : 'private')).' function '.$method->name.'(';
+		$tmpl = "\t#[\ReturnTypeWillChange]\n\t".($method->isPublic() ? 'public' : ($method->isProtected() ? 'protected' : 'private')).' function '.$method->name.'(';
 		$args = array();
 		$classlessArgs = array();
 		foreach($method->getParameters() as $parameter) /* @var $parameter ReflectionParameter */
 		{
 			$paramString = '';
 
-			if($parameter->isArray())
+			if(!is_null($parameter->getType()))
 			{
-				$paramString .= 'array ';
-			}
-			else if(!is_null($parameter->getClass()))
-			{
-				$paramString .= $parameter->getClass()->getName().' ';
+                if($parameter->getType() instanceof ReflectionNamedType) {
+                    $paramString .= $parameter->getType()->getName() . ' ';
+                }
 			}
 			if($parameter->isPassedByReference())
 			{
 				$paramString .= '&';
 			}
+            if ($parameter->isVariadic()) {
+                $paramString .= "...";
+            }
 			$paramString .= '$'.$parameter->getName();
 
 			if($parameter->isDefaultValueAvailable())
@@ -180,15 +181,17 @@ class MockitGenerator
 				}
 
 			}
-			else if($parameter->allowsNull() || $parameter->isOptional())
+			else if(($parameter->allowsNull() || $parameter->isOptional()) && !$parameter->isVariadic())
 			{
+
 				$paramString .= ' = null';
 			}
 			$args[] = $paramString;
 			$classlessArgs[] = '$'.$parameter->getName();
 		}
 		$tmpl .= implode(',',$args);
-		$tmpl .= ')'."\n";
+
+		$tmpl .= ')'.(!is_null($method->getReturnType()) ? ' : '.$method->getReturnType()->getName() : '')."\n";
 
 		return $tmpl;
 	}

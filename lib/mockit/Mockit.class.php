@@ -50,16 +50,19 @@ class Mockit
 		{
 			$this->mockitor = MockitGenerator::getMockitor($this->class,$this);
 		}
-		
-		if(!is_null($uniqueId))
-		{
-			$this->mockitor->__oid__ = $uniqueId;
-		}
-		else
-		{
-			$this->mockitor->__oid__ = $this->generateUniqueId();
-		}
+
+		if(!ObjectComparerHelper::hasId($this->mockitor)) {
+            if (!empty($uniqueId)) {
+                ObjectComparerHelper::register($this->mockitor, $uniqueId);
+            } else {
+                ObjectComparerHelper::register($this->mockitor, $this->generateUniqueId());
+            }
+        }
 	}
+
+    public static function getMock($class, $uniqueId=null) {
+        return new Mockit($class, $uniqueId);
+    }
 
 	public function getReflectionClass()
 	{
@@ -386,12 +389,8 @@ class Mockit
 		{
 			throw new Exception("Same matcher only works for objects");
 		}
-	
-		if (!isset($object->__oid__))
-		{
-			$object->__oid__ = uniqid(get_class($object).'_');
-		}
-		return $object->__oid__;
+
+        return ObjectComparerHelper::get($object);
 	}
 
 

@@ -1,0 +1,32 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "38e0aef6fbe84782ea98f8a8281dbbc9",
+    "packages": [],
+    "packages-dev": [
+        {
+            "name": "pensio/testit",
+            "version": "dev-master",
+            "dist": {
+                "type": "path",
+                "url": "../testit",
+                "reference": "7e516f7d04c787d17346e120d9536d657909cddc"
+            },
+            "type": "library",
+            "transport-options": {
+                "relative": true
+            }
+        }
+    ],
+    "aliases": [],
+    "minimum-stability": "dev",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}

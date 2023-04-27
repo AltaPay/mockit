@@ -3,14 +3,17 @@
 require_once dirname(__FILE__).'/../autoload.php';
 
 class MockTest
-	extends MockitTestCase
+    extends MockitTestCase
 {
+	/**
+     * @Test
+     */
 	public function testPassMockObjectToMockObject()
 	{
-		$mock = $this->getMockit('MyDummy');
+		$mock = Mockit::getMock('MyDummy');
 		$instance = $mock->instance();
 		
-		$mock2 = $this->getMockit('MyDummy');
+		$mock2 = Mockit::getMock('MyDummy');
 		$instance2 = $mock2->instance();
 		
 		$instance->addDummy($instance2);
@@ -18,12 +21,15 @@ class MockTest
 		$mock->once()->addDummy($instance2);
 	}
 	
+	/**
+     * @Test
+     */
 	public function testPassMockToMockInterface()
 	{
-		$mock = $this->getMockit('IDummy');
+		$mock = Mockit::getMock('IDummy');
 		$instance = $mock->instance();
 	
-		$mock2 = $this->getMockit('MyDummy');
+		$mock2 = Mockit::getMock('MyDummy');
 		$instance2 = $mock2->instance();
 	
 		$instance->addDummy($instance2);
@@ -31,12 +37,15 @@ class MockTest
 		$mock->once()->addDummy($instance2);
 	}
 	
+	/**
+     * @Test
+     */
 	public function testPassMockInterfaceToMock()
 	{
-		$mock = $this->getMockit('MyDummy');
+		$mock = Mockit::getMock('MyDummy');
 		$instance = $mock->instance();
 	
-		$mock2 = $this->getMockit('IDummy');
+		$mock2 = Mockit::getMock('IDummy');
 		$instance2 = $mock2->instance();
 	
 		$instance->addIDummy($instance2);
@@ -44,9 +53,12 @@ class MockTest
 		$mock->once()->addIDummy($instance2);
 	}
 	
+	/**
+     * @Test
+     */
 	public function testAnythingMatches()
 	{
-		$mock = $this->getMockit('MyDummy');
+		$mock = Mockit::getMock('MyDummy');
 		$instance = $mock->instance();
 		
 		$instance->doIt('asdf');
@@ -54,9 +66,12 @@ class MockTest
 		$mock->once()->doIt($this->any());
 	}
 	
+	/**
+     * @Test
+     */
 	public function testAnyNumberOfCorrectInvocations()
 	{
-		$mock = $this->getMockit('MyDummy');
+		$mock = Mockit::getMock('MyDummy');
 		$instance = $mock->instance();
 	
 		$instance->doIt('asdf');
@@ -67,9 +82,12 @@ class MockTest
 		$mock->any()->doIt('asdf');
 	}
 	
+	/**
+     * @Test
+     */
 	public function testPassMultipleArguments()
 	{
-		$mock = $this->getMockit('MyDummy');
+		$mock = Mockit::getMock('MyDummy');
 		$instance = $mock->instance();
 		
 		$instance->multipleArguments('arg1','arg2');
@@ -77,19 +95,25 @@ class MockTest
 		$mock->once()->multipleArguments('arg1','arg2');
 	}
 	
+	/**
+     * @Test
+     */
 	public function testStubbing()
 	{
-		$mock = $this->getMockit('MyDummy');
+		$mock = Mockit::getMock('MyDummy');
 		$instance = $mock->instance();
 
 		$mock->when()->doIt('hat')->thenReturn('din mors hat');
-		
-		$this->assertEquals('din mors hat', $instance->doIt('hat'));
+
+		Assert::equals('din mors hat', $instance->doIt('hat'));
 	}
 	
+	/**
+     * @Test
+     */
 	public function testSameMatcher()
 	{
-		$mock = $this->getMockit('MyDummy');
+		$mock = Mockit::getMock('MyDummy');
 		$instance = $mock->instance();
 		
 		$dummy = new MyDummy();
@@ -99,21 +123,27 @@ class MockTest
 		$mock->once()->addDummy($this->same($dummy));
 	}
 	
+	/**
+     * @Test
+     */
 	public function testSameMatcherWithMock()
 	{
-		$mock = $this->getMockit('MyDummy');
+		$mock = Mockit::getMock('MyDummy');
 		$instance = $mock->instance();
 	
-		$instance2 = $this->getMockit('MyDummy')->instance();
+		$instance2 = Mockit::getMock('MyDummy')->instance();
 	
 		$instance->addDummy($instance2);
 	
 		$mock->once()->addDummy($this->same($instance2));
 	}
 	
+	/**
+     * @Test
+     */
 	public function testObjectEqualsMatching()
 	{
-		$mock = $this->getMockit('MyDummy');
+		$mock = Mockit::getMock('MyDummy');
 		$instance = $mock->instance();
 		
 		$obj1 = new ValueObject();
@@ -127,33 +157,42 @@ class MockTest
 		$mock->once()->addValueObject($this->equals($obj2));
 	}
 	
+	/**
+     * @Test
+     */
 	public function testStubbingWithDifferentParameters()
 	{
-		$mock = $this->getMockit('MyDummy');
+		$mock = Mockit::getMock('MyDummy');
 		$instance = $mock->instance();
 
 		$mock->when()->doIt('hat')->thenReturn('din mors hat');
 		$mock->when()->doIt('kasket')->thenReturn('din mors kasket');
 	
-		$this->assertEquals('din mors hat', $instance->doIt('hat'));
-		$this->assertEquals('din mors kasket', $instance->doIt('kasket'));
+		Assert::equals('din mors hat', $instance->doIt('hat'));
+		Assert::equals('din mors kasket', $instance->doIt('kasket'));
 	}
 	
+	/**
+     * @Test
+     */
 	public function testStubbingWithAnyMatcher()
 	{
-		$mock = $this->getMockit('MyDummy');
+		$mock = Mockit::getMock('MyDummy');
 		$instance = $mock->instance();
 	
 	
 		$mock->when()->doIt($this->any())->thenReturn('din mors hat');
 	
-		$this->assertEquals('din mors hat', $instance->doIt('hat'));
-		$this->assertEquals('din mors hat', $instance->doIt('kasket'));
+		Assert::equals('din mors hat', $instance->doIt('hat'));
+		Assert::equals('din mors hat', $instance->doIt('kasket'));
 	}
 	
+	/**
+     * @Test
+     */
 	public function testStubbingMultipleStubActions()
 	{
-		$mock = $this->getMockit('MyDummy');
+		$mock = Mockit::getMock('MyDummy');
 		$instance = $mock->instance();
 	
 	
@@ -162,8 +201,8 @@ class MockTest
 			->thenReturn('din mors anden hat')
 			->thenThrow(new Exception('din mors exception'));
 	
-		$this->assertEquals('din mors hat', $instance->doIt('hat'));
-		$this->assertEquals('din mors anden hat', $instance->doIt('kasket'));
+		Assert::equals('din mors hat', $instance->doIt('hat'));
+		Assert::equals('din mors anden hat', $instance->doIt('kasket'));
 		$exceptionThrown = false;
 		try
 		{
@@ -172,14 +211,17 @@ class MockTest
 		catch(Exception $ex)
 		{
 			$exceptionThrown = true;
-			$this->assertEquals('din mors exception', $ex->getMessage());
+			Assert::equals('din mors exception', $ex->getMessage());
 		}
-		$this->assertTrue($exceptionThrown);
+		Assert::true($exceptionThrown);
 	}
 	
+	/**
+     * @Test
+     */
 	public function testLastStubbingActionContinues()
 	{
-		$mock = $this->getMockit('MyDummy');
+		$mock = Mockit::getMock('MyDummy');
 		$instance = $mock->instance();
 	
 		$mock->when()->doIt($this->any())
@@ -187,18 +229,19 @@ class MockTest
 			->thenReturn('2')
 			->thenReturn('3');
 	
-		$this->assertEquals('1', $instance->doIt('hat'));
-		$this->assertEquals('2', $instance->doIt('kasket'));
-		$this->assertEquals('3', $instance->doIt('kasket'));
-		$this->assertEquals('3', $instance->doIt('kasket'));
+		Assert::equals('1', $instance->doIt('hat'));
+		Assert::equals('2', $instance->doIt('kasket'));
+		Assert::equals('3', $instance->doIt('kasket'));
+		Assert::equals('3', $instance->doIt('kasket'));
 	}
 	
 	/**
 	 * @expectedException Exception
-	 */
+     * @Test
+     */
 	public function testStubbingThrows()
 	{
-		$mock = $this->getMockit('MyDummy');
+		$mock = Mockit::getMock('MyDummy');
 		$instance = $mock->instance();
 		
 		$mock->when()->doIt($this->any())->thenThrow(new Exception(''));
@@ -206,23 +249,29 @@ class MockTest
 		$instance->doIt('anything');
 	}
 	
+	/**
+     * @Test
+     */
 	public function testStubOverride()
 	{
-		$mock = $this->getMockit('MyDummy');
+		$mock = Mockit::getMock('MyDummy');
 		$instance = $mock->instance();
 	
 		$mock->when()->doIt($this->any())->thenReturn('1');
 		
 		$mock->when()->doIt($this->any())->thenReturn('2');
 	
-		$this->assertEquals('2', $instance->doIt('hat'));
+		Assert::equals('2', $instance->doIt('hat'));
 	}
 	
+	/**
+     * @Test
+     */
 	public function testInOrderVerifications()
 	{
-		$mock = $this->getMockit('MyDummy');
+		$mock = Mockit::getMock('MyDummy');
 		$instance = $mock->instance();
-		$mock2 = $this->getMockit('MyDummy');
+		$mock2 = Mockit::getMock('MyDummy');
 		$instance2 = $mock2->instance();
 	
 		$instance->doIt('1');
@@ -232,9 +281,12 @@ class MockTest
 		$mock2->once()->doIt('2');
 	}
 
+	/**
+     * @Test
+     */
 	public function testInOrderVerificationOfSameMethod()
 	{
-		$mock = $this->getMockit('MyDummy');
+		$mock = Mockit::getMock('MyDummy');
 		$instance = $mock->instance();
 	
 		$instance->doIt('1');
@@ -244,11 +296,14 @@ class MockTest
 		$mock->once()->doIt('2');
 	}
 	
+	/**
+     * @Test
+     */
 	public function testInOrderVerificationOfSameMethodSandwhichingOtherMethod()
 	{
-		$mock = $this->getMockit('MyDummy');
+		$mock = Mockit::getMock('MyDummy');
 		$instance = $mock->instance();
-		$mock2 = $this->getMockit('MyDummy');
+		$mock2 = Mockit::getMock('MyDummy');
 		$instance2 = $mock2->instance();
 	
 		$instance->doIt('1');
@@ -260,11 +315,14 @@ class MockTest
 		$mock->any()->doIt('1');
 	}
 
+	/**
+     * @Test
+     */
 	public function testOutOfOrderVerifications()
 	{
-		$mock = $this->getMockit('MyDummy');
+		$mock = Mockit::getMock('MyDummy');
 		$instance = $mock->instance();
-		$mock2 = $this->getMockit('MyDummy')->outOfOrder();
+		$mock2 = Mockit::getMock('MyDummy')->outOfOrder();
 		$instance2 = $mock2->instance();
 	
 		$instance2->doIt('2');
@@ -274,30 +332,39 @@ class MockTest
 		$mock2->once()->doIt('2');
 	}
 	
+	/**
+     * @Test
+     */
 	public function testRecursiveMockWithStubbingAndVerification()
 	{
-		$mock = $this->getMockit('MyDummy')->recursive();
+		$mock = Mockit::getMock('MyDummy')->recursive();
 		$instance = $mock->instance();
 		
 		$mock->with()->getDummy()->when()->doIt('1')->thenReturn('lol');
 		
-		$this->assertEquals('lol',$instance->getDummy()->doIt('1'));
+		Assert::equals('lol',$instance->getDummy()->doIt('1'));
 		$mock->with()->getDummy()->once()->doIt('1');
 	}
 	
+	/**
+     * @Test
+     */
 	public function testRecursiveMockWithStubbing()
 	{
-		$mock = $this->getMockit('MyDummy')->recursive();
+		$mock = Mockit::getMock('MyDummy')->recursive();
 		$instance = $mock->instance();
 		
 		$mock->with()->getDummy()->when()->doIt('1')->thenReturn('lol');
 		
-		$this->assertEquals('lol',$instance->getDummy()->doIt('1'));
+		Assert::equals('lol',$instance->getDummy()->doIt('1'));
 	}
 	
+	/**
+     * @Test
+     */
 	public function testRecursiveMockWithVerification()
 	{
-		$mock = $this->getMockit('MyDummy')->recursive();
+		$mock = Mockit::getMock('MyDummy')->recursive();
 		$instance = $mock->instance();
 		
 		$instance->getDummy()->doIt('1');
@@ -305,85 +372,109 @@ class MockTest
 		$mock->with()->getDummy()->once()->doIt('1');
 	}
 	
+	/**
+     * @Test
+     */
 	public function testOverrideRecursiveMock()
 	{
-		$mock = $this->getMockit('MyDummy')->recursive();
+		$mock = Mockit::getMock('MyDummy')->recursive();
 		$instance = $mock->instance();
 		
 		$mock->when()->getDummy()->thenReturn(new MyDummy());
 		
-		$this->assertEquals("1's momma", $instance->getDummy()->doIt('1'));
+		Assert::equals("1's momma", $instance->getDummy()->doIt('1'));
 	}
 
+	/**
+     * @Test
+     */
 	public function testRecursiveMockOfArrayReturnsEmptyArray()
 	{
-		$mock = $this->getMockit('MyDummy')->recursive();
+		$mock = Mockit::getMock('MyDummy')->recursive();
 		$instance = $mock->instance();
 		
-		$this->assertEquals(array(),$instance->getDummies());
+		Assert::equals(array(),$instance->getDummies());
 	}
 	
+	/**
+     * @Test
+     */
 	public function testRecursiveMockOfUnmockableClassReturnsNull()
 	{
-		$mock = $this->getMockit('MyDummy')->recursive();
+		$mock = Mockit::getMock('MyDummy')->recursive();
 		$instance = $mock->instance();
 		
-		$this->assertNull($instance->doIt('1'));
+		Assert::null($instance->doIt('1'));
 	}
 
+	/**
+     * @Test
+     */
 	public function testRecursiveMockWithSpecificOverriding()
 	{
-		$mock = $this->getMockit('MyDummy')->recursive();
+		$mock = Mockit::getMock('MyDummy')->recursive();
 		$instance = $mock->instance();
 		
 		$mock->with()->addDummy($this->any())->when()->doIt($this->any())->thenReturn('buh');
 		$mock->with()->addDummy($instance)->when()->doIt($this->any())->thenReturn('wah');
 
-		$this->assertEquals("wah",$instance->addDummy($instance)->doIt('1'));
+		Assert::equals("wah",$instance->addDummy($instance)->doIt('1'));
 	}
 
+	/**
+     * @Test
+     */
 	public function testOnRecursiveMocksUseMatchingChildMock()
 	{
-		$mock = $this->getMockit('MyDummy')->recursive();
+		$mock = Mockit::getMock('MyDummy')->recursive();
 		$instance = $mock->instance();
 		
 		$mock->with()->addDummy($this->any())->when()->doIt($this->any())->thenReturn('buh');
 		$mock->with()->addDummy($instance)->when()->doIt($this->any())->thenReturn('wah');
 
-		$this->assertEquals("buh",$instance->addDummy(new MyDummy())->doIt('1'));
+		Assert::equals("buh",$instance->addDummy(new MyDummy())->doIt('1'));
 	}
 	
+	/**
+     * @Test
+     */
 	public function testStubbingWhileSettingUpStubBeforeLastMockIsCreated()
 	{
-		$mock = $this->getMockit('MyDummy');
+		$mock = Mockit::getMock('MyDummy');
 		$instance = $mock->instance();
 	
 	
 		$mock->when()->doIt($this->any())->thenReturn('din mors hat');
 	
-		$mock2 = $this->getMockit('MyDummy');
+		$mock2 = Mockit::getMock('MyDummy');
 		$instance2 = $mock2->instance();
 	
 	
 		$mock2->when()->doIt($this->any())->thenReturn('din mors hat2');
 		
-		$this->assertEquals('din mors hat', $instance->doIt('whatever'));
-		$this->assertEquals('din mors hat2', $instance2->doIt('whatever'));
+		Assert::equals('din mors hat', $instance->doIt('whatever'));
+		Assert::equals('din mors hat2', $instance2->doIt('whatever'));
 	}
 
 
 
+	/**
+     * @Test
+     */
 	public function test_noFurtherInvocations_successWhenNoInteractions()
 	{
-		$mock = $this->getMockit('MyDummy')->recursive();
+		$mock = Mockit::getMock('MyDummy')->recursive();
 		$mock->instance();
 
 		$mock->noFurtherInvocations();
 	}
 
+	/**
+     * @Test
+     */
 	public function test_noFurtherInvocations_successWhenNoInteractionsAfterMatchedInteractions()
 	{
-		$mock = $this->getMockit('MyDummy')->recursive();
+		$mock = Mockit::getMock('MyDummy')->recursive();
 
 		$mock->instance()->getDummy();
 
@@ -391,31 +482,40 @@ class MockTest
 		$mock->noFurtherInvocations();
 	}
 
+	/**
+     * @Test
+     */
 	public function test_matchTheAnyMatcherIfAMoreSpecificMatchIsNotAvailable()
 	{
-		$mock = $this->getMockit('MyDummy','testmock')->recursive();
+		$mock = Mockit::getMock('MyDummy','testmock')->recursive();
 		$instance = $mock->instance();
 
 		$mock->with()->addDummy($instance)->when()->doIt($this->any())->thenReturn('wah');
 		$mock->with()->addDummy($this->any())->when()->doIt($this->any())->thenReturn('buh');
 
-		$this->assertEquals('testmock->addDummy(*anything*)', Mockit::uniqueid($instance->addDummy(new MyDummy())));
+		Assert::equals('testmock->addDummy(*anything*)', Mockit::uniqueid($instance->addDummy(new MyDummy())));
 	}
 
+	/**
+     * @Test
+     */
 	public function test_matchTheSpecificMatchIfAvailable()
 	{
-		$mock = $this->getMockit('MyDummy','testmock')->recursive();
+		$mock = Mockit::getMock('MyDummy','testmock')->recursive();
 		$instance = $mock->instance();
 
 		$mock->with()->addDummy($this->any())->when()->doIt($this->any())->thenReturn('buh');
 		$mock->with()->addDummy($instance)->when()->doIt($this->any())->thenReturn('wah');
 
-		$this->assertEquals('testmock->addDummy(testmock)', Mockit::uniqueid($instance->addDummy($instance)));
+		Assert::equals('testmock->addDummy(testmock)', Mockit::uniqueid($instance->addDummy($instance)));
 	}
 
+	/**
+     * @Test
+     */
 	public function testAnyNumberOfCorrectInvocationsButOneIncorrect()
 	{
-		$mock = $this->getMockit('MyDummy');
+		$mock = Mockit::getMock('MyDummy');
 		$instance = $mock->instance();
 
 		$instance->doIt('asdf');
@@ -426,9 +526,12 @@ class MockTest
 		$mock->any()->doIt('asdf');
 	}
 
+	/**
+     * @Test
+     */
 	public function test_invokingTheSameMethodTwiceWithDifferentArgumentsIsMatchedCorrectlyWithInvoked()
 	{
-		$mock = $this->getMockit('MyDummy');
+		$mock = Mockit::getMock('MyDummy');
 		$instance = $mock->instance();
 
 		$instance->doIt('hat1');
@@ -438,9 +541,12 @@ class MockTest
 		$mock->invoked()->doIt('hat2');
 	}
 
+	/**
+     * @Test
+     */
 	public function test_invokingTheSameMethodTwiceWithDifferentArgumentsIsMatchedCorrectlyWithOnce()
 	{
-		$mock = $this->getMockit('MyDummy');
+		$mock = Mockit::getMock('MyDummy');
 		$instance = $mock->instance();
 
 		$instance->doIt('hat1');
@@ -450,9 +556,12 @@ class MockTest
 		$mock->once()->doIt('hat2');
 	}
 
+	/**
+     * @Test
+     */
 	public function test_recursiveMockUnderstandsClassLevelTypeDeclarations()
 	{
-		$mock = $this->getMockit('MyDummy')->recursive(); /* @var $mock Mock_MyDummy */
+		$mock = Mockit::getMock('MyDummy')->recursive(); /* @var $mock Mock_MyDummy */
 		$instance = $mock->instance(); /* @var $instance MyDummy */
 
 		$instance->myDummyWithTypeDefinitionOnClassLevel()->doIt('who');
@@ -460,9 +569,12 @@ class MockTest
 		$mock->with()->myDummyWithTypeDefinitionOnClassLevel()->once()->doIt('who');
 	}
 
+	/**
+     * @Test
+     */
 	public function test_recursiveMockUnderstandsBaseClassLevelTypeDeclarations()
 	{
-		$mock = $this->getMockit('MyDummy')->recursive(); /* @var $mock Mock_MyDummy */
+		$mock = Mockit::getMock('MyDummy')->recursive(); /* @var $mock Mock_MyDummy */
 		$instance = $mock->instance(); /* @var $instance MyDummy */
 
 		$instance->myDummyWithTypeDefinitionOnBaseClassLevel()->doIt('who');
@@ -470,9 +582,12 @@ class MockTest
 		$mock->with()->myDummyWithTypeDefinitionOnBaseClassLevel()->once()->doIt('who');
 	}
 
+	/**
+     * @Test
+     */
 	public function test_recursiveMockUnderstandsClassLevelTypeDeclarations_forDynamicMocks()
 	{
-		$mock = $this->getMockit('DynamicDummy')->recursive()->dynamic(); /* @var $mock Mock_DynamicDummy */
+		$mock = Mockit::getMock('DynamicDummy')->recursive()->dynamic(); /* @var $mock Mock_DynamicDummy */
 		$instance = $mock->instance(); /* @var $instance DynamicDummy */
 
 		$instance->beDynamic()->doIt('who');
@@ -480,14 +595,17 @@ class MockTest
 		$mock->with()->beDynamic()->once()->doIt('who');
 	}
 
+	/**
+     * @Test
+     */
 	public function test_recursiveMockDoesNotTruncateClassLevelDeclarations_forDynamicMocks()
 	{
-		$mock = $this->getMockit('DynamicDumbDummy')->recursive()->dynamic(); /* @var $mock Mock_DynamicDumbDummy */
+		$mock = Mockit::getMock('DynamicDumbDummy')->recursive()->dynamic(); /* @var $mock Mock_DynamicDumbDummy */
 		$instance = $mock->instance(); /* @var $instance DynamicDummy */
 
 		// Only beDynamicAndAlsoDumb() is declared on DynamicDumbDummy.class, so it should not be able to match beDynamic()
 		// and thus the return value of beDynamic should be null
-		$this->assertNull($instance->beDynamic());
+		Assert::null($instance->beDynamic());
 	}
 }
 
