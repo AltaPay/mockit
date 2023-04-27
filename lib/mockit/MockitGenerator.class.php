@@ -45,7 +45,7 @@ class MockitGenerator
 			$tmpl .= 'public function __construct(Mockit $mock) { $this->mock = $mock; }'."\n";
 			foreach($class->getMethods(ReflectionMethod::IS_PUBLIC|ReflectionMethod::IS_PROTECTED) as $method) /* @var $method ReflectionMethod */
 			{
-				if($method->name == '__construct' || $method->name == '__call' || $method->isStatic() || $method->isFinal())
+				if($method->name == '__construct' || $method->isStatic() || $method->isFinal())
 				{
 					continue;
 				}
@@ -88,7 +88,7 @@ class MockitGenerator
 			$tmpl .= '}'."\n";
 			foreach($class->getMethods() as $method) /* @var $method ReflectionMethod */
 			{
-				if($method->name == '__construct' || $method->name == '__call' || $method->isStatic() || $method->isFinal())
+				if($method->name == '__construct' || $method->isStatic() || $method->isFinal())
 				{
 					continue;
 				}

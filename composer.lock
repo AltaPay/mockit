@@ -4,21 +4,25 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "38e0aef6fbe84782ea98f8a8281dbbc9",
+    "content-hash": "dcbb03fb0ca03aa66b84187aa73542cc",
     "packages": [],
     "packages-dev": [
         {
             "name": "pensio/testit",
-            "version": "dev-master",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "git@gitlab.com:altapay/core/testit.git",
+                "reference": "d69213d5cf25b2f2af80f07d9c5e09c89c614a9e"
+            },
             "dist": {
-                "type": "path",
-                "url": "../testit",
-                "reference": "7e516f7d04c787d17346e120d9536d657909cddc"
+                "type": "tar",
+                "url": "https://packages.altapay.cloud/dist/pensio/testit/pensio-testit-d69213d5cf25b2f2af80f07d9c5e09c89c614a9e-zip-95f659.tar",
+                "reference": "d69213d5cf25b2f2af80f07d9c5e09c89c614a9e",
+                "shasum": "0d5434ee68410af0019445950f960f919add05b3"
             },
             "type": "library",
-            "transport-options": {
-                "relative": true
-            }
+            "time": "2023-04-27T09:11:52+00:00"
         }
     ],
     "aliases": [],

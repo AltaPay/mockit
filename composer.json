@@ -5,14 +5,9 @@
         "secure-http": false
     },
     "require-dev": {
-        "pensio/testit": "*"
+        "pensio/testit": "1.0.0"
     },
     "repositories": [
-        {
-            "name" : "testitlocal",
-            "type" : "path",
-            "url" : "../testit/"
-        },
         {
             "type": "composer",
             "url": "https://packages.altapay.cloud/"

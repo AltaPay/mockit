@@ -54,4 +54,9 @@ class MyDummy
 	{
 		
 	}
+
+    public function __toString(): string
+    {
+        return get_class($this);
+    }
 }
