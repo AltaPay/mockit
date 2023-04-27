@@ -1,0 +1,10 @@
+
+stages:
+- test
+sast:
+  stage: test
+include:
+auto-pass:
+  stage: test
+  script:
+    - "echo succeeded" # Remove when proper testing is in place
