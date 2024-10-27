@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<PensioDoc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://documentit.mars.pensio.com/pensioDoc.xsd">
+    <Library>
+        <Name>Mockit</Name>
+        <Language>PHP</Language>
+    </Library>
+</PensioDoc>
